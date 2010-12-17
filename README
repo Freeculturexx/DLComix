@@ -13,6 +13,6 @@ Install of DLComix
 ################
 
 Download sources from github
-make a pip install as root in the main folder of DLComix
+make a python setup.py install as root
 
 That's all
