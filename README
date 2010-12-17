@@ -1,0 +1,18 @@
+Description of the application
+##############################
+
+The application Comix is an application like Dailystrips to download online comics from the web. 
+
+The first step will be to have the last picture of the day.
+
+Then I will start script to download the whole directory of different comics
+
+But the most important will be to support the largest number of comics !! 
+
+Install of Comix
+################
+
+Download sources from github
+make a pip install as root in the main folder of Comix
+
+That's all
