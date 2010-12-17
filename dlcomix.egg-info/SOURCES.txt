@@ -1,0 +1,11 @@
+README
+setup.py
+bin/dlcomix
+dlcomix/__init__.py
+dlcomix/comicbase.py
+dlcomix/dlcomix.py
+dlcomix.egg-info/PKG-INFO
+dlcomix.egg-info/SOURCES.txt
+dlcomix.egg-info/dependency_links.txt
+dlcomix.egg-info/requires.txt
+dlcomix.egg-info/top_level.txt
