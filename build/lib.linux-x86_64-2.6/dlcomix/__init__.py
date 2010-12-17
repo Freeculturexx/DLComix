@@ -1,1 +1,0 @@
-from dlcomix import main
