@@ -18,7 +18,6 @@ def run_dlcomix(comic, path=None):
         if comic is None:
             if config.has_key("COMICS"):
                 comic = config["COMICS"]
-                print comic
             else :
                 sys.exit("No comic selected")
         else :
