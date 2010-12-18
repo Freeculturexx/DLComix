@@ -6,6 +6,7 @@ from datetime import datetime
 import urllib
 import re
 from PIL import Image
+import settings
 
 
 gocomics_base = {'2_cows_and_a_chicken' : ['http://www.gocomics.com/features/290-2cowsandachicken',
@@ -25,14 +26,16 @@ gocomics_base = {'2_cows_and_a_chicken' : ['http://www.gocomics.com/features/290
 	}
 
 
-def define_host(comic, path=None):
+def define_host(comic, path=None, archive=None):
     if comic :
         for name in comic :
             if gocomics_base.has_key(name):
                 control_path(path)
                 gocomics(name, path)
             else :
-                print "La valeur "+e+" est erronée"
+                print "La valeur "+e+" est erronee"
+            if archive is True :
+                create_archive(name, path)
 
 
 
@@ -45,15 +48,22 @@ def gocomics(comic,path=None):
     link = re.findall('<link rel="image_src" href="(.*?)" />',htmlSource)
     file = re.findall('<h1 (.*?)><a href="/(.*?)/">', htmlSource)
     file = file[0][1].replace('/','_')+".gif"
-    os.system("wget -O " +path+file +" "+link[0])
-    gocomic_crop_image(path+file)
+    os.system("wget -O " +path+comic+"/"+file +" "+link[0])
+    gocomic_crop_image(path+comic+"/"+file)
 
 def gocomic_crop_image(image):
+    print image
     im = Image.open(image)
     largeur, hauteur = im.size[0], im.size[1]-25
     im = im.crop((0,0,largeur,hauteur))
     im.save(image)
 
+def create_archive(name, path):
+    if os.path.isfile(path+name+'/'+name+'.tar'):
+        os.system("cd "+path+name+"/ && tar --delete -vf "+name+".tar *.gif && tar -rvf  "+name+".tar *.gif")
+    else:
+        os.system("cd "+path+name+"/ && tar -cvf  "+name+".tar *.gif")
+    os.system("cd "+path+name+"/ && rm *.gif")
 
 def control_path(path):
     if not os.path.exists(path):

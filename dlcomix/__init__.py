@@ -2,9 +2,11 @@ import argparse
 import os
 import comicbase
 import settings
+import sys
 
+global _DEFAULT_CONFIG
 
-def run_dlcomix(comic, path=None):
+def run_dlcomix(comic=None, path=None, archive=None):
 
     if os.path.isfile(os.path.expanduser ("~" )+'/.dlcomix/config.py'):
         config = settings.read_settings(os.path.expanduser ("~" )+'/.dlcomix/config.py')
@@ -13,7 +15,7 @@ def run_dlcomix(comic, path=None):
             if config.has_key("PATH"):
                 path = config["PATH"]
             else:
-                path = os.path.expanduser ("~" )+'/.dlcomix/download/'+comic+'/'
+                path = settings._DEFAULT_CONFIG["PATH"]
 
         if comic is None:
             if config.has_key("COMICS"):
@@ -23,9 +25,21 @@ def run_dlcomix(comic, path=None):
         else :
             comic = (comic)
 
+        if archive is None:
+            if config.has_key("ARCHIVE"):
+                archive = config["ARCHIVE"]
+            else:
+                archive = settings._DEFAULT_CONFIG["ARCHIVE"]
+
+    else :
+        path = settings._DEFAULT_CONFIG["PATH"]
+        if comic is None:
+            sys.exit("No comic selected")
+        else :
+            comic = (comic)
 
 
-    comicbase.define_host(comic, path)
+    comicbase.define_host(comic, path, archive)
 
 
 def main():
@@ -33,9 +47,10 @@ def main():
     To see the list of comics, see  the the ComicList file""")
     parser.add_argument('-p', '--path', dest='path', help='Path where you want to download comics')
     parser.add_argument('-c', '--comic', dest='comic', help='Comic you want to download')
+    parser.add_argument('-a', '--archive', dest='archive', help='Put true to create an archive, false to not create any')
     args = parser.parse_args()
 
-    run_dlcomix(args.comic, args.path)
+    run_dlcomix(args.comic, args.path, args.archive)
 
 if __name__ == '__main__':
     main()
