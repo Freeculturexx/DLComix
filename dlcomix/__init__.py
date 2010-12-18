@@ -33,6 +33,7 @@ def run_dlcomix(comic=None, path=None, archive=None):
 
     else :
         path = settings._DEFAULT_CONFIG["PATH"]
+        archive = settings._DEFAULT_CONFIG["ARCHIVE"]
         if comic is None:
             sys.exit("No comic selected")
         else :
