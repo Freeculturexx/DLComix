@@ -33,27 +33,23 @@ def define_host(comic, path=None):
         print "This comic name is incorrect"
 
 def gocomics(comic,path=None):
-
     today = today_string()
     today_img = today_string_img()
     today_url =  "%s/" % gocomics_base[comic][0]
-    os.system("wget -O " +comic+" "+today_url)
-
-    file = open(comic,"rb")
+    os.system("wget -O /tmp/" +comic+" "+today_url)
+    file = open("/tmp/"+comic,"rb")
     htmlSource = file.read()
     link = re.findall('<link rel="image_src" href="(.*?)" />',htmlSource)
     file = re.findall('<h1 (.*?)><a href="/(.*?)/">', htmlSource)
     file = file[0][1].replace('/','_')+".gif"
     os.system("wget -O " +path+file +" "+link[0])
-    os.system("rm " +comic)
     gocomic_crop_image(path+file)
 
 def gocomic_crop_image(image):
     im = Image.open(image)
-    largeur, hauteur = im.size[0], im.size[1]
-    hauteur -= 25
+    largeur, hauteur = im.size[0], im.size[1]-25
     im = im.crop((0,0,largeur,hauteur))
-    im.show()
+    im.save(image)
 
 def today_string():
     a=datetime.now()
