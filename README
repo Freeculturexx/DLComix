@@ -46,3 +46,25 @@ dlcomix -c garfield
 
 I hope you will enjoy it
  
+Use of config file
+###################
+
+You can use a config file that will be stored in ~/.dlcomix and named config.py
+
+For the moment, you can config the path where you want to download files and choose the comics you want to download 
+
+Config.py
+---------
+
+PATH = "/home/username/Images/comix"
+
+COMICS = ('garfield',
+		'bloom_county',)
+
+
+So by typing only 
+
+dlcomix
+
+you download garfield and bloom_county !!
+
