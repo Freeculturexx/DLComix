@@ -12,7 +12,15 @@ But the most important will be to support the largest number of comics !!
 Install of DLComix
 ################
 
-Download sources from github
-make a python setup.py install as root
+You will need git-core package. For a Debian based distribution, make a
+apt-get install git-core
+as root
+
+Go on the folder you want to put DLComix, and make
+git clone git://github.com/Freeculture/DLComix.git
+ 
+To install it, go in DLComix folder and make a 
+python setup.py install 
+as root
 
 That's all
