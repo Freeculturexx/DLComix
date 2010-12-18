@@ -5,6 +5,7 @@ from time import strftime
 from datetime import datetime
 import urllib
 import re
+from PIL import Image
 
 
 gocomics_base = {'2_cows_and_a_chicken' : ['http://www.gocomics.com/features/290-2cowsandachicken',
@@ -45,7 +46,14 @@ def gocomics(comic,path=None):
     file = file[0][1].replace('/','_')+".gif"
     os.system("wget -O " +path+file +" "+link[0])
     os.system("rm " +comic)
+    gocomic_crop_image(path+file)
 
+def gocomic_crop_image(image):
+    im = Image.open(image)
+    largeur, hauteur = im.size[0], im.size[1]
+    hauteur -= 25
+    im = im.crop((0,0,largeur,hauteur))
+    im.save(image)
 
 def today_string():
     a=datetime.now()
