@@ -52,7 +52,6 @@ def gocomics(comic,path=None):
     gocomic_crop_image(path+comic+"/"+file)
 
 def gocomic_crop_image(image):
-    print image
     im = Image.open(image)
     largeur, hauteur = im.size[0], im.size[1]-25
     im = im.crop((0,0,largeur,hauteur))
