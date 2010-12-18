@@ -26,11 +26,16 @@ gocomics_base = {'2_cows_and_a_chicken' : ['http://www.gocomics.com/features/290
 
 
 def define_host(comic, path=None):
-    if gocomics_base.has_key(comic):
-        control_path(path)
-        gocomics(comic, path)
-    else :
-        print "This comic name is incorrect"
+    if comic :
+        for name in comic :
+            if gocomics_base.has_key(name):
+                control_path(path)
+                gocomics(name, path)
+            else :
+                print "La valeur "+e+" est erronée"
+
+
+
 
 def gocomics(comic,path=None):
     url =  "%s/" % gocomics_base[comic][0]

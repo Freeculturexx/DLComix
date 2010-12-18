@@ -1,15 +1,29 @@
 import argparse
 import os
 import comicbase
+import settings
 
 
 def run_dlcomix(comic, path=None):
 
-    if comic is None:
-        sys.exit("No comic selected")
+    if os.path.isfile(os.path.expanduser ("~" )+'/.dlcomix/config.py'):
+        config = settings.read_settings(os.path.expanduser ("~" )+'/.dlcomix/config.py')
 
-    if path is None:
-        path = os.path.expanduser ("~" )+'/.dlcomix/download/'+comic+'/'
+        if path is None:
+            if config.has_key("PATH"):
+                path = config["PATH"]
+            else:
+                path = os.path.expanduser ("~" )+'/.dlcomix/download/'+comic+'/'
+
+        if comic is None:
+            if config.has_key("COMICS"):
+                comic = config["COMICS"]
+                print comic
+            else :
+                sys.exit("No comic selected")
+        else :
+            comic = (comic)
+
 
 
     comicbase.define_host(comic, path)
