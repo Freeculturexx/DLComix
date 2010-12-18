@@ -40,7 +40,7 @@ def gocomics(comic,path=None):
     link = re.findall('<link rel="image_src" href="(.*?)" />',htmlSource)
     file = re.findall('<h1 (.*?)><a href="/(.*?)/">', htmlSource)
     file = file[0][1].replace('/','_')+".gif"
-    os.system("wget -O " +path+file +" "+link[0])
+    print("wget -O " +path+file +" "+link[0])
     gocomic_crop_image(path+file)
 
 def gocomic_crop_image(image):
