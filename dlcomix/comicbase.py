@@ -48,8 +48,8 @@ def gocomics(comic,path=None):
     link = re.findall('<link rel="image_src" href="(.*?)" />',htmlSource)
     file = re.findall('<h1 (.*?)><a href="/(.*?)/">', htmlSource)
     file = file[0][1].replace('/','_')+".gif"
-    os.system("wget -O " +path+comic+"/"+file +" "+link[0])
-    gocomic_crop_image(path+comic+"/"+file)
+    os.system("wget -O " +path+"download/"+comic+"/"+file +" "+link[0])
+    gocomic_crop_image(path+"download/"+comic+"/"+file)
 
 def gocomic_crop_image(image):
     im = Image.open(image)
@@ -58,11 +58,18 @@ def gocomic_crop_image(image):
     im.save(image)
 
 def create_archive(name, path):
-    if os.path.isfile(path+name+'/'+name+'.tar'):
-        os.system("cd "+path+name+"/ && tar --delete -vf "+name+".tar *.gif && tar -rvf  "+name+".tar *.gif")
+    if not os.path.exists(path+"archives"):
+        try:
+            os.makedirs(path+"archives", mode=0755)
+        except OSError,e:
+            print e.errno, e.strerror, e.filename
+    if os.path.isfile(path+"download/"+name+'/'+name+'.tar'):
+        os.system("cd "+path+"download/"+name+"/ && tar --delete -vf "+name+".tar *.gif")
+        os.system("cd "+path+"download/"+name+"/ && tar -rvf  "+name+".tar *.gif")
     else:
-        os.system("cd "+path+name+"/ && tar -cvf  "+name+".tar *.gif")
-    os.system("cd "+path+name+"/ && rm *.gif")
+        os.system("cd "+path+"download/"+name+"/ && tar -cvf  "+name+".tar *.gif")
+    os.system("rm "+path+"download/"+name+"/*.gif")
+    os.system("ln -s "+path+"download/"+name+"/"+name+".tar "+path+"archives/"+name+".tar")
 
 def control_path(path):
     if not os.path.exists(path):
