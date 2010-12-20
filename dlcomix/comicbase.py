@@ -58,18 +58,22 @@ def gocomic_crop_image(image):
     im.save(image)
 
 def create_archive(name, path):
-    if not os.path.exists(path+"archives"):
+    archives = path+"archives/"
+    dl_path = path+"download/"
+    comic_path = dl_path+name+"/"
+    if not os.path.exists(archives):
         try:
-            os.makedirs(path+"archives", mode=0755)
+            os.makedirs(archives, mode=0755)
         except OSError,e:
             print e.errno, e.strerror, e.filename
-    if os.path.isfile(path+"download/"+name+'/'+name+'.tar'):
-        os.system("cd "+path+"download/"+name+"/ && tar --delete -vf "+name+".tar *.gif")
-        os.system("cd "+path+"download/"+name+"/ && tar -rvf  "+name+".tar *.gif")
+    if os.path.isfile(dl_path+name+'/'+name+'.tar'):
+        os.system("tar --delete -vf "+comic_path+name+".tar "+comic_path+"*.gif")
+        os.system("tar -rvf  "+comic_path+name+".tar "+comic_path+"*.gif")
     else:
-        os.system("cd "+path+"download/"+name+"/ && tar -cvf  "+name+".tar *.gif")
-    os.system("rm "+path+"download/"+name+"/*.gif")
-    os.system("ln -s "+path+"download/"+name+"/"+name+".tar "+path+"archives/"+name+".tar")
+        os.system("tar -cvf  "+comic_path+name+".tar "+comic_path+"*.gif")
+    os.system("rm "+comic_path+"*.gif")
+    if not os.path.exists(archives+name+".tar"):
+        os.system("ln -s "+comic_path+name+".tar "+archives+name+".tar")
 
 def control_path(path):
     if not os.path.exists(path):
