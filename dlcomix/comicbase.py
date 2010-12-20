@@ -61,11 +61,7 @@ def create_archive(name, path):
     archives = path+"archives/"
     dl_path = path+"download/"
     comic_path = dl_path+name+"/"
-    if not os.path.exists(archives):
-        try:
-            os.makedirs(archives, mode=0755)
-        except OSError,e:
-            print e.errno, e.strerror, e.filename
+    control_path(archives)
     if os.path.isfile(dl_path+name+'/'+name+'.tar'):
         os.system("tar --delete -vf "+comic_path+name+".tar "+comic_path+"*.gif")
         os.system("tar -rvf  "+comic_path+name+".tar "+comic_path+"*.gif")
