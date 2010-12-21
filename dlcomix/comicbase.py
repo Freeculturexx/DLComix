@@ -28,22 +28,36 @@ gocomics_base = {'2_cows_and_a_chicken' : ['http://www.gocomics.com/features/290
 
 def define_host(comic, path=None, archive=None, full=None):
     if comic :
-        for name in comic :
-            if gocomics_base.has_key(name):
-                control_path(path)
-                if full is False :
-                    gocomics(name, path)
-                    if archive is True :
-                        create_archive(name, path)
-                else :
-                    date = gocomics_base[name][3]
-                    date = datetime.datetime.strptime(date, "%Y/%m/%d")
-                    url = gocomics_base[name][1]
-                    gocomics_all(name, url, path, date)
-                    if archive is True :
-                        create_archive(name, path)
+        if gocomics_base.has_key(comic):
+            control_path(path)
+            if full is False :
+                gocomics(comic, path)
+                if archive is True :
+                    create_archive(name, path)
             else :
-                print "La valeur "+e+" est erronee"
+                date = gocomics_base[comic][3]
+                date = datetime.datetime.strptime(date, "%Y/%m/%d")
+                url = gocomics_base[comic][1]
+                gocomics_all(comic, url, path, date)
+                if archive is True :
+                    create_archive(comic, path)
+        else :
+            for name in comic :
+                if gocomics_base.has_key(name):
+                    control_path(path)
+                    if full is False :
+                        gocomics(name, path)
+                        if archive is True :
+                            create_archive(name, path)
+                    else :
+                        date = gocomics_base[name][3]
+                        date = datetime.datetime.strptime(date, "%Y/%m/%d")
+                        url = gocomics_base[name][1]
+                        gocomics_all(name, url, path, date)
+                        if archive is True :
+                            create_archive(name, path)
+                else :
+                    print "La valeur "+name+" est erronee"
 
 
 

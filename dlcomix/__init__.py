@@ -20,10 +20,10 @@ def run_dlcomix(comic=None, path=None, archive=None, full=None):
         if comic is None:
             if config.has_key("COMICS"):
                 comic = config["COMICS"]
+                comic = (comic)
             else :
                 sys.exit("No comic selected")
-        else :
-            comic = (comic)
+
 
         if archive is None:
             if config.has_key("ARCHIVE"):
@@ -46,7 +46,7 @@ def run_dlcomix(comic=None, path=None, archive=None, full=None):
         else :
             comic = (comic)
 
-
+    print comic
     comicbase.define_host(comic, path, archive, full)
 
 
