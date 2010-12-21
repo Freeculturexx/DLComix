@@ -6,7 +6,7 @@ import sys
 
 global _DEFAULT_CONFIG
 
-def run_dlcomix(comic=None, path=None, archive=None):
+def run_dlcomix(comic=None, path=None, archive=None, full=None):
 
     if os.path.isfile(os.path.expanduser ("~" )+'/.dlcomix/config.py'):
         config = settings.read_settings(os.path.expanduser ("~" )+'/.dlcomix/config.py')
@@ -31,16 +31,23 @@ def run_dlcomix(comic=None, path=None, archive=None):
             else:
                 archive = settings._DEFAULT_CONFIG["ARCHIVE"]
 
+        if full is None:
+            if config.has_key("FULL"):
+                full = config["FULL"]
+            else:
+                full = settings._DEFAULT_CONFIG["FULL"]
+
     else :
         path = settings._DEFAULT_CONFIG["PATH"]
         archive = settings._DEFAULT_CONFIG["ARCHIVE"]
+        full = settings._DEFAULT_CONFIG["FULL"]
         if comic is None:
             sys.exit("No comic selected")
         else :
             comic = (comic)
 
 
-    comicbase.define_host(comic, path, archive)
+    comicbase.define_host(comic, path, archive, full)
 
 
 def main():
@@ -49,6 +56,7 @@ def main():
     parser.add_argument('-p', '--path', dest='path', help='Path where you want to download comics')
     parser.add_argument('-c', '--comic', dest='comic', help='Comic you want to download')
     parser.add_argument('-a', '--archive', dest='archive', help='Put true to create an archive, false to not create any')
+    parser.add_argument('-f', '--full', dest='full', help='Put true to download all the items of one comic')
     args = parser.parse_args()
 
     run_dlcomix(args.comic, args.path, args.archive)

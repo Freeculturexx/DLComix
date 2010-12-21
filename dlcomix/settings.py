@@ -2,6 +2,7 @@ import os
 
 _DEFAULT_CONFIG ={'PATH' : os.path.expanduser ("~" )+'/.dlcomix/',
                     'ARCHIVE' : False,
+                    'FULL' : False,
 }
 
 def read_settings(filename):
