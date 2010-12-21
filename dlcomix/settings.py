@@ -1,6 +1,7 @@
 import os
 
-_DEFAULT_CONFIG ={'PATH' : os.path.expanduser ("~" )+'/.dlcomix/',
+_DEFAULT_CONFIG ={'COMIC' : 'garfield',
+                    'PATH' : os.path.expanduser ("~" )+'/.dlcomix/',
                     'ARCHIVE' : False,
                     'FULL' : False,
 }

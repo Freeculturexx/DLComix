@@ -4,50 +4,21 @@ import comicbase
 import settings
 import sys
 
-global _DEFAULT_CONFIG
 
 def run_dlcomix(comic=None, path=None, archive=None, full=None):
 
     if os.path.isfile(os.path.expanduser ("~" )+'/.dlcomix/config.py'):
         config = settings.read_settings(os.path.expanduser ("~" )+'/.dlcomix/config.py')
 
-        if path is None:
-            if config.has_key("PATH"):
-                path = config["PATH"]
-            else:
-                path = settings._DEFAULT_CONFIG["PATH"]
 
-        if comic is None:
-            if config.has_key("COMICS"):
-                comic = config["COMICS"]
-                comic = (comic)
-            else :
-                sys.exit("No comic selected")
+    comic = comic or config["COMICS"]
+    path = path or config["PATH"] or settings._DEFAULT_CONFIG["PATH"]
+    archive = archive or config["ARCHIVE"] or settings._DEFAULT_CONFIG["ARCHIVE"]
+    full = full or config["FULL"] or settings._DEFAULT_CONFIG["FULL"]
+    comic = (comic)
+    comicbase.define_host(comic,path, archive, full)
 
 
-        if archive is None:
-            if config.has_key("ARCHIVE"):
-                archive = config["ARCHIVE"]
-            else:
-                archive = settings._DEFAULT_CONFIG["ARCHIVE"]
-
-        if full is None:
-            if config.has_key("FULL"):
-                full = config["FULL"]
-            else:
-                full = settings._DEFAULT_CONFIG["FULL"]
-
-    else :
-        path = settings._DEFAULT_CONFIG["PATH"]
-        archive = settings._DEFAULT_CONFIG["ARCHIVE"]
-        full = settings._DEFAULT_CONFIG["FULL"]
-        if comic is None:
-            sys.exit("No comic selected")
-        else :
-            comic = (comic)
-
-    print comic
-    comicbase.define_host(comic, path, archive, full)
 
 
 def main():
@@ -59,7 +30,7 @@ def main():
     parser.add_argument('-f', '--full', dest='full', help='Put true to download all the items of one comic')
     args = parser.parse_args()
 
-    run_dlcomix(args.comic, args.path, args.archive)
+    run_dlcomix(args.comic, args.path, args.archive, args.full)
 
 if __name__ == '__main__':
     main()

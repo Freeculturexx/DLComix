@@ -30,36 +30,34 @@ def define_host(comic, path=None, archive=None, full=None):
     if comic :
         if gocomics_base.has_key(comic):
             control_path(path)
-            if full is False :
-                gocomics(comic, path)
-                if archive is True :
-                    create_archive(name, path)
+            if full is False:
+                single_gocomics(comic,path, archive)
             else :
-                date = gocomics_base[comic][3]
-                date = datetime.datetime.strptime(date, "%Y/%m/%d")
-                url = gocomics_base[comic][1]
-                gocomics_all(comic, url, path, date)
-                if archive is True :
-                    create_archive(comic, path)
+                full_gocomics(comic, path, archive)
         else :
             for name in comic :
                 if gocomics_base.has_key(name):
                     control_path(path)
                     if full is False :
-                        gocomics(name, path)
-                        if archive is True :
-                            create_archive(name, path)
+                        single_gocomics(name,path, archive)
                     else :
-                        date = gocomics_base[name][3]
-                        date = datetime.datetime.strptime(date, "%Y/%m/%d")
-                        url = gocomics_base[name][1]
-                        gocomics_all(name, url, path, date)
-                        if archive is True :
-                            create_archive(name, path)
+                        full_gocomics(name, path, archive)
                 else :
                     print "La valeur "+name+" est erronee"
 
 
+def single_gocomics(comic,path, archive):
+    gocomics(comic, path)
+    if archive is not False :
+        create_archive(comic, path)
+
+def full_gocomics(comic, path, archive):
+    date = gocomics_base[comic][3]
+    date = datetime.datetime.strptime(date, "%Y/%m/%d")
+    url = gocomics_base[comic][1]
+    gocomics_all(comic, url, path, date)
+    if archive is not False :
+        create_archive(comic, path)
 
 def gocomics_all(comic, url, path, first):
     last = datetime.datetime.today()
