@@ -55,14 +55,18 @@ def full_gocomics(comic, path, archive):
     date = gocomics_base[comic][3]
     date = datetime.datetime.strptime(date, "%Y/%m/%d")
     url = gocomics_base[comic][1]
-    gocomics_all(comic, url, path, date)
+    gocomics_all(comic, url, path, date, archive)
     if archive is not False :
         create_archive(comic, path)
 
-def gocomics_all(comic, url, path, first):
+def gocomics_all(comic, url, path, first, archive):
+    if archive == True:
+        tarfile = path+"download/"+comic+"/"+comic+".tar"
+        if os.path.isfile(tarfile):
+            os.system("tar -xvf "+tarfile+" -C /")
+            os.system("rm "+tarfile)
     last = datetime.datetime.today()
-    while first < last :
-        first = first + datetime.timedelta(1)
+    while first <= last :
         iffile = path+"download/"+comic+"/"+comic+"_"+datetime.datetime.strftime(first, "%Y_%m_%d")+".gif"
         if not os.path.isfile(iffile):
             wget = url+"/"+datetime.datetime.strftime(first, "%Y/%m/%d")
@@ -71,9 +75,11 @@ def gocomics_all(comic, url, path, first):
             htmlSource = file.read()
             link = re.findall('<link rel="image_src" href="(.*?)" />',htmlSource)
             file = re.findall('<h1 (.*?)><a href="/(.*?)/">', htmlSource)
+            print file
             file = file[0][1].replace('/','_')+".gif"
             os.system("wget -O " +path+"download/"+comic+"/"+file +" "+link[0])
             gocomic_crop_image(path+"download/"+comic+"/"+file)
+        first = first + datetime.timedelta(1)
 
 
 
