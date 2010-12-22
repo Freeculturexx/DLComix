@@ -49,15 +49,13 @@ gocomics_base = {'2_cows_and_a_chicken' : ['http://www.gocomics.com/features/290
         'http://www.gocomics.com/thebigpicture', '2010/11/29'],
     'big_top' : ['http://www.gocomics.com/features/17-bigtop',
         'http://www.gocomics.com/bigtop', '2001/04/22'],
-    'biographic' : ['http://www.gocomics.com/features/18-biographic',
-        'http://www.gocomics.com/biographic', '2005/08/14'],
     'bird_brains' : ['http://www.gocomics.com/features/251-birdbrains',
         'http://www.gocomics.com/birdbrains', '2007/01/01'],
     'bleeker' : ['http://www.gocomics.com/features/19-bleeker',
         'http://www.gocomics.com/bleeker', '2006/07/27'],
     'bliss' : ['http://www.gocomics.com/features/281-bliss',
         'http://www.gocomics.com/bliss', '2008/07/28'],
-    'bloom_county' : ['http://www.gocomics.com/features/20-bloomcounty',
+    'bloomcounty' : ['http://www.gocomics.com/features/20-bloomcounty',
         'http://www.gocomics.com/bloomcounty',  '1980/12/04'],
     'calvin_and_hobbes'   : ['http://www.gocomics.com/features/32-calvinandhobbes',
         'http://www.gocomics.com/calvinandhobbes','1984/08/14',],
@@ -75,7 +73,7 @@ gocomics_base = {'2_cows_and_a_chicken' : ['http://www.gocomics.com/features/290
 def define_host(comic, path=None, archive=None, full=None):
     if comic :
         if gocomics_base.has_key(comic):
-            control_path(path)
+            control_path(path+"download/"+comic)
             if full is False:
                 single_gocomics(comic,path, archive)
             else :
@@ -83,7 +81,7 @@ def define_host(comic, path=None, archive=None, full=None):
         else :
             for name in comic :
                 if gocomics_base.has_key(name):
-                    control_path(path)
+                    control_path(path+"download/"+name)
                     if full is False :
                         single_gocomics(name,path, archive)
                     else :
@@ -113,8 +111,7 @@ def gocomics_all(comic, url, path, first, archive):
             os.system("rm "+tarfile)
     last = datetime.datetime.today()
     while first <= last :
-        iffile = path+"download/"+comic+"/"+comic+"_"+
-            datetime.datetime.strftime(first, "%Y_%m_%d")+".gif"
+        iffile = path+"download/"+comic+"/"+comic+"_"+datetime.datetime.strftime(first, "%Y_%m_%d")+".gif"
         if not os.path.isfile(iffile):
             wget = url+"/"+datetime.datetime.strftime(first, "%Y/%m/%d")
             os.system("wget -O /tmp/" +comic+" "+wget)
@@ -123,9 +120,11 @@ def gocomics_all(comic, url, path, first, archive):
             link = re.findall('<link rel="image_src" href="(.*?)" />',htmlSource)
             file = re.findall('<h1 (.*?)><a href="/(.*?)/">', htmlSource)
             print file
-            file = file[0][1].replace('/','_')+".gif"
-            os.system("wget -O " +path+"download/"+comic+"/"+file +" "+link[0])
-            gocomic_crop_image(path+"download/"+comic+"/"+file)
+            if file:
+                print file
+                file = file[0][1].replace('/','_')+".gif"
+                os.system("wget -O " +path+"download/"+comic+"/"+file +" "+link[0])
+                gocomic_crop_image(path+"download/"+comic+"/"+file)
         first = first + datetime.timedelta(1)
 
 
