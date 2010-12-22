@@ -10,19 +10,65 @@ import settings
 
 
 gocomics_base = {'2_cows_and_a_chicken' : ['http://www.gocomics.com/features/290-2cowsandachicken',
-    'http://www.gocomics.com/2cowsandachicken', '2 Cows and a Chicken', '2008/06/30'],
-        'bloom_county' : ['http://www.gocomics.com/features/20-bloomcounty',
-            'http://www.gocomics.com/bloomcounty', 'Bloom County', '1980/12/04'],
-        'calvin_and_hobbes'   : ['http://www.gocomics.com/features/32-calvinandhobbes',
-            'http://www.gocomics.com/calvinandhobbes','Calvin and Hobbes', '1984/08/14',],
-        'for_better_or_for_worse' : ['http://www.gocomics.com/features/64-forbetterorforworse',
-            'http://www.gocomics.com/forbetterorforworse','For Better or For Worse', '1981/11/23'],
-        'foxtrot' : ['http://www.gocomics.com/features/66-foxtrot',
-            'http://www.gocomics.com/foxtrot', 'FoxTrot', '1996/03/11'],
-        'garfield' : ['http://www.gocomics.com/features/72-garfield',
-            'http://www.gocomics.com/garfield','Garfield','1978/06/19'],
-        'non_sequitur'     : ['http://www.gocomics.com/features/112-nonsequitur',
-            'http://www.gocomics.com/nonsequitur','Non Sequitur','1992/02/16']
+    'http://www.gocomics.com/2cowsandachicken', '2008/06/30'],
+    '9_to_5' : ['http://www.gocomics.com/features/2-9to5',
+        'http://www.gocomics.com/9to5', '2001/04/13'],
+    'the_academia_waltz' : ['http://www.gocomics.com/features/3-academiawaltz',
+        'http://www.gocomics.com/academiawaltz', '2003/12/08'],
+    'adam_at_home' : ['http://www.gocomics.com/features/4-adamathome',
+        'http://www.gocomics.com/adamathome', '1995/06/20'],
+    'agnes' : ['http://www.gocomics.com/features/5-agnes',
+        'http://www.gocomics.com/agnes', '2002/01/01'],
+    'andy_cap' : ['http://www.gocomics.com/features/6-andycapp',
+        'http://www.gocomics.com/andycapp', '2002/01/01'],
+    'animal_crackers' : ['http://www.gocomics.com/features/7-animalcrackers',
+        'http://www.gocomics.com/animalcrackers', '2001/04/08'],
+    'the_argyle_sweater' : ['http://www.gocomics.com/features/9-theargylesweater',
+        'http://www.gocomics.com/theargylesweater', '2006/11/29'],
+    'ask_shagg' : ['http://www.gocomics.com/features/10-askshagg',
+        'http://www.gocomics.com/askshagg', '2002/08/12'],
+    'bc' : ['http://www.gocomics.com/features/11-bc',
+        'http://www.gocomics.com/bc', '2002/01/01'],
+    'back_in_the_day' : ['http://www.gocomics.com/features/492-backintheday',
+        'http://www.gocomics.com/backintheday', '2010/03/08'],
+    'bad_reporter' : ['http://www.gocomics.com/features/12-badreporter',
+        'http://www.gocomics.com/badreporter', '2005/08/12'],
+    'baldo' : ['http://www.gocomics.com/features/13-baldo',
+        'http://www.gocomics.com/baldo', '1998/11/22'],
+    'ballard_street' : ['http://www.gocomics.com/features/14-ballardstreet',
+        'http://www.gocomics.com/ballardstreet', '2002/01/01'],
+    'the_barn' : ['http://www.gocomics.com/features/291-thebarn',
+        'http://www.gocomics.com/thebarn', '2009/02/02'],
+    'barney_and_clyde' : ['http://www.gocomics.com/features/515-barneyandclyde',
+        'http://www.gocomics.com/barneyandclyde', '2010/06/07'],
+    'basic_instructions' : ['http://www.gocomics.com/features/255-basicinstructions',
+        'http://www.gocomics.com/basicinstructions', '2003/02/25'],
+    'bewley' : ['http://www.gocomics.com/features/306-bewley',
+        'http://www.gocomics.com/bewley', '2009/11/09'],
+    'the big_picture' : ['http://www.gocomics.com/features/16-thebigpicture',
+        'http://www.gocomics.com/thebigpicture', '2010/11/29'],
+    'big_top' : ['http://www.gocomics.com/features/17-bigtop',
+        'http://www.gocomics.com/bigtop', '2001/04/22'],
+    'biographic' : ['http://www.gocomics.com/features/18-biographic',
+        'http://www.gocomics.com/biographic', '2005/08/14'],
+    'bird_brains' : ['http://www.gocomics.com/features/251-birdbrains',
+        'http://www.gocomics.com/birdbrains', '2007/01/01'],
+    'bleeker' : ['http://www.gocomics.com/features/19-bleeker',
+        'http://www.gocomics.com/bleeker', '2006/07/27'],
+    'bliss' : ['http://www.gocomics.com/features/281-bliss',
+        'http://www.gocomics.com/bliss', '2008/07/28'],
+    'bloom_county' : ['http://www.gocomics.com/features/20-bloomcounty',
+        'http://www.gocomics.com/bloomcounty',  '1980/12/04'],
+    'calvin_and_hobbes'   : ['http://www.gocomics.com/features/32-calvinandhobbes',
+        'http://www.gocomics.com/calvinandhobbes','1984/08/14',],
+    'for_better_or_for_worse' : ['http://www.gocomics.com/features/64-forbetterorforworse',
+        'http://www.gocomics.com/forbetterorforworse', '1981/11/23'],
+    'foxtrot' : ['http://www.gocomics.com/features/66-foxtrot',
+        'http://www.gocomics.com/foxtrot',  '1996/03/11'],
+    'garfield' : ['http://www.gocomics.com/features/72-garfield',
+        'http://www.gocomics.com/garfield','1978/06/19'],
+    'non_sequitur'     : ['http://www.gocomics.com/features/112-nonsequitur',
+        'http://www.gocomics.com/nonsequitur','1992/02/16']
 	}
 
 
@@ -52,7 +98,7 @@ def single_gocomics(comic,path, archive):
         create_archive(comic, path)
 
 def full_gocomics(comic, path, archive):
-    date = gocomics_base[comic][3]
+    date = gocomics_base[comic][2]
     date = datetime.datetime.strptime(date, "%Y/%m/%d")
     url = gocomics_base[comic][1]
     gocomics_all(comic, url, path, date, archive)
@@ -67,7 +113,8 @@ def gocomics_all(comic, url, path, first, archive):
             os.system("rm "+tarfile)
     last = datetime.datetime.today()
     while first <= last :
-        iffile = path+"download/"+comic+"/"+comic+"_"+datetime.datetime.strftime(first, "%Y_%m_%d")+".gif"
+        iffile = path+"download/"+comic+"/"+comic+"_"+
+            datetime.datetime.strftime(first, "%Y_%m_%d")+".gif"
         if not os.path.isfile(iffile):
             wget = url+"/"+datetime.datetime.strftime(first, "%Y/%m/%d")
             os.system("wget -O /tmp/" +comic+" "+wget)
