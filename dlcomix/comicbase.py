@@ -119,12 +119,11 @@ def gocomics_all(comic, url, path, first, archive):
             htmlSource = file.read()
             link = re.findall('<link rel="image_src" href="(.*?)" />',htmlSource)
             file = re.findall('<h1 (.*?)><a href="/(.*?)/">', htmlSource)
-            print file
             if file:
-                print file
                 file = file[0][1].replace('/','_')+".gif"
-                os.system("wget -O " +path+"download/"+comic+"/"+file +" "+link[0])
-                gocomic_crop_image(path+"download/"+comic+"/"+file)
+                if not os.path.isfile(path+"download/"+comic+"/"+file):
+                    os.system("wget -O " +path+"download/"+comic+"/"+file +" "+link[0])
+                    gocomic_crop_image(path+"download/"+comic+"/"+file)
         first = first + datetime.timedelta(1)
 
 
