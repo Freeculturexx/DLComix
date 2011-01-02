@@ -122,8 +122,6 @@ def gocomics_all(comic, url, path, first, archive, comic_file):
         first_year += 1
         first2 = str(first_year)
     while first <= last :
-        print first
-        print comic_file
         iffile = path+"download/"+comic+"/"+comic_file+"_"+datetime.datetime.strftime(first, "%Y_%m_%d")+".gif"
         if not os.path.isfile(iffile):
             wget = url+"/"+datetime.datetime.strftime(first, "%Y/%m/%d")
@@ -132,13 +130,9 @@ def gocomics_all(comic, url, path, first, archive, comic_file):
             htmlSource = file.read()
             link = re.findall('<link rel="image_src" href="(.*?)" />',htmlSource)
             file = re.findall('<h1 (.*?)><a href="/(.*?)/">', htmlSource)
-
             if file:
-                print "file = "+file[0][1]
                 file = file[0][1].replace('/','_')+".gif"
-                print path+"download/"+comic+"/"+file
                 if not os.path.isfile(path+"download/"+comic+"/"+file):
-                    print path+"download/"+comic+"/"+file
                     os.system("wget -O " +path+"download/"+comic+"/"+file +" "+link[0])
                     gocomic_crop_image(path+"download/"+comic+"/"+file)
         first = first + datetime.timedelta(1)
@@ -193,7 +187,6 @@ def create_archive(name, path):
     last = datetime.datetime.today()
     last_year = int(datetime.datetime.strftime(last, "%Y"))
     last_test = str(last_year)
-    print "LAST_YEAR = "+last_test
     archives = path+"archives/"
     dl_path = path+"download/"
     comic_path = dl_path+name+"/"
