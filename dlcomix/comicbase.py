@@ -13,14 +13,14 @@ import ConfigParser
 gocomics_base = {'2_cows_and_a_chicken' : ['http://www.gocomics.com/features/290-2cowsandachicken',
     'http://www.gocomics.com/2cowsandachicken', '2008/06/30'],
     '9_to_5' : ['http://www.gocomics.com/features/2-9to5',
-        'http://www.gocomics.com/9to5', '2001/04/13'],
+        'http://www.gocomics.com/9to5', '2001/04/13','9to5'],
     'the_academia_waltz' : ['http://www.gocomics.com/features/3-academiawaltz',
         'http://www.gocomics.com/academiawaltz', '2003/12/08'],
     'adam_at_home' : ['http://www.gocomics.com/features/4-adamathome',
         'http://www.gocomics.com/adamathome', '1995/06/20'],
     'agnes' : ['http://www.gocomics.com/features/5-agnes',
         'http://www.gocomics.com/agnes', '2002/01/01'],
-    'andy_cap' : ['http://www.gocomics.com/features/6-andycapp',
+    'andy_capp' : ['http://www.gocomics.com/features/6-andycapp',
         'http://www.gocomics.com/andycapp', '2002/01/01'],
     'animal_crackers' : ['http://www.gocomics.com/features/7-animalcrackers',
         'http://www.gocomics.com/animalcrackers', '2001/04/08'],
@@ -31,7 +31,7 @@ gocomics_base = {'2_cows_and_a_chicken' : ['http://www.gocomics.com/features/290
     'bc' : ['http://www.gocomics.com/features/11-bc',
         'http://www.gocomics.com/bc', '2002/01/01'],
     'back_in_the_day' : ['http://www.gocomics.com/features/492-backintheday',
-        'http://www.gocomics.com/backintheday', '2010/03/08', 'backintheday'],
+        'http://www.gocomics.com/backintheday', '2010/03/08'],
     'bad_reporter' : ['http://www.gocomics.com/features/12-badreporter',
         'http://www.gocomics.com/badreporter', '2005/08/12'],
     'baldo' : ['http://www.gocomics.com/features/13-baldo',
@@ -65,7 +65,7 @@ gocomics_base = {'2_cows_and_a_chicken' : ['http://www.gocomics.com/features/290
     'foxtrot' : ['http://www.gocomics.com/features/66-foxtrot',
         'http://www.gocomics.com/foxtrot',  '1996/03/11'],
     'garfield' : ['http://www.gocomics.com/features/72-garfield',
-        'http://www.gocomics.com/garfield','1978/06/19','garfield'],
+        'http://www.gocomics.com/garfield','1978/06/19'],
     'non_sequitur'     : ['http://www.gocomics.com/features/112-nonsequitur',
         'http://www.gocomics.com/nonsequitur','1992/02/16']
 	}
@@ -98,16 +98,15 @@ def single_gocomics(comic,path, archive):
         create_archive(comic, path)
 
 def full_gocomics(comic, path, archive):
-    comic_file = gocomics_base[comic][3]
     date = gocomics_base[comic][2]
     date = dl_rule(path, comic,date)
     if date <= datetime.datetime.today():
         url = gocomics_base[comic][1]
-        gocomics_all(comic, url, path, date, archive, comic_file)
+        gocomics_all(comic, url, path, date, archive)
         if archive is not False :
             create_archive(comic, path)
 
-def gocomics_all(comic, url, path, first, archive, comic_file):
+def gocomics_all(comic, url, path, first, archive):
     first2 = datetime.datetime.strftime(first, "%Y/%m/%d")
     first2 = re.findall('(.*)/(.*)/(.*)', first2)[0][0]
     first_year = int(first2)
@@ -122,11 +121,11 @@ def gocomics_all(comic, url, path, first, archive, comic_file):
         first_year += 1
         first2 = str(first_year)
     while first <= last :
-        iffile = path+"download/"+comic+"/"+comic_file+"_"+datetime.datetime.strftime(first, "%Y_%m_%d")+".gif"
+        iffile = path+"download/"+comic+"/"+comic+"_"+datetime.datetime.strftime(first, "%Y_%m_%d")+".gif"
         if not os.path.isfile(iffile):
             wget = url+"/"+datetime.datetime.strftime(first, "%Y/%m/%d")
-            os.system("wget -O /tmp/" +comic_file+" "+wget)
-            file = open("/tmp/"+comic_file,"rb")
+            os.system("wget -O /tmp/" +comic+" "+wget)
+            file = open("/tmp/"+comic,"rb")
             htmlSource = file.read()
             link = re.findall('<link rel="image_src" href="(.*?)" />',htmlSource)
             file = re.findall('<h1 (.*?)><a href="/(.*?)/">', htmlSource)
