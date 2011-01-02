@@ -1,5 +1,4 @@
 - Split Archives by years
-- Create last instance file to download comics since last run
 - Change use of tar with native python instructions
 - Find a solution to update comic list easyly
 - Make a GUI
