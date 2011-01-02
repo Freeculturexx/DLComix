@@ -31,7 +31,7 @@ gocomics_base = {'2_cows_and_a_chicken' : ['http://www.gocomics.com/features/290
     'bc' : ['http://www.gocomics.com/features/11-bc',
         'http://www.gocomics.com/bc', '2002/01/01'],
     'back_in_the_day' : ['http://www.gocomics.com/features/492-backintheday',
-        'http://www.gocomics.com/backintheday', '2010/03/08'],
+        'http://www.gocomics.com/backintheday', '2010/03/08', 'backintheday'],
     'bad_reporter' : ['http://www.gocomics.com/features/12-badreporter',
         'http://www.gocomics.com/badreporter', '2005/08/12'],
     'baldo' : ['http://www.gocomics.com/features/13-baldo',
@@ -65,7 +65,7 @@ gocomics_base = {'2_cows_and_a_chicken' : ['http://www.gocomics.com/features/290
     'foxtrot' : ['http://www.gocomics.com/features/66-foxtrot',
         'http://www.gocomics.com/foxtrot',  '1996/03/11'],
     'garfield' : ['http://www.gocomics.com/features/72-garfield',
-        'http://www.gocomics.com/garfield','1978/06/19'],
+        'http://www.gocomics.com/garfield','1978/06/19','garfield'],
     'non_sequitur'     : ['http://www.gocomics.com/features/112-nonsequitur',
         'http://www.gocomics.com/nonsequitur','1992/02/16']
 	}
@@ -92,38 +92,53 @@ def define_host(comic, path=None, archive=None, full=None):
 
 
 def single_gocomics(comic,path, archive):
-    gocomics(comic, path)
+    comic_file = gocomics_base[comic][3]
+    gocomics(comic, path, comic_file)
     if archive is not False :
         create_archive(comic, path)
 
 def full_gocomics(comic, path, archive):
+    comic_file = gocomics_base[comic][3]
     date = gocomics_base[comic][2]
     date = dl_rule(path, comic,date)
-    if date < datetime.datetime.today():
+    if date <= datetime.datetime.today():
         url = gocomics_base[comic][1]
-        gocomics_all(comic, url, path, date, archive)
+        gocomics_all(comic, url, path, date, archive, comic_file)
         if archive is not False :
             create_archive(comic, path)
 
-def gocomics_all(comic, url, path, first, archive):
-    if archive == True:
-        tarfile = path+"download/"+comic+"/"+comic+".tar"
-        if os.path.isfile(tarfile):
-            os.system("tar -xvf "+tarfile+" -C /")
-            os.system("rm "+tarfile)
+def gocomics_all(comic, url, path, first, archive, comic_file):
+    first2 = datetime.datetime.strftime(first, "%Y/%m/%d")
+    first2 = re.findall('(.*)/(.*)/(.*)', first2)[0][0]
+    first_year = int(first2)
     last = datetime.datetime.today()
+    last_year = int(datetime.datetime.strftime(last, "%Y"))
+    while first_year <= last_year :
+        if archive == True:
+            tarfile = path+"download/"+comic+"/"+comic+"_"+first2+".tar"
+            if os.path.isfile(tarfile):
+                os.system("tar -xvf "+tarfile+" -C /")
+                os.system("rm "+tarfile)
+        first_year += 1
+        first2 = str(first_year)
     while first <= last :
-        iffile = path+"download/"+comic+"/"+comic+"_"+datetime.datetime.strftime(first, "%Y_%m_%d")+".gif"
+        print first
+        print comic_file
+        iffile = path+"download/"+comic+"/"+comic_file+"_"+datetime.datetime.strftime(first, "%Y_%m_%d")+".gif"
         if not os.path.isfile(iffile):
             wget = url+"/"+datetime.datetime.strftime(first, "%Y/%m/%d")
-            os.system("wget -O /tmp/" +comic+" "+wget)
-            file = open("/tmp/"+comic,"rb")
+            os.system("wget -O /tmp/" +comic_file+" "+wget)
+            file = open("/tmp/"+comic_file,"rb")
             htmlSource = file.read()
             link = re.findall('<link rel="image_src" href="(.*?)" />',htmlSource)
             file = re.findall('<h1 (.*?)><a href="/(.*?)/">', htmlSource)
+
             if file:
+                print "file = "+file[0][1]
                 file = file[0][1].replace('/','_')+".gif"
+                print path+"download/"+comic+"/"+file
                 if not os.path.isfile(path+"download/"+comic+"/"+file):
+                    print path+"download/"+comic+"/"+file
                     os.system("wget -O " +path+"download/"+comic+"/"+file +" "+link[0])
                     gocomic_crop_image(path+"download/"+comic+"/"+file)
         first = first + datetime.timedelta(1)
@@ -137,7 +152,6 @@ def gocomics_all(comic, url, path, first, archive):
 def dl_rule(path, comic, date):
     dl_rule = path+".dl_rule"
     if not os.path.isfile(dl_rule):
-        date = datetime.datetime.strptime(date, "%Y/%m/%d %H:%M:%S")
         file(dl_rule,'w')
         dl_rules = ConfigParser.ConfigParser()
         dl_rules.add_section(comic)
@@ -148,17 +162,16 @@ def dl_rule(path, comic, date):
         dl_rules.readfp(open(dl_rule, 'r'))
         if dl_rules.has_section(comic):
             dl_rule = dl_rules.get(comic, 'date')
-            dl_rule = datetime.datetime.strptime(dl_rule, "%Y-%m-%d %H:%M:%S")
-            return dl_rule
         else:
             dl_rules.add_section(comic)
-            date = datetime.datetime.strptime(date, "%Y/%m/%d %H:%M:%S")
             dl_rules.set(comic, 'date', date)
             dl_rules.write(open(dl_rule,'w'))
+    date = datetime.datetime.strptime(date, "%Y/%m/%d")
+    return date
 
-def gocomics(comic,path=None):
+def gocomics(comic,path=None, comic_file=None):
     url =  "%s/" % gocomics_base[comic][0]
-    os.system("wget -O /tmp/" +comic+" "+url)
+    os.system("wget -O /tmp/" +comic_file+" "+url)
     file = open("/tmp/"+comic,"rb")
     htmlSource = file.read()
     link = re.findall('<link rel="image_src" href="(.*?)" />',htmlSource)
@@ -174,18 +187,25 @@ def gocomic_crop_image(image):
     im.save(image)
 
 def create_archive(name, path):
+    first = gocomics_base[name][2]
+    first = re.findall('(.*)/(.*)/(.*)', first)[0][0]
+    first_year = int(first)
+    last = datetime.datetime.today()
+    last_year = int(datetime.datetime.strftime(last, "%Y"))
+    last_test = str(last_year)
+    print "LAST_YEAR = "+last_test
     archives = path+"archives/"
     dl_path = path+"download/"
     comic_path = dl_path+name+"/"
     control_path(archives)
-    if os.path.isfile(dl_path+name+'/'+name+'.tar'):
-        os.system("tar --delete -vf "+comic_path+name+".tar "+comic_path+"*.gif")
-        os.system("tar -rvf  "+comic_path+name+".tar "+comic_path+"*.gif")
-    else:
-        os.system("tar -cvf  "+comic_path+name+".tar "+comic_path+"*.gif")
+    while first_year <= last_year :
+        os.system("find "+dl_path+name+"  -name '*"+first+"*' | xargs tar -cvf  "+comic_path+name+"_"+first+".tar ")
+        if not os.path.exists(archives+name+"_"+first+".tar"):
+            os.system("ln -s "+comic_path+name+"_"+first+".tar "+archives+name+"_"+first+".tar")
+        first_year += 1
+        first = str(first_year)
     os.system("rm "+comic_path+"*.gif")
-    if not os.path.exists(archives+name+".tar"):
-        os.system("ln -s "+comic_path+name+".tar "+archives+name+".tar")
+
 
 def control_path(path):
     if not os.path.exists(path):
