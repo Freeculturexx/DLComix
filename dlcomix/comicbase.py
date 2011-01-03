@@ -374,6 +374,7 @@ def gocomics_all(comic, url, path, first, archive):
     first_year = int(first2)
     last = datetime.datetime.today()
     last_year = int(datetime.datetime.strftime(last, "%Y"))
+    print first_year, last_year
     while first_year <= last_year :
         if archive == True:
             tarfile = path+"download/"+comic+"/"+comic+"_"+first2+".tar"
@@ -416,12 +417,12 @@ def dl_rule(path, comic, date):
         dl_rules = ConfigParser.ConfigParser()
         dl_rules.readfp(open(dl_rule, 'r'))
         if dl_rules.has_section(comic):
-            dl_rule = dl_rules.get(comic, 'date')
+            dl_rule_date = dl_rules.get(comic, 'date')
         else:
             dl_rules.add_section(comic)
             dl_rules.set(comic, 'date', date)
             dl_rules.write(open(dl_rule,'w'))
-    date = datetime.datetime.strptime(date, "%Y/%m/%d")
+    date = datetime.datetime.strptime(dl_rule_date, "%Y-%m-%d %H:%M:%S")
     return date
 
 def gocomics(comic,path=None, comic_file=None):
@@ -454,8 +455,9 @@ def create_archive(name, path):
     control_path(archives)
     while first_year <= last_year :
         os.system("find "+dl_path+name+"  -name '*"+first+"*' | xargs tar -cvf  "+comic_path+name+"_"+first+".tar")
-        if not os.path.exists(archives+name+"_"+first+".tar"):
-            os.system("ln -s "+comic_path+name+"_"+first+".tar "+archives+name+"_"+first+".tar")
+        if not os.path.exists(archives+name+"/"+name+"_"+first+".tar"):
+            control_path(archives+name)
+            os.system("ln -s "+comic_path+name+"_"+first+".tar "+archives+name+"/"+name+"_"+first+".tar")
         first_year += 1
         first = str(first_year)
     os.system("rm "+comic_path+"*.gif")
