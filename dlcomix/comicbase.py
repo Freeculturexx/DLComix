@@ -374,7 +374,6 @@ def gocomics_all(comic, url, path, first, archive):
     first_year = int(first2)
     last = datetime.datetime.today()
     last_year = int(datetime.datetime.strftime(last, "%Y"))
-    print first_year, last_year
     while first_year <= last_year :
         if archive == True:
             tarfile = path+"download/"+comic+"/"+comic+"_"+first2+".tar"
