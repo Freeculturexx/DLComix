@@ -144,7 +144,7 @@ gocomics_base = {'2_cows_and_a_chicken' : ['http://www.gocomics.com/features/290
         'http://www.gocomics.com/theflyingmccoys','2005/05/09'],
     'for_better_or_for_worse' : ['http://www.gocomics.com/features/64-forbetterorforworse',
         'http://www.gocomics.com/forbetterorforworse', '1981/11/23'],
-    'for_heavens_sake' : ['_http://www.gocomics.com/features/65-forheavenssake',
+    'for_heavens_sake' : ['http://www.gocomics.com/features/65-forheavenssake',
         'http://www.gocomics.com/forheavenssake','2002/08/12'],
     'fort_knox' : ['http://www.gocomics.com/features/304-fortknox',
         'http://www.gocomics.com/fortknox','2009/10/05'],
