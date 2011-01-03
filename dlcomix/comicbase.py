@@ -236,7 +236,7 @@ gocomics_base = {'2_cows_and_a_chicken' : ['http://www.gocomics.com/features/290
         'http://www.gocomics.com/nestheads','2003/05/30'],
     'neurotica' : ['http://www.gocomics.com/features/110-neurotica',
         'http://www.gocomics.com/neurotica','2003/12/21'],
-    'new_adventure_of_queen_victoria' : ['http://www.gocomics.com/features/111-thenewadventuresofqueenvictoria',
+    'new_adventures_of_queen_victoria' : ['http://www.gocomics.com/features/111-thenewadventuresofqueenvictoria',
         'http://www.gocomics.com/thenewadventuresofqueenvictoria','2006/02/09'],
     'non_sequitur'     : ['http://www.gocomics.com/features/112-nonsequitur',
         'http://www.gocomics.com/nonsequitur','1992/02/16'],
