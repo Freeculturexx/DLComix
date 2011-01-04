@@ -386,7 +386,7 @@ def gocomics_all(comic, url, path, first, archive):
         iffile = path+"download/"+comic+"/"+comic+"_"+datetime.datetime.strftime(first, "%Y_%m_%d")+".gif"
         if not os.path.isfile(iffile):
             wget = url+"/"+datetime.datetime.strftime(first, "%Y/%m/%d")
-            os.system("wget -O /tmp/" +comic+" "+wget)
+            os.system("wget -q -O /tmp/" +comic+" "+wget)
             file = open("/tmp/"+comic,"rb")
             htmlSource = file.read()
             link = re.findall('<link rel="image_src" href="(.*?)" />',htmlSource)
@@ -394,7 +394,8 @@ def gocomics_all(comic, url, path, first, archive):
             if file:
                 file = file[0][1].replace('/','_')+".gif"
                 if not os.path.isfile(path+"download/"+comic+"/"+file):
-                    os.system("wget -O " +path+"download/"+comic+"/"+file +" "+link[0])
+                    os.system("wget -q -O " +path+"download/"+comic+"/"+file +" "+link[0])
+                    print "Téléchargement de "+file
                     gocomic_crop_image(path+"download/"+comic+"/"+file)
         first = first + datetime.timedelta(1)
         dl_rule = path+".dl_rule"
@@ -419,8 +420,10 @@ def dl_rule(path, comic, date):
             dl_rule_date = dl_rules.get(comic, 'date')
         else:
             dl_rules.add_section(comic)
+            date = datetime.datetime.strptime(date, "%Y/%m/%d")
             dl_rules.set(comic, 'date', date)
             dl_rules.write(open(dl_rule,'w'))
+            dl_rule_date = dl_rules.get(comic, 'date')
     date = datetime.datetime.strptime(dl_rule_date, "%Y-%m-%d %H:%M:%S")
     return date
 
@@ -432,7 +435,8 @@ def gocomics(comic,path=None, comic_file=None):
     link = re.findall('<link rel="image_src" href="(.*?)" />',htmlSource)
     file = re.findall('<h1 (.*?)><a href="/(.*?)/">', htmlSource)
     file = file[0][1].replace('/','_')+".gif"
-    os.system("wget -O " +path+"download/"+comic+"/"+file +" "+link[0])
+    os.system("wget -q -O " +path+"download/"+comic+"/"+file +" "+link[0])
+    print "Téléchargement de "+file
     gocomic_crop_image(path+"download/"+comic+"/"+file)
 
 def gocomic_crop_image(image):
