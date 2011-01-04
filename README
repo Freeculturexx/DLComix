@@ -28,14 +28,18 @@ That's all
 Download your first comic
 #########################
 
-With dlcomix, you have two options
+With dlcomix, you have four options
 -c or --comic 
 	where you put the comic name. All supported comics are in List_of_Comics file
 	Put the name on the second column
 -p or --path (optional)
 	Path where you want to download comic. If none, DLComix will create the
 	~/.dlcomix/download folder
-
+-a or --archive (optional)
+	Put True if you want DLComix create archives for you
+-f or --full
+	Put True if you want to all images of a comic
+	
 The exemple
 -----------
 
