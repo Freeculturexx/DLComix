@@ -9,8 +9,8 @@ Then I will start script to download the whole directory of different comics
 
 But the most important will be to support the largest number of comics !! 
 
-Install of DLComix
-##################
+Install  DLComix
+################
 
 You will need git-core package. For a Debian based distribution, make a
 apt-get install git-core
@@ -37,7 +37,7 @@ With dlcomix, you have four options
 	~/.dlcomix/download folder
 -a or --archive (optional)
 	Put True if you want DLComix create archives for you
--f or --full
+-f or --full (optional)
 	Put True if you want to all images of a comic
 	
 The exemple
@@ -65,10 +65,12 @@ PATH = "/home/username/Images/comix"
 COMICS = ('garfield',
 		'bloom_county',)
 
+ARCHIVE = True
+FULL = True
 
 So by typing only 
 
 dlcomix
 
-you download garfield and bloom_county !!
+you download full garfield and bloom_county and create archives !!
 

@@ -2,12 +2,13 @@
 import sys
 import os
 from time import *
-import datetime
+from datetime import datetime, timedelta
 import urllib
 import re
 from PIL import Image
 import settings
 import ConfigParser
+import urllib, urllib2
 
 
 gocomics_base = {'2_cows_and_a_chicken' : ['http://www.gocomics.com/features/290-2cowsandachicken',
@@ -362,18 +363,19 @@ def single_gocomics(comic,path, archive):
 def full_gocomics(comic, path, archive):
     date = gocomics_base[comic][2]
     date = dl_rule(path, comic,date)
-    if date <= datetime.datetime.today():
+    if date <= datetime.today():
         url = gocomics_base[comic][1]
         gocomics_all(comic, url, path, date, archive)
         if archive is not False :
             create_archive(comic, path)
 
 def gocomics_all(comic, url, path, first, archive):
-    first2 = datetime.datetime.strftime(first, "%Y/%m/%d")
+    comic_name = gocomics_base[comic][1].replace('http://www.gocomics.com/','')
+    first2 = datetime.strftime(first, "%Y/%m/%d")
     first2 = re.findall('(.*)/(.*)/(.*)', first2)[0][0]
     first_year = int(first2)
-    last = datetime.datetime.today()
-    last_year = int(datetime.datetime.strftime(last, "%Y"))
+    last = datetime.today()
+    last_year = int(datetime.strftime(last, "%Y"))
     while first_year <= last_year :
         if archive == True:
             tarfile = path+"download/"+comic+"/"+comic+"_"+first2+".tar"
@@ -383,9 +385,11 @@ def gocomics_all(comic, url, path, first, archive):
         first_year += 1
         first2 = str(first_year)
     while first <= last :
-        iffile = path+"download/"+comic+"/"+comic+"_"+datetime.datetime.strftime(first, "%Y_%m_%d")+".gif"
-        if not os.path.isfile(iffile):
-            wget = url+"/"+datetime.datetime.strftime(first, "%Y/%m/%d")
+        iffile = path+"download/"+comic+"/"+comic_name+"_"+datetime.strftime(first, "%Y_%m_%d")+".gif"
+        if os.path.exists(iffile):
+            print comic_name+"_"+datetime.strftime(first, "%Y_%m_%d")+".gif"+" a déjà été téléchargé"
+        else:
+            wget = url+"/"+datetime.strftime(first, "%Y/%m/%d")
             os.system("wget -q -O /tmp/" +comic+" "+wget)
             file = open("/tmp/"+comic,"rb")
             htmlSource = file.read()
@@ -397,7 +401,7 @@ def gocomics_all(comic, url, path, first, archive):
                     os.system("wget -q -O " +path+"download/"+comic+"/"+file +" "+link[0])
                     print "Téléchargement de "+file
                     gocomic_crop_image(path+"download/"+comic+"/"+file)
-        first = first + datetime.timedelta(1)
+        first = first + timedelta(1)
         dl_rule = path+".dl_rule"
         dl_rules = ConfigParser.ConfigParser()
         dl_rules.readfp(open(dl_rule, 'r'))
@@ -411,21 +415,20 @@ def dl_rule(path, comic, date):
         file(dl_rule,'w')
         dl_rules = ConfigParser.ConfigParser()
         dl_rules.add_section(comic)
-        dl_rules.set(comic, 'date', date)
+        dl_rule_date = datetime.strptime(date, "%Y/%m/%d")
+        dl_rules.set(comic, 'date', dl_rule_date)
         dl_rules.write(open(dl_rule,'w'))
     else :
         dl_rules = ConfigParser.ConfigParser()
         dl_rules.readfp(open(dl_rule, 'r'))
         if dl_rules.has_section(comic):
-            dl_rule_date = dl_rules.get(comic, 'date')
+            dl_rule_date = datetime.strptime(dl_rules.get(comic, 'date'), "%Y-%m-%d %H:%M:%S")
         else:
             dl_rules.add_section(comic)
-            date = datetime.datetime.strptime(date, "%Y/%m/%d")
+            dl_rule_date = datetime.strptime(date, "%Y/%m/%d")
             dl_rules.set(comic, 'date', date)
             dl_rules.write(open(dl_rule,'w'))
-            dl_rule_date = dl_rules.get(comic, 'date')
-    date = datetime.datetime.strptime(dl_rule_date, "%Y-%m-%d %H:%M:%S")
-    return date
+    return dl_rule_date
 
 def gocomics(comic,path=None, comic_file=None):
     url =  "%s/" % gocomics_base[comic][0]
@@ -449,8 +452,8 @@ def create_archive(name, path):
     first = gocomics_base[name][2]
     first = re.findall('(.*)/(.*)/(.*)', first)[0][0]
     first_year = int(first)
-    last = datetime.datetime.today()
-    last_year = int(datetime.datetime.strftime(last, "%Y"))
+    last = datetime.today()
+    last_year = int(datetime.strftime(last, "%Y"))
     last_test = str(last_year)
     archives = path+"archives/"
     dl_path = path+"download/"
