@@ -1,14 +1,11 @@
 #!/usr/bin/python
-import sys
 import os
 from time import *
 from datetime import datetime, timedelta
-import urllib
 import re
 from PIL import Image
-import settings
 import ConfigParser
-import urllib, urllib2
+
 
 
 gocomics_base = {'2_cows_and_a_chicken' : ['http://www.gocomics.com/features/290-2cowsandachicken',
@@ -454,7 +451,6 @@ def create_archive(name, path):
     first_year = int(first)
     last = datetime.today()
     last_year = int(datetime.strftime(last, "%Y"))
-    last_test = str(last_year)
     archives = path+"archives/"
     dl_path = path+"download/"
     comic_path = dl_path+name+"/"
