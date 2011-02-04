@@ -352,7 +352,7 @@ def define_host(comic, path=None, archive=None, full=None):
 
 
 def single_gocomics(comic,path, archive):
-    comic_file = gocomics_base[comic][3]
+    comic_file = gocomics_base[comic][1].replace('http://www.gocomics.com/','')
     gocomics(comic, path, comic_file)
     if archive is not False :
         create_archive(comic, path)

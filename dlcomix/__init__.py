@@ -7,16 +7,18 @@ import settings
 
 def run_dlcomix(comic=None, path=None, archive=None, full=None):
 
+    config = settings._DEFAULT_CONFIG
     if os.path.isfile(os.path.expanduser ("~" )+'/.dlcomix/config.py'):
         config = settings.read_settings(os.path.expanduser ("~" )+'/.dlcomix/config.py')
 
 
-    comic = comic or config["COMICS"]
-    path = path or config["PATH"] or settings._DEFAULT_CONFIG["PATH"]
-    archive = archive or config["ARCHIVE"] or settings._DEFAULT_CONFIG["ARCHIVE"]
-    full = full or config["FULL"] or settings._DEFAULT_CONFIG["FULL"]
-    comic = (comic)
-    comicbase.define_host(comic,path, archive, full)
+
+    comics = comic or config["COMICS"]
+    paths = path or config["PATH"] or settings._DEFAULT_CONFIG["PATH"]
+    archives = archive or config["ARCHIVE"] or settings._DEFAULT_CONFIG["ARCHIVE"]
+    fulls = full or config["FULL"] or settings._DEFAULT_CONFIG["FULL"]
+    comics = (comics)
+    comicbase.define_host(comics,paths, archives, fulls)
 
 
 
