@@ -63,6 +63,7 @@ def gocomics_all(comic, url, path, first, archive):
         iffile = path+"download/"+comic+"/"+comic_name+"_"+datetime.strftime(first, "%Y_%m_%d")+".gif"
         if os.path.exists(iffile):
             print comic_name+"_"+datetime.strftime(first, "%Y_%m_%d")+".gif"+" a déjà été téléchargé"
+            first = first + timedelta(1)
         else:
             wget = url+"/"+datetime.strftime(first, "%Y/%m/%d")
             os.system("wget -q -O /tmp/" +comic+" "+wget)
@@ -79,7 +80,7 @@ def gocomics_all(comic, url, path, first, archive):
                     os.system("wget -q -O " +path+"download/"+comic+"/"+file +" "+link[0])
                     print "Téléchargement de "+file
                     gocomic_crop_image(path+"download/"+comic+"/"+file)
-        first = next
+                first = next
         dl_rule = path+".dl_rule"
         dl_rules = ConfigParser.ConfigParser()
         dl_rules.readfp(open(dl_rule, 'r'))
