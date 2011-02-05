@@ -53,10 +53,11 @@ def gocomics_all(comic, url, path, first, archive):
     last_year = int(datetime.strftime(last, "%Y"))
     while first_year <= last_year :
         if archive == True:
-            tarfile = path+"download/"+comic+"/"+comic+"_"+first2+".tar"
-            if os.path.isfile(tarfile):
-                os.system("tar -xvf "+tarfile+" -C /")
-                os.system("rm "+tarfile)
+            print first2
+            tarfile = comic+"_"+first2+".tar"
+            if os.path.isfile(path+"download/"+comic+"/"+tarfile):
+                os.system("cd "+path+"download/"+comic+" && tar -xvf "+tarfile)
+                os.system("cd "+path+"download/"+comic+" && rm "+tarfile)
         first_year += 1
         first2 = str(first_year)
     while first <= last :
@@ -134,7 +135,7 @@ def create_archive(name, path):
     comic_path = dl_path+name+"/"
     control_path(archives)
     while first_year <= last_year :
-        os.system("find "+dl_path+name+"  -name '*"+first+"*' | xargs tar -cvf  "+comic_path+name+"_"+first+".tar")
+        os.system("cd "+dl_path+name+" && find  -name '*"+first+"*.gif' | xargs tar -cvf  "+comic_path+name+"_"+first+".tar")
         if not os.path.exists(archives+name+"/"+name+"_"+first+".tar"):
             control_path(archives+name)
             os.system("ln -s "+comic_path+name+"_"+first+".tar "+archives+name+"/"+name+"_"+first+".tar")
