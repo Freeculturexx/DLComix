@@ -53,7 +53,6 @@ def gocomics_all(comic, url, path, first, archive):
     last_year = int(datetime.strftime(last, "%Y"))
     while first_year <= last_year :
         if archive == True:
-            print first2
             tarfile = comic+"_"+first2+".tar"
             if os.path.isfile(path+"download/"+comic+"/"+tarfile):
                 os.system("cd "+path+"download/"+comic+" && tar -xvf "+tarfile)
@@ -71,13 +70,16 @@ def gocomics_all(comic, url, path, first, archive):
             htmlSource = file.read()
             link = re.findall('<link rel="image_src" href="(.*?)" />',htmlSource)
             file = re.findall('<h1 (.*?)><a href="/(.*?)/">', htmlSource)
+            next = re.findall('<li><a href="(.*?)/" class="next">Next feature</a></li>',htmlSource)
+            next = next[0].replace('/'+comic+'/','')
+            next = datetime.strptime(next, "%Y/%m/%d")
             if file:
                 file = file[0][1].replace('/','_')+".gif"
                 if not os.path.isfile(path+"download/"+comic+"/"+file):
                     os.system("wget -q -O " +path+"download/"+comic+"/"+file +" "+link[0])
                     print "Téléchargement de "+file
                     gocomic_crop_image(path+"download/"+comic+"/"+file)
-        first = first + timedelta(1)
+        first = next
         dl_rule = path+".dl_rule"
         dl_rules = ConfigParser.ConfigParser()
         dl_rules.readfp(open(dl_rule, 'r'))
