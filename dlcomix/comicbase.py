@@ -5,9 +5,10 @@ from datetime import datetime, timedelta
 import re
 from PIL import Image
 import ConfigParser
-import gocomics
+import gocomics, manga
 
 gocomics_base = gocomics.base
+manga_base = manga.base
 
 def define_host(comic, path=None, archive=None, full=None):
     if comic :
@@ -25,8 +26,104 @@ def define_host(comic, path=None, archive=None, full=None):
                         single_gocomics(name,path, archive)
                     else :
                         full_gocomics(name, path, archive)
-                else :
+        if manga_base.has_key(comic):
+            control_path(path+"download/"+comic)
+            if full is False:
+                single_manga(comic, path, archive)
+            else:
+                full_manga(comic, path, archive)
+        else:
+            for name in comic :
+                if manga_base.has_key(name):
+                    control_path(path+"download/"+name)
+                    if full is False:
+                        single_manga(name, path, archive)
+                    else:
+                        full_manga(name, path, archive)
+                else:
                     print "La valeur "+name+" est erronee"
+
+def single_manga(manga, path, archive):
+    range_manga = parse_manga(manga)
+    number = int(dl_rule_manga(manga, path, range_manga)) +1
+    chapter = "Chapter-"+str(number)
+    url = manga_base[manga][0]+chapter+"/"
+    path2 = path+"download/"+manga+"/"+chapter
+    control_path(path2)
+    print "Téléchargement de "+manga+" "+chapter
+    os.system("cd "+path2+" && wget -q -c -i "+url+" -A .jpg,.jpeg,.png,.gif  "+url)
+    os.system("cd "+path2+" && rm *.html* && rm *.db")
+    dl_rule = path+".dl_rule"
+    dl_rules = ConfigParser.ConfigParser()
+    dl_rules.readfp(open(dl_rule,'r'))
+    if dl_rules.has_section(manga):
+        dl_rules_number = int(dl_rules.get(manga,'number'))
+        dl_rules_number += 1
+        dl_rules.set(manga,'number', dl_rules_number)
+        dl_rules.write(open(dl_rule,'w'))
+    if archive is not False:
+        create_archive_manga(manga, path, chapter)
+
+def full_manga(manga,path,archive):
+    range_manga = parse_manga(manga)
+    number = int(dl_rule_manga(manga, path, range_manga)) +1
+    while number <= range_manga[1]:
+        single_manga(manga,path,archive)
+        number += 1
+    
+
+def dl_rule_manga(manga, path, range_manga):
+    dl_rule = path+".dl_rule"
+    if not os.path.isfile(dl_rule):
+        file(dl_rule,'w')
+        dl_rules = ConfigParser.ConfigParser()
+        dl_rules.add_section(manga)
+        dl_rules.set(comic, 'number',range_manga[0]-1)
+        dl_rules.write(open(dl_rule,'w'))
+    else:
+        dl_rules = ConfigParser.ConfigParser()
+        dl_rules.readfp(open(dl_rule,'r'))
+        if dl_rules.has_section(manga):
+            dl_rules_number = dl_rules.get(manga,'number')
+        else:
+            dl_rules.add_section(manga)
+            dl_rules_number=range_manga[0]-1
+            dl_rules.set(manga,'number', dl_rules_number)
+            dl_rules.write(open(dl_rule,'w'))
+        return dl_rules_number
+
+
+def parse_manga(manga):
+    url = manga_base[manga][0]
+    os.system("wget -q -O /tmp/" +manga+" "+url)
+    file = open("/tmp/"+manga,"rb")
+    htmlSource = file.read()
+    link = re.findall('<li><a href="(.*?)">',htmlSource)
+    n = len(link)-1
+    i= 0
+    album=""
+    mini = 100
+    maxi = 0
+    while i<= n:
+        if link[i].startswith('Chapter-'):
+            link[i]= link[i].replace('Chapter-','')
+            link[i] = link[i].replace('/','')
+            if not link[i] == '':
+                album = int(link[i])
+                if album < mini :
+                    mini = album	
+                if album > maxi :
+                    maxi = album
+        i += 1
+    range_manga=(mini,maxi)
+    return range_manga
+
+        
+def create_archive_manga(manga,path,chapter):
+    print manga,path,chapter
+    os.system("cd "+path+"download/"+manga+" && tar -cvzf "+chapter+".tar.gz "+chapter+"/")
+    control_path(path+"archives/"+manga)
+    os.system("ln -s "+path+"download/"+manga+"/"+chapter+".tar.gz "+path+"/archives/"+manga+"/"+chapter+".tar.gz")
 
 
 def single_gocomics(comic,path, archive):
@@ -41,21 +138,24 @@ def full_gocomics(comic, path, archive):
     if date <= datetime.today():
         url = gocomics_base[comic][1]
         gocomics_all(comic, url, path, date, archive)
-        if archive is not False :
-            create_archive(comic, path)
+        single_gocomics(comic,path, archive)
+
+
+
+
 
 def gocomics_all(comic, url, path, first, archive):
     comic_name = gocomics_base[comic][1].replace('http://www.gocomics.com/','')
     first2 = datetime.strftime(first, "%Y/%m/%d")
     first2 = re.findall('(.*)/(.*)/(.*)', first2)[0][0]
     first_year = int(first2)
-    last = datetime.today()
+    last = datetime.today()-timedelta(2)
     last_year = int(datetime.strftime(last, "%Y"))
     while first_year <= last_year :
         if archive == True:
-            tarfile = comic+"_"+first2+".tar"
+            tarfile = comic+"_"+first2+".tar.gz"
             if os.path.isfile(path+"download/"+comic+"/"+tarfile):
-                os.system("cd "+path+"download/"+comic+" && tar -xvf "+tarfile)
+                os.system("cd "+path+"download/"+comic+" && tar -xvzf "+tarfile)
                 os.system("cd "+path+"download/"+comic+" && rm "+tarfile)
         first_year += 1
         first2 = str(first_year)
@@ -111,7 +211,7 @@ def dl_rule(path, comic, date):
 
 def gocomics(comic,path=None, comic_file=None):
     url =  "%s/" % gocomics_base[comic][0]
-    os.system("wget -O /tmp/" +comic_file+" "+url)
+    os.system("wget -q -O /tmp/" +comic_file+" "+url)
     file = open("/tmp/"+comic,"rb")
     htmlSource = file.read()
     link = re.findall('<link rel="image_src" href="(.*?)" />',htmlSource)
@@ -138,10 +238,10 @@ def create_archive(name, path):
     comic_path = dl_path+name+"/"
     control_path(archives)
     while first_year <= last_year :
-        os.system("cd "+dl_path+name+" && find  -name '*"+first+"*.gif' | xargs tar -cvf  "+comic_path+name+"_"+first+".tar")
-        if not os.path.exists(archives+name+"/"+name+"_"+first+".tar"):
+        os.system("cd "+dl_path+name+" && find  -name '*"+first+"*.gif' | xargs tar -cvzf  "+comic_path+name+"_"+first+".tar.gz")
+        if not os.path.exists(archives+name+"/"+name+"_"+first+".tar.gz"):
             control_path(archives+name)
-            os.system("ln -s "+comic_path+name+"_"+first+".tar "+archives+name+"/"+name+"_"+first+".tar")
+            os.system("ln -s "+comic_path+name+"_"+first+".tar.gz "+archives+name+"/"+name+"_"+first+".tar.gz")
         first_year += 1
         first = str(first_year)
     os.system("rm "+comic_path+"*.gif")
@@ -149,7 +249,7 @@ def create_archive(name, path):
 
 def control_path(path):
     if not os.path.exists(path):
-            try:
-                os.makedirs(path, mode=0755)
-            except OSError, e:
-                print e.errno, e.strerror, e.filename
+        try:
+            os.makedirs(path, mode=0755)
+        except OSError, e:
+            print e.errno, e.strerror, e.filename
