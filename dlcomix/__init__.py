@@ -1,6 +1,6 @@
 import argparse
 import os
-import comicbase
+import dlcomixbase
 import settings
 
 
@@ -18,7 +18,7 @@ def run_dlcomix(comic=None, path=None, archive=None, full=None):
     archives = archive or config["ARCHIVE"] or settings._DEFAULT_CONFIG["ARCHIVE"]
     fulls = full or config["FULL"] or settings._DEFAULT_CONFIG["FULL"]
     comics = (comics)
-    comicbase.define_host(comics,paths, archives, fulls)
+    dlcomixbase.define_host(comics,paths, archives, fulls)
 
 
 
