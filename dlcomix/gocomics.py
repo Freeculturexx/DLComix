@@ -118,11 +118,11 @@ def create_archive(name, path):
     archives = path+"archives/"
     dl_path = path+"download/"
     comic_path = dl_path+name+"/"
-    control_path(archives)
+    dlcomixbase.control_path(archives)
     while first_year <= last_year :
         os.system("cd "+dl_path+name+" && find  -name '*"+first+"*.gif' | xargs tar -cvzf  "+comic_path+name+"_"+first+".tar.gz")
         if not os.path.exists(archives+name+"/"+name+"_"+first+".tar.gz"):
-            control_path(archives+name)
+            dlcomixbase.control_path(archives+name)
             os.system("ln -s "+comic_path+name+"_"+first+".tar.gz "+archives+name+"/"+name+"_"+first+".tar.gz")
         first_year += 1
         first = str(first_year)
