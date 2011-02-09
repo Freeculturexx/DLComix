@@ -1,6 +1,7 @@
 DLComix Core
 ============
-
+- Make a --quiet option
+- Use urllib instead of wget
 - Make a DLComix version verification and purpose to upgrade it
 - Change use of tar with native python instructions
 - Find a solution to update comic list easyly

@@ -83,7 +83,7 @@ def parse(manga):
         
 def create_archive(manga,path,chapter):
     print manga,path,chapter
-    os.system("cd "+path+"download/"+manga+" && tar -cvzf "+chapter+".tar.gz "+chapter+"/")
+    os.system("cd "+path+"download/"+manga+" && tar -cvzf "+chapter+".tar.gz "+chapter+"/ && rm -rvf "+chapter+"/")
     dlcomixbase.control_path(path+"archives/"+manga)
     os.system("ln -s "+path+"download/"+manga+"/"+chapter+".tar.gz "+path+"/archives/"+manga+"/"+chapter+".tar.gz")
 
