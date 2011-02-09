@@ -272,7 +272,6 @@ base = {'07-ghost':['http://99.198.113.68/manga/07_Ghost/'],
 	'chaos-head':['http://99.198.113.68/manga/Chaos_Head/'],
 	'chaosic-rune':['http://99.198.113.68/manga/Chaosic_Rune/'],
 	'chaosic-rune-es':['http://99.198.113.68/manga/Chaosic_Rune_ES/'],
-	
 	'charm-angel':['http://99.198.113.68/manga/Charm_Angel/'],
 	'charming-junkie':['http://99.198.113.68/manga/Charming_Junkie/'],
 	'chaser':['http://99.198.113.68/manga/Chaser/'],
