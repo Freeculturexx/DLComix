@@ -7,6 +7,10 @@ DLComix Core
 - Find a solution to update comic list easyly
 - Make a GUI
 - Support more & more & more................... Comics !!!
+- Put mangalist in sqlite database
+- Put dlrule treatment in database
+- use tempfile instead of record file in /tmp
+- Sort Mangas in categories
 
 Websites to integer
 ===================
