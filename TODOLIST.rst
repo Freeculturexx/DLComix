@@ -11,7 +11,10 @@ DLComix Core
 - Put dlrule treatment in database
 - use tempfile instead of record file in /tmp
 - Sort Mangas in categories
-
+- Make a script to update comic list
+- Find first comic and not put it in hard
+- Récupérer les résumés des comics et mangas ainsi que les vignettes.
+- Récupérer les catégories des comics et mangas.
 Websites to integer
 ===================
 http://www.sansemploi.com/news/liens
