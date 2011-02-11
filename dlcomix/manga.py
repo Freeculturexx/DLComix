@@ -1,10 +1,10 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 import os
 import re
 import ConfigParser
 import manga_list
 import dlcomixbase
-from decimal import Decimal
 
 def single(manga, path, archive):
     range_manga = parse(manga)
@@ -36,9 +36,7 @@ def single(manga, path, archive):
 def full(manga,path,archive):
     range_manga = parse(manga)
     number = int(dlrule(manga, path, range_manga[1][0]))
-    print int(number), range_manga[0]
     while number <= range_manga[0]-1:
-        print number
         single(manga,path,archive)
         number += 1
     
@@ -79,10 +77,11 @@ def parse(manga):
         if link[i].startswith('Chapter-'):
             link[i]= link[i].replace('Chapter-','')
             link[i] = link[i].replace('/','')
-            if float(link[i]) < 100:
-                link[i] = "0"+link[i]
-            if float(link[i]) < 10:
-                link[i] = "0"+link[i]
+            if link[i]:
+                if float(link[i]) < 100:
+                    link[i] = "0"+link[i]
+                if float(link[i]) < 10:
+                    link[i] = "0"+link[i]
             i += 1
         else:
             n -= 1
