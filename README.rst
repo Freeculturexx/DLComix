@@ -28,7 +28,7 @@ That's all
 Download your first comic
 #########################
 
-With dlcomix, you have four options
+With dlcomix, you have five options
 -c or --comic 
 	where you put the comic name. All supported comics are in List_of_Comics file
 	Put the name on the second column
@@ -36,10 +36,15 @@ With dlcomix, you have four options
 	Path where you want to download comic. If none, DLComix will create the
 	~/.dlcomix/download folder
 -a or --archive (optional)
-	Put True if you want DLComix create archives for you
+	Use if you want DLComix create archives for you
 -f or --full (optional)
-	Put True if you want to all images of a comic
-	
+	Use if you want to all images of a comic
+-u or --usecomix (optional)
+        This option renames archive to have better integration with Comix sofware.
+        By defaut archives names are Chapter-9.tar.gz, Chapter-10.tar.gz, and
+        Comix put the Chapter-10 before Chapter-9. With this option, Chapter-9.tar.gz
+        becomes Chapter-09.tar.gz
+
 The exemple
 -----------
 
@@ -67,10 +72,11 @@ COMICS = ('garfield',
 
 ARCHIVE = True
 FULL = True
+USE_COMIX = True
 
 So by typing only 
 
 dlcomix
 
-you download full garfield and bloom_county and create archives !!
+you download full garfield and bloom_county and create archives optimized for Comix !!
 

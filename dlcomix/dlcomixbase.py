@@ -10,7 +10,7 @@ import gocomics, manga, gocomics_list, manga_list
 gocomics_base = gocomics_list.base
 manga_base = manga_list.base
 
-def define_host(comic, path=None, archive=None, full=None):
+def define_host(comic, path=None, archive=None,comix_use=None, full=None):
     if comic :
         if gocomics_base.has_key(comic):
             control_path(path+"download/"+comic)
@@ -29,17 +29,17 @@ def define_host(comic, path=None, archive=None, full=None):
         if manga_base.has_key(comic):
             control_path(path+"download/"+comic)
             if full is False:
-                manga.single(comic, path, archive)
+                manga.single(comic, path, archive, comix_use)
             else:
-                manga.full(comic, path, archive)
+                manga.full(comic, path, archive, comix_use)
         else:
             for name in comic :
                 if manga_base.has_key(name):
                     control_path(path+"download/"+name)
                     if full is False:
-                        manga.single(name, path, archive)
+                        manga.single(name, path, archive, comix_use)
                     else:
-                        manga.full(name, path, archive)
+                        manga.full(name, path, archive, comix_use)
                 else:
                     print "La valeur "+name+" est erronee"
 

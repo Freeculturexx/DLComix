@@ -1,9 +1,10 @@
 import os
 
 _DEFAULT_CONFIG ={'COMIC' : 'garfield',
-                    'PATH' : os.path.expanduser ("~" )+'/.dlcomix/',
-                    'ARCHIVE' : False,
-                    'FULL' : False,
+                  'PATH' : os.path.expanduser ("~" )+'/.dlcomix/',
+                  'ARCHIVE' : False,
+                  'FULL' : False,
+                  'USE_COMIX' : False,  
 }
 
 def read_settings(filename):
