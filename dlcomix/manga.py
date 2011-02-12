@@ -6,14 +6,13 @@ import ConfigParser
 import manga_list
 import dlcomixbase
 
-def single(manga, path, archive, full=None):
-    if not full is None:
+def single(manga, path, archive, range_manga=None):
+    if range_manga is None:
+        print "Initialisation du téléchargement"
         range_manga = parse(manga)
     chapter = normalize_list(manga, path, range_manga)    
     url = manga_list.base[manga][0]+chapter+"/"
-    
     path2 = path+"download/"+manga+"/"+chapter
-
     dlcomixbase.control_path(path2)
     download(manga, chapter, url,path2) 
     dl_rule = path+".dl_rule"
@@ -28,10 +27,11 @@ def single(manga, path, archive, full=None):
         create_archive(manga, path, chapter)
 
 def full(manga,path,archive):
+    print "initialisation du téléchargement"
     range_manga = parse(manga)
     number = int(dlrule(manga, path, range_manga[1][0]))
     while number <= range_manga[0]-1:
-        single(manga,path,archive, full=True)
+        single(manga,path,archive,range_manga)
         number += 1
     
 
