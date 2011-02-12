@@ -15,6 +15,7 @@ DLComix Core
 - Find first comic and not put it in hard
 - Récupérer les résumés des comics et mangas ainsi que les vignettes.
 - Récupérer les catégories des comics et mangas.
+- For full manga download, download all chapter directory in one shot. 
 Websites to integer
 ===================
 http://www.sansemploi.com/news/liens
