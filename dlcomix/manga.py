@@ -60,7 +60,7 @@ def dlrule(manga, path, range_manga):
 
 def parse(manga):
     url = manga_list.base[manga][0]
-    os.system("wget -q -O /tmp/" +manga+" "+url)
+    os.system("wget -O /tmp/" +manga+" "+url)
     file = open("/tmp/"+manga,"rb")
     htmlSource = file.read()
     link = re.findall('<li><a href="(.*?)">',htmlSource)
@@ -95,7 +95,7 @@ def create_archive(manga,path,chapter, archive_chapter):
 
 def download(manga, chapter, url,path2):
     print "Téléchargement de "+manga+" "+chapter
-    os.system("wget -q  "+url+" -O /tmp/"+manga)
+    os.system("wget  "+url+" -O /tmp/"+manga)
     f = open('/tmp/'+manga, 'r')
     images = f.read()
     images = re.findall('<li><a href="(.*?)">',images) 
@@ -107,7 +107,7 @@ def download(manga, chapter, url,path2):
         dl.write(url+images[n]+"\n")
         n += 1
     dl.close()
-    os.system("cd "+path2+" && cat /tmp/"+manga+" | xargs -n 1 -P 10 wget -q -c -t 5")
+    os.system("cd "+path2+" && cat /tmp/"+manga+" | xargs -n 1 -P 10 wget  -c -t 5")
     os.system("cd "+path2+" && rm *.html* && rm *.db")
 
 def normalize_list(manga, path, range_manga, comix_use):
@@ -116,6 +116,8 @@ def normalize_list(manga, path, range_manga, comix_use):
     x = len(number)
     if float(number) < 100:
         number_c = number[1:x]
+    else:
+        number_c = number
     if float(number) < 10:
         number_c = number_c[1:x]
     chapter = "Chapter-"+str(number_c)
