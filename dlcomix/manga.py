@@ -38,6 +38,7 @@ def full(manga,path,archive,comix_use):
 
 def dlrule(manga, path, range_manga):
     dl_rule = path+".dl_rule"
+    print dl_rule
     if not os.path.isfile(dl_rule):
         file(dl_rule,'w')
         dl_rules = ConfigParser.ConfigParser()
@@ -52,7 +53,6 @@ def dlrule(manga, path, range_manga):
         else:
             dl_rules.add_section(manga)
             dl_rules_number=range_manga[1][0]
-	    print dl_rules_number
             dl_rules.set(manga,'number', dl_rules_number)
             dl_rules.write(open(dl_rule,'w'))
         return dl_rules_number
@@ -78,7 +78,10 @@ def parse(manga):
                     link[i] = "0"+link[i]
                 if float(link[i]) < 10:
                     link[i] = "0"+link[i]
-            i += 1
+                i += 1
+            else:
+                link.remove(link[i])
+                n -= 1
         else:
             n -= 1
             link.remove(link[i])
