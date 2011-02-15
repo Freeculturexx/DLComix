@@ -35,7 +35,6 @@ def full(manga,path,archive,comix_use):
     while number <= range_manga[0]-1:
         single(manga,path,archive,comix_use,range_manga)
         number += 1
-    
 
 def dlrule(manga, path, range_manga):
     dl_rule = path+".dl_rule"
@@ -53,6 +52,7 @@ def dlrule(manga, path, range_manga):
         else:
             dl_rules.add_section(manga)
             dl_rules_number=range_manga[1][0]
+	    print dl_rules_number
             dl_rules.set(manga,'number', dl_rules_number)
             dl_rules.write(open(dl_rule,'w'))
         return dl_rules_number
@@ -84,7 +84,7 @@ def parse(manga):
             link.remove(link[i])
     n_manga=len(link)
     link.sort()
-    return n_manga, link
+    return n_manga, link,url
 
         
 def create_archive(manga,path,chapter, archive_chapter):
@@ -107,10 +107,14 @@ def download(manga, chapter, url,path2):
         dl.write(url+images[n]+"\n")
         n += 1
     dl.close()
-    os.system("cd "+path2+" && cat /tmp/"+manga+" | xargs -n 1 -P 10 wget  -c -t 5")
+    os.system("cd "+path2+" && cat /tmp/"+manga+" | xargs -n 1 -P 10 wget  - nv -c -t 5")
     os.system("cd "+path2+" && rm *.html* && rm *.db")
 
 def normalize_list(manga, path, range_manga, comix_use):
+    """----------------------------------------------"""
+    """ Make optimized Chapter number for Comix      """
+    """----------------------------------------------"""
+    
     number = dlrule(manga, path, range_manga[1][0])
     number = range_manga[1][int(number)]
     x = len(number)
