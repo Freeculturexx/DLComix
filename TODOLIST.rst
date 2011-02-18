@@ -22,3 +22,4 @@ Websites to integer
 http://www.sansemploi.com/news/liens
 http://blogsbd.fr/
 http://grandpapier.org/
+http://www.mangareader.net
