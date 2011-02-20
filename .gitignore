@@ -1,3 +1,4 @@
 build
 dist
 dlcomix.egg-info
+dlcomix/*.pyc
