@@ -1,15 +1,16 @@
+#!/usr/bin/python
+# *-* coding: utf-8 *-*
+
 import os
 
-_DEFAULT_CONFIG ={'COMIC' : 'garfield',
-                  'PATH' : os.path.expanduser ("~" )+'/.dlcomix/',
-                  'ARCHIVE' : False,
-                  'FULL' : False,
-                  'USE_COMIX' : False,  
-}
+_DEFAULT_CONFIG = {'PATH' : os.path.expanduser ('~')+'/.dlcomix',
+                   'ARCHIVE' : False,
+                   'FULL' : False,
+                   'USE_COMIX' : False,
+                   'LIMIT': ''
+                  }
 
 def read_settings(filename):
-    """Load a Python file into a dictionary.
-"""
     context = _DEFAULT_CONFIG.copy()
     if filename:
         tempdict = {}
