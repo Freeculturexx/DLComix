@@ -12,7 +12,7 @@ if sys.version_info < (2,7):
 
 setup(
      name = "dlcomix",
-     version = '0.2',
+     version = '0.2.1',
      url = 'http://freeculture.homelinux.com/pages/Comix',
      author = "Guillaume LAME",
      description = "A small application to download comix on the web",
