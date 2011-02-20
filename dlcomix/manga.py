@@ -130,10 +130,8 @@ class Manga(object):
             else:
                 n -= 1
                 tmpLink.remove(tmpLink[i])
-            print i,n
         nManga = len(tmpLink)
         tmpLink.sort()
-        print tmpLink
         os.remove("/tmp/"+self.manga)
         return nManga, tmpLink
 
