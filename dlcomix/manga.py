@@ -38,17 +38,24 @@ class Manga(object):
             self.sqlite.conn.commit()
             self.start_i = 0
             self.start = self.parseManga[1][0]
+            return True
         else:
             self.start_i = int(row[0][1])
-            self.start = self.parseManga[1][self.start_i]
+            nbr_l = len(self.parseManga[1]) - 1
+            if self.start_i <= nbr_l :
+                self.start = self.parseManga[1][self.start_i]
+                return True
+            else:
+                return False
         self.sqlite.c.close
 
     def prepare_download(self):
-        self.init_dl_rule()
-        self.normalize_chapter()
-        self.urlDl = self.url+self.chapter+"/"
-        self.pathDl = self.path+"/download/"+self.manga+"/"+self.chapter
-        self.control_path(self.pathDl)
+        test_dl = self.init_dl_rule()
+        if test_dl is not False :
+            self.normalize_chapter()
+            self.urlDl = self.url+self.chapter+"/"
+            self.pathDl = self.path+"/download/"+self.manga+"/"+self.chapter
+            self.control_path(self.pathDl)
 
     
     def single_dl(self):
@@ -69,7 +76,7 @@ class Manga(object):
         """
         Téléchargement de tout les épisodes
         """
-        while self.start_i <= self.parseManga[0]:
+        while self.start_i <= self.parseManga[0] - 1:
             self.single_dl()
             self.prepare_download()
         
@@ -125,7 +132,6 @@ class Manga(object):
                 else:
                     tmpLink.remove(tmpLink[i])
                     n -= 1
-                    print tmpLink
                 
             else:
                 n -= 1
