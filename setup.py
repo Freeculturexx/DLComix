@@ -6,14 +6,14 @@ import sys
 import sqlite3
 from dlcomix import settings
 
-requires = ['docutils']
+requires = []
 if sys.version_info < (2,7):
     requires.append('argparse')
 
 setup(
      name = "dlcomix",
      version = '0.2.1',
-     url = 'http://freeculture.homelinux.com/pages/Comix',
+     url = 'http://freeculture.homelinux.com/pages/documentation-de-dlcomix.html',
      author = "Guillaume LAME",
      description = "A small application to download comix on the web",
      include_package_data = True,
