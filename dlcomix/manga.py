@@ -16,18 +16,30 @@ class Manga(object):
         self.useComix = useComix
         self.url = url
         self.limit = limit
-        
+
+        if self.limit == "":
+            self.limit = 10
+        else:
+            if int(self.limit) <= 0:
+                self.limit = 1
+            elif int(self.limit) > 10:
+                self.limit = 10
+
         if self.archive is not False:
             self.control_path(self.path+"/archives/"+self.manga)
         self.parseManga = self.parse_manga()
-        self.sqlite = Sqlite()
-
-        if self.full is False:
-            self.prepare_download()
-            self.single_dl()
+        if not self.parseManga[1]:
+            print "Le manga ne contient aucun chapitre" 
+            print "Téléchargement arrêté"
         else:
-            self.prepare_download()
-            self.full_dl()
+            self.sqlite = Sqlite()
+
+            if self.full is False:
+                self.prepare_download()
+                self.single_dl()
+            else:
+                self.prepare_download()
+                self.full_dl()
 
     def init_dl_rule(self):
         self.sqlite.connect()
@@ -104,7 +116,8 @@ class Manga(object):
                 dl.write(self.urlDl+images[n]+"\n")
                 n += 1
             dl.close()
-            os.system("cd "+self.pathDl+" && cat /tmp/"+self.manga+" | xargs -n 1 -P 10 wget -nv -c -t 5")
+            os.system("cd "+self.pathDl+" && cat /tmp/"+self.manga+
+                      " | xargs -n 1 -P "+str(self.limit)+" wget -nv -c -t 5")
             os.system("cd "+self.pathDl+" && rm *.html && rm *.db")
 
 

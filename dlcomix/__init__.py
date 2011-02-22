@@ -58,7 +58,7 @@ class Dlcomix(object):
                 manga = Manga(row[0], self.path, self.archive, self.full, self.use_comix, row[1], self.limit) 
             self.sqlite.c.execute("select * from comics where name='%s'" % name)
             for row in self.sqlite.c:
-                comic = Gocomics(row[0], self.path, self.archive, self.full, self.use_comix, row[1], self.limit)
+                comic = Gocomics(row[0], self.path, self.archive, self.full, self.use_comix, row[1])
 
 def main():
     parser = argparse.ArgumentParser(description="""Script to download
@@ -75,7 +75,8 @@ def main():
     parser.add_argument('-u', '--use-comix', action='store_true',
                         help='Improve archive format for Comix')
     parser.add_argument('-l', '--limit', dest='limit',
-                        help="Put a transfert Limit")
+                        help="Put number of files to download simultaneuously \
+                        between 1 and 10 (only available for mangas)")
     parser.add_argument('--update-comic-list', dest='update', action='store_true',
                         help="Update Comic and Manga list in database")
 

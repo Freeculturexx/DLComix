@@ -10,15 +10,14 @@ from sqlite import Sqlite
 class Gocomics(object):
 
     def __init__(self, comic=None, path=None, archive=None, full=None, useComix=None, 
-                 url=None, limit=None):
+                 url=None):
         self.comic = comic
         self.path = path
         self.archive = archive
         self.full = full
         self.useComix = useComix
         self.url = url
-        self.limit = limit
-
+        
         self.parse_comic()
 
         if self.full is False:
