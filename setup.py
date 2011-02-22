@@ -3,7 +3,6 @@
 
 from setuptools import setup
 import sys
-import sqlite3
 from dlcomix import settings
 
 requires = []
