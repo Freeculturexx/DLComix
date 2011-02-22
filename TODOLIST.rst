@@ -1,11 +1,11 @@
 DLComix Core
 ============
 - Make a --quiet option
+- Rename archives name like 009.5.tar.gz in 009-5.tar.gz
 - Use urllib instead of wget
 - Make a DLComix version verification and purpose to upgrade it
 - Change use of tar with native python instructions
 - Make a GUI
-- Support more & more & more................... Comics !!!
 - use tempfile instead of record file in /tmp
 - Sort Mangas in categories
 - Find first comic and not put it in hard
