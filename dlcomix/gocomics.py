@@ -2,7 +2,6 @@
 # *-* coding: utf-8 *-*
 
 import os
-import threading
 from PIL import Image
 import re
 import time

@@ -18,7 +18,7 @@ class Sqlite(object):
         self.connect()
         self.c.execute('''create table if not exists dl_rule(comic text, data text)''')
         self.c.execute('''create table if not exists mangas(name text, url text)''')
-        self.c.execute('''create table if not exists comics(id text, name text, url text)''')
+        self.c.execute('''create table if not exists comics(name text, url text)''')
         self.c.close()
         print "Tables créées avec succès"
         self.initialise_manga()
