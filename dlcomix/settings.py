@@ -7,7 +7,7 @@ _DEFAULT_CONFIG = {'PATH' : os.path.expanduser ('~')+'/.dlcomix',
                    'ARCHIVE' : False,
                    'FULL' : False,
                    'USE_COMIX' : False,
-                   'LIMIT': ''
+                   'LIMIT': 10
                   }
 
 def read_settings(filename):

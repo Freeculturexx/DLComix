@@ -11,8 +11,12 @@ DLComix Core
 - Find first comic and not put it in hard
 - Récupérer les résumés des comics et mangas ainsi que les vignettes.
 - Récupérer les catégories des comics et mangas.
-- For full manga download, download all chapter directory in one shot. 
 - Make a you are lucky, randomiser option
+- Separate initialate script from sqlite class
+- Make an archive class
+- Put control_path() in another file
+- Make a multi threading use
+- let user choose archive format
 
 Websites to integer
 ===================
