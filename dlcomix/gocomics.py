@@ -15,6 +15,7 @@ class Gocomics(object):
         self.full = full
         self.useComix = useComix
         self.url = url
+        self.comic_url = self.url.replace('http://www.gocomics.com/', '')
 
         self.parse_comic()
 
@@ -55,13 +56,13 @@ class Gocomics(object):
         os.system("wget -nv -O /tmp/"+self.comic+" "+self.url)
         f = open("/tmp/"+self.comic, "rb")
         source = f.read()
-        self.last = re.findall("<h1 class='too_big'><a href="+'"/'+self.comic+
+        self.last = re.findall("<h1 class='too_big'><a href="+'"/'+self.comic_url+
                                "/(.*?)/"+'">'"", source)
         if not self.last:
-            self.last = re.findall('<h1 ><a href="/'+self.comic+'/(.*?)/">', source)
-        self.first = re.findall('<li><a href="/'+self.comic+'/(.*?)/" class="beginning">', source)
+            self.last = re.findall('<h1 ><a href="/'+self.comic_url+'/(.*?)/">', source)
+        self.first = re.findall('<li><a href="/'+self.comic_url+'/(.*?)/" class="beginning">', source)
         self.lastItem = re.findall('<link rel="image_src" href="(.*?)" />', source)
-        self.nextItem = re.findall('<li><a href="/'+self.comic+'/(.*?)/" class="next">',source)
+        self.nextItem = re.findall('<li><a href="/'+self.comic_url+'/(.*?)/" class="next">',source)
 
 
     def single_dl(self):

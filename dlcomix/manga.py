@@ -16,8 +16,6 @@ class Manga(object):
         self.url = url
         self.limit = limit
 
-        print self.manga,  self.path,  self.archive,  self.full,  self.useComix,  self.url,  self.limit
-
         if self.limit == "":
             self.limit = 10
         else:

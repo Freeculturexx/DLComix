@@ -10,7 +10,7 @@ from sqlite import Sqlite
 from gocomics import Gocomics
 from manga import Manga
 import os, re, sys, sqlite3
-sys.path.append("../Gui")
+
 from dlcomix_ui import Ui_DLComix
 
 """
@@ -24,8 +24,8 @@ class DLComix(QMainWindow, Ui_DLComix):
 
 
         self.sqlite = Sqlite()
-        self.check_preferences()
         self.setupUi(self)
+        self.init_options()
         self.statusbar.showMessage(self.trUtf8("Prêt"))
 
         self.connect(self.pushButton, SIGNAL("clicked()"),
@@ -42,6 +42,14 @@ class DLComix(QMainWindow, Ui_DLComix):
         self.connect(self.pushButton_3, SIGNAL("clicked()"), self.telecharger)
 
     """Appel SLOT"""
+    def init_options(self):
+        self.check_preferences()
+        if self.full == "True":
+            self.checkBox.setChecked(True)
+        if self.archive == "True":
+            self.checkBox_2.setChecked(True)
+        if self.optimise == "True":
+            self.checkBox_3.setChecked(True)
 
     def update_database(self):
         self.initialise_comic()
@@ -64,17 +72,31 @@ class DLComix(QMainWindow, Ui_DLComix):
                               self.optimise, row[1])
 
     def telecharger_prefs(self):
+        i = 0
+        self.limit = self.spinBox.value()
         self.sqlite.connect()
         self.sqlite.c.execute('''select * from preferences''')
         row = self.sqlite.c.fetchall()
-        print row
-        self.sqlite.c.execute('''select * from glob_prefs''')
-        row = self.sqlite.c.fetchall()
-        print row
+        lenght = len(row) -1
+        while i <= lenght:
+            if row[i][0] == "mangas":
+                self.sqlite.c.execute("select * from mangas where name='%s'" %
+                                      row[i][1])
+                row_2 = self.sqlite.c.fetchall()
+                manga = Manga(row_2[0][0],  self.path,  self.archive,  self.full,
+                              self.optimise, row_2[0][1],  self.limit )
+            if row[i][0] == "comics":
+                self.sqlite.c.execute("select * from comics where name='%s'" %
+                                      row[i][1])
+                row_2 = self.sqlite.c.fetchall()
+                comic = Gocomics(row_2[0][0],  self.path,  self.archive,  self.full,
+                                 self.optimise,  row_2[0][1])
+            i += 1
 
     def combo_comic(self):
         i= 0
         self.spinBox.setEnabled(False)
+        self.checkBox_3.setEnabled(False)
         self.label.setEnabled(False)
         self.comboBox.clear()
         self.sqlite.connect()
@@ -89,6 +111,7 @@ class DLComix(QMainWindow, Ui_DLComix):
     def combo_manga(self):
         i = 0
         self.spinBox.setEnabled(True)
+        self.checkBox_3.setEnabled(True)
         self.label.setEnabled(True)
         self.comboBox.clear()
         self.sqlite.connect()
