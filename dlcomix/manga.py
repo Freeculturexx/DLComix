@@ -1,8 +1,7 @@
 #!/usr/bin/python
 # *-* coding: utf-8 *-*
 
-import os
-import re
+import os,  re
 import ConfigParser
 from sqlite import Sqlite
 

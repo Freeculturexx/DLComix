@@ -1,17 +1,14 @@
 #!/usr/bin/python
 # *-* coding: utf-8 *-*
 
-import os
-import re
+import os,  re
 import sqlite3
-import settings
-import unicodedata
 
 class Sqlite(object):
 
     def __init__(self, path=None):
         self.sqliteFile = os.path.expanduser ('~')+'/.dlcomix/dlcomix.sqlite'
-        
+
 
     def initialise_sqlite(self):
         print "Initialisation de la base de données"
@@ -34,10 +31,10 @@ class Sqlite(object):
         print "Tables créées avec succès"
 
 
-    
+
 
     def connect(self):
         self.conn = sqlite3.connect(self.sqliteFile)
-	self.conn.row_factory = sqlite3.Row
+        self.conn.row_factory = sqlite3.Row
         self.c = self.conn.cursor()
 

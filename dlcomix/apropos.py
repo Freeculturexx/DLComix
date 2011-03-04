@@ -9,6 +9,8 @@
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
+import sys
+sys.path.append("../Gui")
 from apropos_ui import Ui_Form
 
 class Apropos(QWidget, Ui_Form):

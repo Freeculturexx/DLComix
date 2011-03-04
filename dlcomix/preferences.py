@@ -9,9 +9,10 @@
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-from preferences_ui import Ui_Form
 from sqlite import Sqlite
-import sqlite3
+import sqlite3,  sys
+sys.path.append("../Gui")
+from preferences_ui import Ui_Form
 
 class Preferences(QWidget, Ui_Form):
 
