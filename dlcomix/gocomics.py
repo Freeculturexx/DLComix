@@ -1,23 +1,21 @@
 #!/usr/bin/python
 # *-* coding: utf-8 *-*
 
-import os
+import os,  re,  time
 from PIL import Image
-import re
-import time
 from sqlite import Sqlite
 
 class Gocomics(object):
 
-    def __init__(self, comic=None, path=None, archive=None, full=None, useComix=None, 
+    def __init__(self, comic=None, path=None, archive=None, full=None, useComix=None,
                  url=None):
-        self.comic = comic
+        self.comic = comic.replace(' ',  '_')
         self.path = path
         self.archive = archive
         self.full = full
         self.useComix = useComix
         self.url = url
-        
+
         self.parse_comic()
 
         if self.full is False:
@@ -33,7 +31,7 @@ class Gocomics(object):
 
     def init_dl_rule(self):
         self.sqlite.connect()
-        self.sqlite.c.execute("select * from dl_rule where comic='%s'" 
+        self.sqlite.c.execute("select * from dl_rule where comic='%s'"
                               % self.comic)
         row = self.sqlite.c.fetchall()
         if not row:
@@ -86,7 +84,7 @@ class Gocomics(object):
             image = self.path+"/download/"+self.comic+"/"+year+"/"+self.comic+"_"+lastI+".gif"
             os.system("wget  -nv -c -t 5 -O "+image+" "+self.lastItem[0])
             self.crop_image(image)
-            self.sqlite.c.execute("update dl_rule set data=(?) where comic=(?)", 
+            self.sqlite.c.execute("update dl_rule set data=(?) where comic=(?)",
                                   (self.last[0], self.comic))
             self.sqlite.conn.commit()
             if self.nextItem:
@@ -119,7 +117,7 @@ class Gocomics(object):
                       +str(firstY)+".tar.gz")
             firstY = int(firstY) + 1
             firstY = str(firstY)
-    
+
     def unpack_archive(self, start):
         start = int(start[:4])
         thisYear = int(time.strftime('%Y', time.localtime()))
@@ -127,12 +125,11 @@ class Gocomics(object):
             if os.path.exists(self.path+"/download/"+self.comic+"/"+self.comic+"_"
                           +str(start)+".tar.gz"):
                 try:
-                    print "ok boss"
                     os.system("tar -xvzf"+self.path+"/download/"+self.comic+"/"+self.comic+"_"
                       +str(start)+".tar.gz "+self.path+"/download/"+self.comic)
                 except OSError, e:
                     print e.errno, e.strerror, e.filename
             start +=1
-                      
 
-        
+
+

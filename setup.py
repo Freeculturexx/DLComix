@@ -3,7 +3,6 @@
 
 from setuptools import setup
 import sys
-from dlcomix import settings
 
 requires = []
 if sys.version_info < (2,7):
@@ -11,7 +10,7 @@ if sys.version_info < (2,7):
 
 setup(
      name = "dlcomix",
-     version = '0.2.1',
+     version = '0.3',
      url = 'http://freeculture.homelinux.com/pages/documentation-de-dlcomix.html',
      author = "Guillaume LAME",
      description = "A small application to download comix on the web",
@@ -28,4 +27,3 @@ setup(
         'Topic :: Software Development :: Libraries :: Python Modules',
         ],
      )
-

@@ -9,13 +9,15 @@ from sqlite import Sqlite
 class Manga(object):
 
     def __init__(self, manga=None, path=None, archive=None, full=None, useComix=None, url=None, limit=None):
-        self.manga = manga
+        self.manga = manga.replace(' ', '_')
         self.path = path
         self.archive = archive
         self.full = full
         self.useComix = useComix
         self.url = url
         self.limit = limit
+
+        print self.manga,  self.path,  self.archive,  self.full,  self.useComix,  self.url,  self.limit
 
         if self.limit == "":
             self.limit = 10
@@ -29,7 +31,7 @@ class Manga(object):
             self.control_path(self.path+"/archives/"+self.manga)
         self.parseManga = self.parse_manga()
         if not self.parseManga[1]:
-            print "Le manga ne contient aucun chapitre" 
+            print "Le manga ne contient aucun chapitre"
             print "Téléchargement arrêté"
         else:
             self.sqlite = Sqlite()
@@ -45,7 +47,7 @@ class Manga(object):
         self.sqlite.connect()
         self.sqlite.c.execute("select * from dl_rule where comic='%s'" % self.manga)
         row = self.sqlite.c.fetchall()
-        if not row: 
+        if not row:
             self.sqlite.c.execute("insert into dl_rule values(?,?)",(self.manga, '0'))
             self.sqlite.conn.commit()
             self.start_i = 0
@@ -69,7 +71,7 @@ class Manga(object):
             self.pathDl = self.path+"/download/"+self.manga+"/"+self.chapter
             self.control_path(self.pathDl)
 
-    
+
     def single_dl(self):
         """
         Téléchargement d'un simple épisode
@@ -82,8 +84,8 @@ class Manga(object):
         self.sqlite.c.close()
         if self.archive is not False:
             self.make_archive()
-        
-    
+
+
     def full_dl(self):
         """
         Téléchargement de tout les épisodes
@@ -91,14 +93,14 @@ class Manga(object):
         while self.start_i <= self.parseManga[0] - 1:
             self.single_dl()
             self.prepare_download()
-        
+
     def control_path(self, path):
         if not os.path.exists(path):
             try:
                 os.makedirs(path, mode=0755)
             except OSError, e:
                 print e.errno, e.strerror, e.filename
-        
+
     def download(self):
         if self.start_i >= self.parseManga[0]:
             pass
@@ -132,7 +134,7 @@ class Manga(object):
         htmlSource = tmpFile.read()
         tmpLink = re.findall('<li><a href="(.*?)">', htmlSource)
         n = len(tmpLink)-1
-        while i <= n: 
+        while i <= n:
             if tmpLink[i].startswith('Chapter-'):
                 tmpLink[i] = tmpLink[i].replace('Chapter-','')
                 tmpLink[i] = tmpLink[i].replace('/','')
@@ -145,7 +147,7 @@ class Manga(object):
                 else:
                     tmpLink.remove(tmpLink[i])
                     n -= 1
-                
+
             else:
                 n -= 1
                 tmpLink.remove(tmpLink[i])
@@ -163,11 +165,11 @@ class Manga(object):
         if float(self.start) < 10:
             y = y[1:x]
         self.chapter = "Chapter-"+str(y)
-        if self.useComix is True:
+        if self.useComix == "True":
             self.archive_chapter = "Chapter-"+self.start
         else:
             self.archive_chapter = "Chapter-"+str(y)
-    
+
     def make_archive(self):
         os.system("cd "+self.path+"/download/"+self.manga+" && tar -cvzf "+self.archive_chapter+".tar.gz "
                   +self.chapter+"/ && rm -rf "+self.chapter+"/")
