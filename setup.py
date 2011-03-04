@@ -15,7 +15,7 @@ setup(
      author = "Guillaume LAME",
      description = "A small application to download comix on the web",
      include_package_data = True,
-     packages = ['dlcomix, Gui'],
+     packages = ['dlcomix', 'Gui'],
      install_requires = requires,
      scripts = ['bin/dlcomix'],
      classifiers = ['Development Status :: 1 - Pre-Alpha',
