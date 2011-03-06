@@ -7,10 +7,12 @@ ICO_DIR="/usr/share/icons/hicolor"
 VERSION=`cat control-install | grep "Version" | cut -d:  -f2`
 
 rm -rvf dlcomix/
-cp -rvf ~/github/local/DLComix .
-mv DLComix/ dlcomix
+cp -rvf ../ ./dlcomix/
+cp -rv ../dlcomix/ ./dlcomix/
+cp -rv ../bin ./dlcomix
 mkdir -p dlcomix/DEBIAN
-rm -rvf dlcomix/{build,dist,dlcomix.egg-info,.git,DLComix}
+rm -rf dlcomix/{build,dist,dlcomix.egg-info,.git,MakeDeb}
+rm dlcomix/dlcomix/*.pyc
 rm dlcomix/.gitignore
 cp -v postinst dlcomix/DEBIAN/
 cp -v postrm dlcomix/DEBIAN
@@ -36,6 +38,6 @@ mkdir -p "dlcomix"$LOC_DIR
 dpkg-deb --build dlcomix dlcomix-$VERSION.deb
 cd dlcomix
 echo "Installed-Size :"
-du -sx --exclude DEBIAN 
+du -sx --exclude DEBIAN usr/share/dlcomix
 cd ..
-rm -rv dlcomix
+

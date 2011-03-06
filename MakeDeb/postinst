@@ -5,5 +5,5 @@ if [ -d /usr/local/lib/python2.6/dist-packages/dlcomix-0.3-py2.6.egg ]; then
 fi
 
 cd /usr/share/dlcomix && python setup.py install
-
+rm -rf /usr/share/dlcomix
 

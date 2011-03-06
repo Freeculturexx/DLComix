@@ -11,7 +11,6 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from sqlite import Sqlite
 import sqlite3,  sys
-sys.path.append("../Gui")
 from preferences_ui import Ui_Dialog
 
 class Preferences(QDialog, Ui_Dialog):
