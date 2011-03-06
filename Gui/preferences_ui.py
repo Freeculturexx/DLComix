@@ -2,22 +2,22 @@
 
 # Form implementation generated from reading ui file 'preferences_ui.ui'
 #
-# Created: Fri Mar  4 11:22:06 2011
+# Created: Sat Mar  5 12:36:12 2011
 #      by: PyQt4 UI code generator 4.7.3
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt4 import QtCore, QtGui
 
-class Ui_Form(object):
-    def setupUi(self, Form):
-        Form.setObjectName("Form")
-        Form.setWindowModality(QtCore.Qt.ApplicationModal)
-        Form.setEnabled(True)
-        Form.resize(676, 287)
-        self.tabWidget = QtGui.QTabWidget(Form)
+class Ui_Dialog(object):
+    def setupUi(self, Dialog):
+        Dialog.setObjectName("Dialog")
+        Dialog.setWindowModality(QtCore.Qt.NonModal)
+        Dialog.resize(700, 300)
+        Dialog.setModal(False)
+        self.tabWidget = QtGui.QTabWidget(Dialog)
         self.tabWidget.setEnabled(True)
-        self.tabWidget.setGeometry(QtCore.QRect(350, 10, 311, 221))
+        self.tabWidget.setGeometry(QtCore.QRect(360, 10, 311, 221))
         self.tabWidget.setObjectName("tabWidget")
         self.tab = QtGui.QWidget()
         self.tab.setObjectName("tab")
@@ -56,8 +56,8 @@ class Ui_Form(object):
         self.pushButton_4.setGeometry(QtCore.QRect(110, 130, 101, 27))
         self.pushButton_4.setObjectName("pushButton_4")
         self.tabWidget.addTab(self.tab_2, "")
-        self.groupBox = QtGui.QGroupBox(Form)
-        self.groupBox.setGeometry(QtCore.QRect(10, 10, 311, 251))
+        self.groupBox = QtGui.QGroupBox(Dialog)
+        self.groupBox.setGeometry(QtCore.QRect(20, 10, 311, 251))
         self.groupBox.setObjectName("groupBox")
         self.pushButton_5 = QtGui.QPushButton(self.groupBox)
         self.pushButton_5.setGeometry(QtCore.QRect(70, 220, 92, 27))
@@ -75,29 +75,29 @@ class Ui_Form(object):
         self.pushButton = QtGui.QPushButton(self.groupBox)
         self.pushButton.setGeometry(QtCore.QRect(0, 130, 291, 31))
         self.pushButton.setObjectName("pushButton")
-        self.pushButton_2 = QtGui.QPushButton(Form)
-        self.pushButton_2.setGeometry(QtCore.QRect(570, 250, 92, 27))
+        self.pushButton_2 = QtGui.QPushButton(Dialog)
+        self.pushButton_2.setGeometry(QtCore.QRect(580, 260, 92, 27))
         self.pushButton_2.setObjectName("pushButton_2")
 
-        self.retranslateUi(Form)
+        self.retranslateUi(Dialog)
         self.tabWidget.setCurrentIndex(0)
-        QtCore.QMetaObject.connectSlotsByName(Form)
+        QtCore.QMetaObject.connectSlotsByName(Dialog)
 
-    def retranslateUi(self, Form):
-        Form.setWindowTitle(QtGui.QApplication.translate("Form", "Préférences", None, QtGui.QApplication.UnicodeUTF8))
-        self.radioButton.setText(QtGui.QApplication.translate("Form", "Comic", None, QtGui.QApplication.UnicodeUTF8))
-        self.radioButton_2.setText(QtGui.QApplication.translate("Form", "Manga", None, QtGui.QApplication.UnicodeUTF8))
-        self.pushButton_3.setText(QtGui.QApplication.translate("Form", "Ajouter", None, QtGui.QApplication.UnicodeUTF8))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QtGui.QApplication.translate("Form", "Ajouter", None, QtGui.QApplication.UnicodeUTF8))
-        self.radioButton_3.setText(QtGui.QApplication.translate("Form", "Comic", None, QtGui.QApplication.UnicodeUTF8))
-        self.radioButton_4.setText(QtGui.QApplication.translate("Form", "Manga", None, QtGui.QApplication.UnicodeUTF8))
-        self.pushButton_4.setText(QtGui.QApplication.translate("Form", "Supprimer", None, QtGui.QApplication.UnicodeUTF8))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QtGui.QApplication.translate("Form", "Supprimer", None, QtGui.QApplication.UnicodeUTF8))
-        self.groupBox.setTitle(QtGui.QApplication.translate("Form", "Paramètres globaux", None, QtGui.QApplication.UnicodeUTF8))
-        self.pushButton_5.setText(QtGui.QApplication.translate("Form", "Mettre à jour", None, QtGui.QApplication.UnicodeUTF8))
-        self.checkBox.setText(QtGui.QApplication.translate("Form", "Téléchargement intégral", None, QtGui.QApplication.UnicodeUTF8))
-        self.checkBox_2.setText(QtGui.QApplication.translate("Form", "Créer des archives", None, QtGui.QApplication.UnicodeUTF8))
-        self.checkBox_3.setText(QtGui.QApplication.translate("Form", "Optimiser le nom des archives", None, QtGui.QApplication.UnicodeUTF8))
-        self.pushButton.setText(QtGui.QApplication.translate("Form", "Choisir le répertoire de téléchargement", None, QtGui.QApplication.UnicodeUTF8))
-        self.pushButton_2.setText(QtGui.QApplication.translate("Form", "Ok", None, QtGui.QApplication.UnicodeUTF8))
+    def retranslateUi(self, Dialog):
+        Dialog.setWindowTitle(QtGui.QApplication.translate("Dialog", "Préférences", None, QtGui.QApplication.UnicodeUTF8))
+        self.radioButton.setText(QtGui.QApplication.translate("Dialog", "Comic", None, QtGui.QApplication.UnicodeUTF8))
+        self.radioButton_2.setText(QtGui.QApplication.translate("Dialog", "Manga", None, QtGui.QApplication.UnicodeUTF8))
+        self.pushButton_3.setText(QtGui.QApplication.translate("Dialog", "Ajouter", None, QtGui.QApplication.UnicodeUTF8))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QtGui.QApplication.translate("Dialog", "Ajouter", None, QtGui.QApplication.UnicodeUTF8))
+        self.radioButton_3.setText(QtGui.QApplication.translate("Dialog", "Comic", None, QtGui.QApplication.UnicodeUTF8))
+        self.radioButton_4.setText(QtGui.QApplication.translate("Dialog", "Manga", None, QtGui.QApplication.UnicodeUTF8))
+        self.pushButton_4.setText(QtGui.QApplication.translate("Dialog", "Supprimer", None, QtGui.QApplication.UnicodeUTF8))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QtGui.QApplication.translate("Dialog", "Supprimer", None, QtGui.QApplication.UnicodeUTF8))
+        self.groupBox.setTitle(QtGui.QApplication.translate("Dialog", "Paramètres globaux", None, QtGui.QApplication.UnicodeUTF8))
+        self.pushButton_5.setText(QtGui.QApplication.translate("Dialog", "Mettre à jour", None, QtGui.QApplication.UnicodeUTF8))
+        self.checkBox.setText(QtGui.QApplication.translate("Dialog", "Téléchargement intégral", None, QtGui.QApplication.UnicodeUTF8))
+        self.checkBox_2.setText(QtGui.QApplication.translate("Dialog", "Créer des archives", None, QtGui.QApplication.UnicodeUTF8))
+        self.checkBox_3.setText(QtGui.QApplication.translate("Dialog", "Optimiser le nom des archives", None, QtGui.QApplication.UnicodeUTF8))
+        self.pushButton.setText(QtGui.QApplication.translate("Dialog", "Choisir le répertoire de téléchargement", None, QtGui.QApplication.UnicodeUTF8))
+        self.pushButton_2.setText(QtGui.QApplication.translate("Dialog", "Ok", None, QtGui.QApplication.UnicodeUTF8))
 

@@ -12,13 +12,13 @@ from PyQt4.QtGui import *
 from sqlite import Sqlite
 import sqlite3,  sys
 sys.path.append("../Gui")
-from preferences_ui import Ui_Form
+from preferences_ui import Ui_Dialog
 
-class Preferences(QWidget, Ui_Form):
+class Preferences(QDialog, Ui_Dialog):
 
     def __init__(self):
-        QWidget.__init__(self)
-        Ui_Form.__init__(self)
+        QDialog.__init__(self)
+        Ui_Dialog.__init__(self)
         Dialog_Preferences = QDialog()
         self.setupUi(Dialog_Preferences)
 
@@ -38,14 +38,9 @@ class Preferences(QWidget, Ui_Form):
                      self.supprimer_sqlite)
         self.connect(self.pushButton_5, SIGNAL("clicked()"), self.update_prefs)
         self.connect(self.pushButton, SIGNAL("clicked()"), self.choix_path)
-        self.connect(self.pushButton_2,  SIGNAL("clicked()"), self.closes)
+        self.connect(self.pushButton_2,  SIGNAL("clicked()"), Dialog_Preferences.accept)
 
         Dialog_Preferences.exec_()
-        """recupérer les valeurs par défaut de configuration"""
-
-    def closes(self):
-        print "Ok"
-        ~QWidget()
 
     def initialise(self):
         self.sqlite.connect()
@@ -213,7 +208,6 @@ class Preferences(QWidget, Ui_Form):
                                         QString(),
                                         path,
                                         QFileDialog.Options(QFileDialog.ShowDirsOnly))
-        print choix_path
         if row:
             self.sqlite.c.execute('''update glob_prefs set value="%s" \
                               where param="path"''' % choix_path)

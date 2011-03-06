@@ -57,6 +57,7 @@ class DLComix(QMainWindow, Ui_DLComix):
         self.sqlite.c.close()
 
     def telecharger(self):
+        self.check_preferences()
         self.limit = self.spinBox.value()
         if self.radioButton_2.isChecked():
             self.sqlite.c.execute("select * from mangas where name='%s'" %
@@ -73,6 +74,7 @@ class DLComix(QMainWindow, Ui_DLComix):
 
     def telecharger_prefs(self):
         i = 0
+        self.check_preferences()
         self.limit = self.spinBox.value()
         self.sqlite.connect()
         self.sqlite.c.execute('''select * from preferences''')

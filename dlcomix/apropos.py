@@ -10,7 +10,7 @@
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 import os, sys
-sys.path.append(os.path.join("Gui"))
+sys.path.append("/usr/share/dlcomix/Gui")
 from apropos_ui import Ui_Form
 
 class Apropos(QWidget, Ui_Form):
