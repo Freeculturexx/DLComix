@@ -1,0 +1,10 @@
+Package: dlcomix
+Version:0.3
+Section: utils
+Priority: optional
+Architecture:all
+Installed-Size: 364
+Depends: python-argparse, python-setuptools, python-qt4
+Maintainer: Guillaume LAMÉ (guillaume@lame.homelinux.com)
+Description: Soft to download comix and mangas
+

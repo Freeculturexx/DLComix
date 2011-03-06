@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [ -d /usr/local/lib/python2.6/dist-packages/dlcomix-0.3-py2.6.egg ]; then
+	rm -rf /usr/local/lib/python2.6/dist-packages/dlcomix-0.3-py2.6.egg
+fi
+
+cd /usr/share/dlcomix && python setup.py install
+
+
