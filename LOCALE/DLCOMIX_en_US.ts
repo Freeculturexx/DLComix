@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="1.1" language="en">
+<!DOCTYPE TS>
+<TS version="2.0" language="en" sourcelanguage="fr">
 <context>
     <name>DLComix</name>
     <message>
@@ -7,12 +8,12 @@
         <source>DLComix</source>
         <translation type="unfinished">DLComix</translation>
     </message>
-    <message encoding="UTF-8">
+    <message utf8="true">
         <location filename="../Gui/dlcomix_ui.ui" line="27"/>
         <source>Mettre à jour la base de données</source>
-        <translation type="unfinished">Update database</translation>
+        <translation type="unfinished">Update the database</translation>
     </message>
-    <message encoding="UTF-8">
+    <message utf8="true">
         <location filename="../Gui/dlcomix_ui.ui" line="40"/>
         <source>Télécharger selon les préférences</source>
         <translation type="unfinished">Download to your preference</translation>
@@ -20,7 +21,7 @@
     <message>
         <location filename="../Gui/dlcomix_ui.ui" line="53"/>
         <source>Choix du manga ou comic</source>
-        <translation type="unfinished">Choose manga or comic</translation>
+        <translation type="unfinished">Choice of manga or comic</translation>
     </message>
     <message>
         <location filename="../Gui/dlcomix_ui.ui" line="105"/>
@@ -32,12 +33,12 @@
         <source>Manga</source>
         <translation type="unfinished">Manga</translation>
     </message>
-    <message encoding="UTF-8">
+    <message utf8="true">
         <location filename="../Gui/dlcomix_ui.ui" line="131"/>
         <source>Téléchargement intégral</source>
         <translation type="unfinished">Full Download</translation>
     </message>
-    <message encoding="UTF-8">
+    <message utf8="true">
         <location filename="../Gui/dlcomix_ui.ui" line="144"/>
         <source>Créer des archives</source>
         <translation type="unfinished">Create archives</translation>
@@ -52,7 +53,7 @@
         <source>Limite de transfert</source>
         <translation type="unfinished">Transfert limit</translation>
     </message>
-    <message encoding="UTF-8">
+    <message utf8="true">
         <location filename="../Gui/dlcomix_ui.ui" line="216"/>
         <source>Télécharger</source>
         <translation type="unfinished">Download</translation>
@@ -77,7 +78,7 @@
         <source>Quitter</source>
         <translation type="unfinished">Quit</translation>
     </message>
-    <message encoding="UTF-8">
+    <message utf8="true">
         <location filename="../Gui/dlcomix_ui.ui" line="260"/>
         <source>Préférences</source>
         <translation type="unfinished">Preferences</translation>
@@ -87,7 +88,7 @@
         <source>A Propos</source>
         <translation type="unfinished">About</translation>
     </message>
-    <message encoding="UTF-8">
+    <message utf8="true">
         <location filename="../dlcomix/dlcomix.py" line="29"/>
         <source>Prêt</source>
         <translation type="unfinished">Ready</translation>
@@ -97,24 +98,21 @@
         <source>Information</source>
         <translation type="unfinished">Information</translation>
     </message>
-    <message encoding="UTF-8">
+    <message utf8="true">
         <location filename="../dlcomix/dlcomix.py" line="145"/>
         <source>DLComix effectue une mise a jour necessaire de la base 
                 de données avant de démarrer.
 
 Cela peut prendre un peu de temps</source>
-        <translation type="unfinished">DLComix makes a necessary database update
-before starting
-
-This can take little time</translation>
+        <translation type="unfinished">DLComix make a necessary database update before starting</translation>
     </message>
 </context>
 <context>
     <name>Dialog</name>
-    <message encoding="UTF-8">
+    <message utf8="true">
         <location filename="../Gui/preferences_ui.ui" line="17"/>
         <source>Préférences</source>
-        <translation type="unfinished">Préférences</translation>
+        <translation type="unfinished">Preferences</translation>
     </message>
     <message>
         <location filename="../Gui/preferences_ui.ui" line="93"/>
@@ -136,22 +134,22 @@ This can take little time</translation>
         <source>Supprimer</source>
         <translation type="unfinished">Delete</translation>
     </message>
-    <message encoding="UTF-8">
+    <message utf8="true">
         <location filename="../Gui/preferences_ui.ui" line="168"/>
         <source>Paramètres globaux</source>
         <translation type="unfinished">Global settings</translation>
     </message>
-    <message encoding="UTF-8">
+    <message utf8="true">
         <location filename="../Gui/preferences_ui.ui" line="180"/>
         <source>Mettre à jour</source>
         <translation type="unfinished">Update</translation>
     </message>
-    <message encoding="UTF-8">
+    <message utf8="true">
         <location filename="../Gui/preferences_ui.ui" line="193"/>
         <source>Téléchargement intégral</source>
         <translation type="unfinished">Full Download</translation>
     </message>
-    <message encoding="UTF-8">
+    <message utf8="true">
         <location filename="../Gui/preferences_ui.ui" line="209"/>
         <source>Créer des archives</source>
         <translation type="unfinished">Create archives</translation>
@@ -161,7 +159,7 @@ This can take little time</translation>
         <source>Optimiser le nom des archives</source>
         <translation type="unfinished">Optimize archive name</translation>
     </message>
-    <message encoding="UTF-8">
+    <message utf8="true">
         <location filename="../Gui/preferences_ui.ui" line="235"/>
         <source>Choisir le répertoire de téléchargement</source>
         <translation type="unfinished">Choose download folder</translation>
