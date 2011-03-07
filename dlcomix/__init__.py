@@ -12,9 +12,11 @@ def main(args):
     if  qtTranslator.load("qt_"+locale):
         a.installTranslator(qtTranslator)
     appTranslator = QTranslator()
-    if appTranslator.load("LOCALE/DLComix_"+locale):
+    if appTranslator.load("LOCALE/DLCOMIX_"+locale+".qm"):
         a.installTranslator(appTranslator)
-
+    else:
+        appTranslator.load("LOCALE/DLCOMIX_en_US")
+        a.installTranslator(appTranslator)
     fenetre = dlcomix.DLComix()
     fenetre.show()
     r=a.exec_()
