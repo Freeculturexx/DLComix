@@ -1,7 +1,0 @@
-#!/bin/bash
-
-find /usr/local/lib/python* -name "dlcomix*" | xargs rm -rf
-
-if [ -e /usr/local/bin/dlcomix ]; then 
-    rm /usr/local/bin/dlcomix
-fi
