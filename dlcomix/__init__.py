@@ -10,10 +10,10 @@ def main(args):
     locale = QLocale.system().name()
     qtTranslator = QTranslator()
     if  qtTranslator.load("qt_"+locale):
-        app.installTranslator(qtTranslator)
+        a.installTranslator(qtTranslator)
     appTranslator = QTranslator()
     if appTranslator.load("LOCALE/DLComix_"+locale):
-        app.installTranslator(appTranslator)
+        a.installTranslator(appTranslator)
 
     fenetre = dlcomix.DLComix()
     fenetre.show()
