@@ -19,14 +19,14 @@ class Gocomics(object):
 
         self.parse_comic()
 
-        if self.full is False:
+        if self.full == "False":
             self.single_dl()
         else:
             self.sqlite = Sqlite()
             self.init_dl_rule()
             self.full_dl()
 
-        if self.archive is not False:
+        if self.archive == "True":
             self.control_path(self.path+"/archives/"+self.comic)
             self.create_archive()
 
