@@ -57,7 +57,18 @@ class DLComix(QMainWindow, Ui_DLComix):
         self.sqlite.c.close()
 
     def telecharger(self):
-        self.check_preferences()
+        if self.checkBox.isChecked():
+            self.full = "True"
+        else:
+            self.full = "False"
+        if self.checkBox_2.isChecked():
+            self.archive = "True"
+        else:
+            self.archive = "False"
+        if self.checkBox_3.isChecked():
+            self.optimise = "True"
+        else:
+            self.optimise = "False"
         self.limit = self.spinBox.value()
         if self.radioButton_2.isChecked():
             self.sqlite.c.execute("select * from mangas where name='%s'" %

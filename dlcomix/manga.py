@@ -24,7 +24,7 @@ class Manga(object):
             elif int(self.limit) > 10:
                 self.limit = 10
 
-        if self.archive is not False:
+        if self.archive == "True":
             self.control_path(self.path+"/archives/"+self.manga)
         self.parseManga = self.parse_manga()
         if not self.parseManga[1]:
@@ -33,7 +33,7 @@ class Manga(object):
         else:
             self.sqlite = Sqlite()
 
-            if self.full is False:
+            if self.full == "False":
                 self.prepare_download()
                 self.single_dl()
             else:
@@ -62,6 +62,7 @@ class Manga(object):
 
     def prepare_download(self):
         test_dl = self.init_dl_rule()
+        print test_dl
         if test_dl is not False :
             self.normalize_chapter()
             self.urlDl = self.url+self.chapter+"/"
@@ -79,7 +80,7 @@ class Manga(object):
         self.sqlite.c.execute("update dl_rule set data=(?) where comic=(?)", (self.start_i, self.manga))
         self.sqlite.conn.commit()
         self.sqlite.c.close()
-        if self.archive is not False:
+        if self.archive == "True":
             self.make_archive()
 
 
