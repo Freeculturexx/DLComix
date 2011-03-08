@@ -167,6 +167,7 @@ class Manga(object):
             self.archive_chapter = "Chapter-"+self.start
         else:
             self.archive_chapter = "Chapter-"+str(y)
+        self.archive_chapter = self.archive_chapter.replace('.','-')
 
     def make_archive(self):
         os.system("cd "+self.path+"/download/"+self.manga+" && tar -cvzf "+self.archive_chapter+".tar.gz "
