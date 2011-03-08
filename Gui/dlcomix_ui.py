@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'dlcomix_ui.ui'
 #
-# Created: Tue Mar  8 15:10:03 2011
+# Created: Tue Mar  8 16:21:15 2011
 #      by: PyQt4 UI code generator 4.7.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,7 +12,7 @@ from PyQt4 import QtCore, QtGui
 class Ui_DLComix(object):
     def setupUi(self, DLComix):
         DLComix.setObjectName("DLComix")
-        DLComix.resize(940, 468)
+        DLComix.resize(824, 468)
         self.centralwidget = QtGui.QWidget(DLComix)
         self.centralwidget.setObjectName("centralwidget")
         self.pushButton = QtGui.QPushButton(self.centralwidget)
@@ -22,7 +22,7 @@ class Ui_DLComix(object):
         self.pushButton_2.setGeometry(QtCore.QRect(10, 80, 231, 27))
         self.pushButton_2.setObjectName("pushButton_2")
         self.groupBox = QtGui.QGroupBox(self.centralwidget)
-        self.groupBox.setGeometry(QtCore.QRect(330, 0, 551, 421))
+        self.groupBox.setGeometry(QtCore.QRect(330, 0, 501, 421))
         self.groupBox.setAcceptDrops(False)
         self.groupBox.setAutoFillBackground(False)
         self.groupBox.setFlat(False)
@@ -88,7 +88,7 @@ class Ui_DLComix(object):
         self.pushButton_4.setObjectName("pushButton_4")
         DLComix.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(DLComix)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 940, 23))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 824, 23))
         self.menubar.setObjectName("menubar")
         self.menuFichier = QtGui.QMenu(self.menubar)
         self.menuFichier.setObjectName("menuFichier")
