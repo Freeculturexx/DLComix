@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'dlcomix_ui.ui'
 #
-# Created: Thu Mar  3 18:14:17 2011
+# Created: Tue Mar  8 15:10:03 2011
 #      by: PyQt4 UI code generator 4.7.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,7 +12,7 @@ from PyQt4 import QtCore, QtGui
 class Ui_DLComix(object):
     def setupUi(self, DLComix):
         DLComix.setObjectName("DLComix")
-        DLComix.resize(800, 468)
+        DLComix.resize(940, 468)
         self.centralwidget = QtGui.QWidget(DLComix)
         self.centralwidget.setObjectName("centralwidget")
         self.pushButton = QtGui.QPushButton(self.centralwidget)
@@ -22,7 +22,10 @@ class Ui_DLComix(object):
         self.pushButton_2.setGeometry(QtCore.QRect(10, 80, 231, 27))
         self.pushButton_2.setObjectName("pushButton_2")
         self.groupBox = QtGui.QGroupBox(self.centralwidget)
-        self.groupBox.setGeometry(QtCore.QRect(330, 0, 431, 421))
+        self.groupBox.setGeometry(QtCore.QRect(330, 0, 551, 421))
+        self.groupBox.setAcceptDrops(False)
+        self.groupBox.setAutoFillBackground(False)
+        self.groupBox.setFlat(False)
         self.groupBox.setObjectName("groupBox")
         self.comboBox = QtGui.QComboBox(self.groupBox)
         self.comboBox.setGeometry(QtCore.QRect(60, 110, 301, 25))
@@ -70,9 +73,22 @@ class Ui_DLComix(object):
         self.pushButton_3 = QtGui.QPushButton(self.groupBox)
         self.pushButton_3.setGeometry(QtCore.QRect(170, 330, 88, 27))
         self.pushButton_3.setObjectName("pushButton_3")
+        self.line = QtGui.QFrame(self.groupBox)
+        self.line.setGeometry(QtCore.QRect(10, 140, 481, 20))
+        self.line.setFrameShape(QtGui.QFrame.HLine)
+        self.line.setFrameShadow(QtGui.QFrame.Sunken)
+        self.line.setObjectName("line")
+        self.line_2 = QtGui.QFrame(self.groupBox)
+        self.line_2.setGeometry(QtCore.QRect(10, 300, 481, 20))
+        self.line_2.setFrameShape(QtGui.QFrame.HLine)
+        self.line_2.setFrameShadow(QtGui.QFrame.Sunken)
+        self.line_2.setObjectName("line_2")
+        self.pushButton_4 = QtGui.QPushButton(self.groupBox)
+        self.pushButton_4.setGeometry(QtCore.QRect(370, 210, 101, 31))
+        self.pushButton_4.setObjectName("pushButton_4")
         DLComix.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(DLComix)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 23))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 940, 23))
         self.menubar.setObjectName("menubar")
         self.menuFichier = QtGui.QMenu(self.menubar)
         self.menuFichier.setObjectName("menuFichier")
@@ -112,6 +128,7 @@ class Ui_DLComix(object):
         self.checkBox_3.setText(QtGui.QApplication.translate("DLComix", "Optimiser le nom des archives", None, QtGui.QApplication.UnicodeUTF8))
         self.label.setText(QtGui.QApplication.translate("DLComix", "Limite de transfert", None, QtGui.QApplication.UnicodeUTF8))
         self.pushButton_3.setText(QtGui.QApplication.translate("DLComix", "Télécharger", None, QtGui.QApplication.UnicodeUTF8))
+        self.pushButton_4.setText(QtGui.QApplication.translate("DLComix", "Réinitaliser", None, QtGui.QApplication.UnicodeUTF8))
         self.menuFichier.setTitle(QtGui.QApplication.translate("DLComix", "Fichier", None, QtGui.QApplication.UnicodeUTF8))
         self.menuEdition.setTitle(QtGui.QApplication.translate("DLComix", "Edition", None, QtGui.QApplication.UnicodeUTF8))
         self.menuAide.setTitle(QtGui.QApplication.translate("DLComix", "Aide", None, QtGui.QApplication.UnicodeUTF8))

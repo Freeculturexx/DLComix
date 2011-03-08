@@ -40,6 +40,7 @@ class DLComix(QMainWindow, Ui_DLComix):
         self.connect(self.radioButton_2, SIGNAL("clicked()"), self.combo_manga)
         self.connect(self.pushButton_2,  SIGNAL("clicked()"),  self.telecharger_prefs)
         self.connect(self.pushButton_3, SIGNAL("clicked()"), self.telecharger)
+        self.connect(self.pushButton_4, SIGNAL("clicked()"), self.init_options)
 
     """Appel SLOT"""
     def init_options(self):
