@@ -1,11 +1,22 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'apropos.ui'
-#
-# Created: Mon Feb 28 18:18:29 2011
-#      by: PyQt4 UI code generator 4.7.3
-#
-# WARNING! All changes made in this file will be lost!
+"""
+This file is part of DLComix.
+
+    DLComix is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    DLComix is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with DLComix.  If not, see <http://www.gnu.org/licenses/>.
+
+"""
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
