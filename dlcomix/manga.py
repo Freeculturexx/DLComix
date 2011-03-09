@@ -26,6 +26,7 @@ from sqlite import Sqlite
 class Manga(object):
 
     def __init__(self, manga=None, path=None, archive=None, full=None, useComix=None, url=None, limit=None):
+        """ Init variables"""
         self.manga = manga.replace(' ', '_')
         self.path = path
         self.archive = archive
@@ -45,6 +46,8 @@ class Manga(object):
         if self.archive == "True":
             self.control_path(self.path+"/archives/"+self.manga)
         self.parseManga = self.parse_manga()
+
+        """ Look if manga folder contains Chapters"""
         if not self.parseManga[1]:
             print "Le manga ne contient aucun chapitre"
             print "Téléchargement arrêté"
@@ -59,6 +62,7 @@ class Manga(object):
                 self.full_dl()
 
     def init_dl_rule(self):
+        """ Look for last chapter downloaded in database"""
         self.sqlite.connect()
         self.sqlite.c.execute("select * from dl_rule where comic='%s'" % self.manga)
         row = self.sqlite.c.fetchall()
@@ -79,8 +83,8 @@ class Manga(object):
         self.sqlite.c.close
 
     def prepare_download(self):
+        """ define local paths for download"""
         test_dl = self.init_dl_rule()
-        print test_dl
         if test_dl is not False :
             self.normalize_chapter()
             self.urlDl = self.url+self.chapter+"/"
@@ -89,9 +93,7 @@ class Manga(object):
 
 
     def single_dl(self):
-        """
-        Téléchargement d'un simple épisode
-        """
+        """ Single chapter download"""
         self.download()
         self.start_i += 1
         self.sqlite.connect()
@@ -103,14 +105,13 @@ class Manga(object):
 
 
     def full_dl(self):
-        """
-        Téléchargement de tout les épisodes
-        """
+        """All chapter dowload """
         while self.start_i <= self.parseManga[0] - 1:
             self.single_dl()
             self.prepare_download()
 
     def control_path(self, path):
+        """ Check if download path exists"""
         if not os.path.exists(path):
             try:
                 os.makedirs(path, mode=0755)
@@ -118,6 +119,7 @@ class Manga(object):
                 print e.errno, e.strerror, e.filename
 
     def download(self):
+        """ Download Chapters"""
         if self.start_i >= self.parseManga[0]:
             pass
         else:
@@ -140,9 +142,7 @@ class Manga(object):
 
 
     def parse_manga(self):
-        """
-        Défini les extrémités des chapitres
-        """
+        """ Define number of chapters and chapter list"""
         v = (0, "", 100, 0)
         (i, album, mini, maxi) = v
         os.system("wget -nv -O /tmp/"+self.manga+" "+self.url)
@@ -173,6 +173,7 @@ class Manga(object):
         return nManga, tmpLink
 
     def normalize_chapter(self):
+        """ Change chapter name to be compatible with Comix sofware library"""
         x = len(self.start)
         if float(self.start) < 100:
             y = self.start[1:x]
@@ -188,6 +189,7 @@ class Manga(object):
         self.archive_chapter = self.archive_chapter.replace('.','-')
 
     def make_archive(self):
+        """ Create archive files"""
         os.system("cd "+self.path+"/download/"+self.manga+" && tar -cvzf "+self.archive_chapter+".tar.gz "
                   +self.chapter+"/ && rm -rf "+self.chapter+"/")
         os.system("ln -s "+self.path+"/download/"+self.manga+"/"+self.archive_chapter+".tar.gz "+self.path

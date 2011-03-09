@@ -19,6 +19,11 @@ This file is part of DLComix.
 
 """
 
+"""
+About Dialog window Class
+Show the About DLComix Window
+"""
+
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 import os, sys

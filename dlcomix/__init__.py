@@ -19,6 +19,12 @@ This file is part of DLComix.
 
 """
 
+"""
+Init of software
+Define the application and call DLComix Class
+Define locale language and use English by default
+"""
+
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 import dlcomix, sys

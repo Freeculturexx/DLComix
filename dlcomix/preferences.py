@@ -24,6 +24,9 @@ from sqlite import Sqlite
 import sqlite3,  sys
 from preferences_ui import Ui_Dialog
 
+"""
+Preferences Window of DLComix
+"""
 class Preferences(QDialog, Ui_Dialog):
 
     def __init__(self):
@@ -35,6 +38,7 @@ class Preferences(QDialog, Ui_Dialog):
         self.sqlite = Sqlite()
         self.initialise()
 
+        """ Configuration SLOT"""
         self.connect(self.radioButton, SIGNAL("clicked()"), self.ajouter_comic)
         self.connect(self.radioButton_2, SIGNAL("clicked()"),
                      self.ajouter_manga)
@@ -53,6 +57,7 @@ class Preferences(QDialog, Ui_Dialog):
         Dialog_Preferences.exec_()
 
     def initialise(self):
+        """ Look for preferences in database, and check CheckBox with good options"""
         self.sqlite.connect()
         self.sqlite.c.execute('''select value from glob_prefs where \
                               param="full"''')
@@ -84,6 +89,7 @@ class Preferences(QDialog, Ui_Dialog):
         self.sqlite.c.close()
 
     def ajouter_comic(self):
+        """ Put prefered comics in comboBox"""
         i = 0
         self.ajout = "comics"
         self.comboBox.clear()
@@ -102,6 +108,7 @@ class Preferences(QDialog, Ui_Dialog):
         self.sqlite.c.close()
 
     def ajouter_manga(self):
+        """ Put prefered mangas in comboBox"""
         i= 0
         self.ajout = "mangas"
         self.comboBox.clear()
@@ -119,6 +126,7 @@ class Preferences(QDialog, Ui_Dialog):
         self.sqlite.c.close()
 
     def ajouter_sqlite(self):
+        """ Add a comic/manga in preferences table"""
         self.sqlite.connect()
         name = (self.comboBox.currentText())
         self.sqlite.c.execute("""insert into preferences values(?,?)""",
@@ -131,6 +139,7 @@ class Preferences(QDialog, Ui_Dialog):
             self.ajouter_comic()
 
     def supprimer_comic(self):
+        """ Delete a comic in preferences table in database"""
         i = 0
         self.comboBox_2.clear()
         self.suppression = "comics"
@@ -145,6 +154,7 @@ class Preferences(QDialog, Ui_Dialog):
         self.sqlite.c.close()
 
     def supprimer_manga(self):
+        """ Delete a manga in preferences table"""
         i = 0
         self.comboBox_2.clear()
         self.suppression = "mangas"
@@ -160,6 +170,7 @@ class Preferences(QDialog, Ui_Dialog):
 
 
     def supprimer_sqlite(self):
+        """ Delete a comic/manga in preference table in database"""
         self.sqlite.connect()
         item = str(self.comboBox_2.currentText())
         self.sqlite.c.execute('''delete from preferences where name="%s"''' % item)
@@ -172,6 +183,7 @@ class Preferences(QDialog, Ui_Dialog):
 
 
     def update_prefs(self):
+        """ Update preferences in database"""
         self.sqlite.connect()
         if self.checkBox.isChecked():
             if self.full == 0:
@@ -207,6 +219,7 @@ class Preferences(QDialog, Ui_Dialog):
         self.sqlite.c.close()
 
     def choix_path(self):
+        """ Choose download path"""
         self.sqlite.connect()
         self.sqlite.c.execute('''select value from glob_prefs where \
                               param="path"''')

@@ -19,6 +19,10 @@ This file is part of DLComix.
 
 """
 
+"""
+Configuration of installation of software
+"""
+
 from setuptools import setup
 import sys
 

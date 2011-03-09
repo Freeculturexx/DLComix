@@ -29,6 +29,7 @@ class Sqlite(object):
 
 
     def initialise_sqlite(self):
+        """ Initialise database. Create it if not exists"""
         print "Initialisation de la base de données"
         self.connect()
         self.c.execute('''create table if not exists dl_rule(comic text, data text)''')
@@ -52,6 +53,7 @@ class Sqlite(object):
 
 
     def connect(self):
+        """Connect to the database"""
         self.conn = sqlite3.connect(self.sqliteFile)
         self.conn.row_factory = sqlite3.Row
         self.c = self.conn.cursor()
