@@ -215,16 +215,15 @@ Cela peut prendre un peu de temps"""))
     def parse_comic(self):
         f = open("/tmp/initComic","rb")
         source = f.read()
-        link = re.findall('<li><a href="/(.*?)" class=', source)
-        name = re.findall('title="(.*?)" width="60" />', source)
-        n = len(name)-1
-        i =0
-        while i <= n:
-            name[i] = name[i].capitalize()
+        test = re.findall('<a href="/(.*?)" class="alpha_list updated">(.*?)</a>', source)
+        name = ['']*len(test)
+        link = ['']*len(test)
+        for i in range (0, len(test)):
+            name[i] = test[i][1].capitalize()
             name[i] = name[i].replace('é','e')
             name[i] = name[i].replace('&amp;','&')
-            link[i] = ("http://www.gocomics.com/"+link[i]).decode('utf-8')
-            i += 1
+            lk = (test[i][0]).replace(' ','')
+            link[i] = ("http://www.gocomics.com/"+lk).decode('utf-8')
         os.remove("/tmp/initComic")
         return name, link
 

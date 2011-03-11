@@ -53,8 +53,8 @@ class Gocomics(object):
                 print e.errno, e.strerror, e.filename
 
     def parse_comic(self):
-        os.system("wget -nv -O /tmp/"+self.comic+" "+self.url)
-        f = open("/tmp/"+self.comic, "rb")
+        os.system("wget -nv -O /tmp/"+self.comic_url+" "+self.url)
+        f = open("/tmp/"+self.comic_url, "rb")
         source = f.read()
         self.last = re.findall("<h1 class='too_big'><a href="+'"/'+self.comic_url+
                                "/(.*?)/"+'">'"", source)
@@ -68,21 +68,21 @@ class Gocomics(object):
     def single_dl(self):
         last = self.last[0].replace('/','_')
         year = last[:4]
-        self.control_path(self.path+"/download/"+self.comic+"/"+year)
-        image = self.path+"/download/"+self.comic+"/"+self.comic+"_"+last+".gif"
+        self.control_path(self.path+"/download/"+self.comic_url+"/"+year)
+        image = self.path+"/download/"+self.comic_url+"/"+self.comic_url+"_"+last+".gif"
         os.system("wget  -nv -O "+image+" "+self.lastItem[0])
 
     def full_dl(self):
         self.sqlite.connect()
-        self.url = "http://www.gocomics.com/"+self.comic+"/"+self.start
+        self.url = "http://www.gocomics.com/"+self.comic_url+"/"+self.start
         first = self.start.replace('/','')
         last = self.last[0].replace('/','')
         while first <= last:
             self.parse_comic()
             year = first[:4]
-            self.control_path(self.path+"/download/"+self.comic+"/"+year)
+            self.control_path(self.path+"/download/"+self.comic_url+"/"+year)
             lastI = self.last[0].replace('/','_')
-            image = self.path+"/download/"+self.comic+"/"+year+"/"+self.comic+"_"+lastI+".gif"
+            image = self.path+"/download/"+self.comic_url+"/"+year+"/"+self.comic_url+"_"+lastI+".gif"
             os.system("wget  -nv -c -t 5 -O "+image+" "+self.lastItem[0])
             self.crop_image(image)
             self.sqlite.c.execute("update dl_rule set data=(?) where comic=(?)",
@@ -90,7 +90,7 @@ class Gocomics(object):
             self.sqlite.conn.commit()
             if self.nextItem:
                 first = self.nextItem[0].replace('/','')
-                self.url = "http://www.gocomics.com/"+self.comic+"/"+self.nextItem[0]
+                self.url = "http://www.gocomics.com/"+self.comic_url+"/"+self.nextItem[0]
             else:
                 first = int(first) +1
                 first = str(first)
@@ -106,15 +106,15 @@ class Gocomics(object):
         firstY = self.start[0:4]
         lastY = self.last[0][0:4]
         while firstY <= lastY:
-            os.system("cd "+self.path+"/download/"+self.comic+"/"+firstY+
+            os.system("cd "+self.path+"/download/"+self.comic_url+"/"+firstY+
                       " && find -name '*"+str(firstY)+"*.gif' | xargs tar -cvzf ../"
                       +self.comic+"_"+str(firstY)+".tar.gz")
-            os.system("cd "+self.path+"/download/"+self.comic+"/"+firstY+
+            os.system("cd "+self.path+"/download/"+self.comic_url+"/"+firstY+
                       " && rm -rf "+str(firstY)+"/")
-            if not os.path.exists(self.path+"/archives/"+self.comic+"/"+self.comic+"_"
+            if not os.path.exists(self.path+"/archives/"+self.comic_url+"/"+self.comic_url+"_"
                            +str(firstY)+".tar.gz"):
-                os.system("ln -s "+self.path+"/download/"+self.comic+"/"+self.comic+"_"
-                      +str(firstY)+".tar.gz "+self.path+"/archives/"+self.comic+"/"+self.comic+"_"
+                os.system("ln -s "+self.path+"/download/"+self.comic_url+"/"+self.comic_url+"_"
+                      +str(firstY)+".tar.gz "+self.path+"/archives/"+self.comic_url+"/"+self.comic_url+"_"
                       +str(firstY)+".tar.gz")
             firstY = int(firstY) + 1
             firstY = str(firstY)
@@ -123,11 +123,11 @@ class Gocomics(object):
         start = int(start[:4])
         thisYear = int(time.strftime('%Y', time.localtime()))
         while start <= thisYear:
-            if os.path.exists(self.path+"/download/"+self.comic+"/"+self.comic+"_"
+            if os.path.exists(self.path+"/download/"+self.comic_url+"/"+self.comic_url+"_"
                           +str(start)+".tar.gz"):
                 try:
-                    os.system("tar -xvzf"+self.path+"/download/"+self.comic+"/"+self.comic+"_"
-                      +str(start)+".tar.gz "+self.path+"/download/"+self.comic)
+                    os.system("tar -xvzf"+self.path+"/download/"+self.comic_url+"/"+self.comic_url+"_"
+                      +str(start)+".tar.gz "+self.path+"/download/"+self.comic_url)
                 except OSError, e:
                     print e.errno, e.strerror, e.filename
             start +=1
