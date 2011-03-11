@@ -1,6 +1,24 @@
 #!/usr/bin/python
 # *-* coding: utf-8 *-*
 
+"""
+This file is part of DLComix.
+
+    DLComix is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    DLComix is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with DLComix.  If not, see <http://www.gnu.org/licenses/>.
+
+"""
+
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 
@@ -14,7 +32,7 @@ import os, re, sys, sqlite3
 from dlcomix_ui import Ui_DLComix
 
 """
-Fenetre principale de l'application
+Main Window of DLComix
 """
 class DLComix(QMainWindow, Ui_DLComix):
 
@@ -22,12 +40,13 @@ class DLComix(QMainWindow, Ui_DLComix):
         QMainWindow.__init__(self)
         Ui_DLComix.__init__(self)
 
-
         self.sqlite = Sqlite()
         self.setupUi(self)
         self.init_options()
         self.statusbar.showMessage(self.trUtf8("Prêt"))
 
+
+        """ Configuration SLOT"""
         self.connect(self.pushButton, SIGNAL("clicked()"),
                      self.update_database)
         self.connect(self.actionQuitter, SIGNAL("triggered()"), qApp,
@@ -42,8 +61,9 @@ class DLComix(QMainWindow, Ui_DLComix):
         self.connect(self.pushButton_3, SIGNAL("clicked()"), self.telecharger)
         self.connect(self.pushButton_4, SIGNAL("clicked()"), self.init_options)
 
-    """Appel SLOT"""
+
     def init_options(self):
+        """ Look for  preferences in database and check the checkBox with available options  """
         self.check_preferences()
         if self.full == "True":
             self.checkBox.setChecked(True)
@@ -53,11 +73,15 @@ class DLComix(QMainWindow, Ui_DLComix):
             self.checkBox_3.setChecked(True)
 
     def update_database(self):
+        """ Update database with available comics and mangas"""
         self.initialise_comic()
         self.initialise_manga()
         self.sqlite.c.close()
 
     def telecharger(self):
+        """ Make a download of the comic/manga selected in the main window """
+
+        """ Define preferences"""
         if self.checkBox.isChecked():
             self.full = "True"
         else:
@@ -71,6 +95,8 @@ class DLComix(QMainWindow, Ui_DLComix):
         else:
             self.optimise = "False"
         self.limit = self.spinBox.value()
+
+        """ Define if target is Manga or Comic and launch appropriate Class"""
         if self.radioButton_2.isChecked():
             self.sqlite.c.execute("select * from mangas where name='%s'" %
                                   self.comboBox.currentText())
@@ -85,6 +111,7 @@ class DLComix(QMainWindow, Ui_DLComix):
                               self.optimise, row[1])
 
     def telecharger_prefs(self):
+        """ Launch download of manga/comic recorded in preferences"""
         i = 0
         self.check_preferences()
         self.limit = self.spinBox.value()
@@ -108,6 +135,7 @@ class DLComix(QMainWindow, Ui_DLComix):
             i += 1
 
     def combo_comic(self):
+        """ Generate the Comic List in the comboBox"""
         i= 0
         self.spinBox.setEnabled(False)
         self.checkBox_3.setEnabled(False)
@@ -123,6 +151,7 @@ class DLComix(QMainWindow, Ui_DLComix):
         self.sqlite.c.close()
 
     def combo_manga(self):
+        """ Generate the Manga list in ComboBox"""
         i = 0
         self.spinBox.setEnabled(True)
         self.checkBox_3.setEnabled(True)
@@ -140,6 +169,9 @@ class DLComix(QMainWindow, Ui_DLComix):
     """ Fonctions tierces"""
 
     def check_preferences(self):
+        """ Select Preferences in database"""
+
+        """ Look if database exist. If not, initialise it"""
         sqliteFile = os.path.expanduser ('~')+'/.dlcomix/dlcomix.sqlite'
         if not os.path.exists(sqliteFile):
             QMessageBox.information(None,
@@ -169,6 +201,7 @@ Cela peut prendre un peu de temps"""))
             self.path = row[3][1]
 
     def initialise_manga(self):
+        """ Initialise the manga list in the database"""
         i = 0
         self.sqlite.connect()
         sys.stdout.write("Initialisation de la liste de manga")
@@ -189,14 +222,17 @@ Cela peut prendre un peu de temps"""))
             linkManga = "http://99.198.113.68/manga/"+link[i]
             self.sqlite.c.execute("""insert into mangas values(?,?)""", (tmpManga,linkManga))
             i += 1
+        """ TODO : make an update an not a complete insertion to purpose a new manga window"""
         self.sqlite.c.execute('delete from mangas where name like "Chapter-%"')
         self.sqlite.conn.commit()
         self.sqlite.c.close()
         print "Fin de l'initialisation de la liste de manga"
 
     def initialise_comic(self):
+        """ Initialise comic list in database"""
         i = 0
         self.sqlite.connect()
+        """ TODO : make an update an not a complete insertion to purpose a new comic window"""
         self.sqlite.c.execute('delete from comics')
         print "Initialisation de la liste de comic"
         print "Connection au serveur"
@@ -213,6 +249,7 @@ Cela peut prendre un peu de temps"""))
         print "Fin de l'initialisation de la liste de comic"
 
     def parse_comic(self):
+        """ Parse gocomics html page to get necessary informations"""
         f = open("/tmp/initComic","rb")
         source = f.read()
         test = re.findall('<a href="/(.*?)" class="alpha_list updated">(.*?)</a>', source)
@@ -228,6 +265,7 @@ Cela peut prendre un peu de temps"""))
         return name, link
 
     def comic_db(self):
+        """ Insert comic list in database"""
         n = len(self.comicList[0])-1
         i = 0
         while i <= n:
@@ -239,7 +277,9 @@ Cela peut prendre un peu de temps"""))
     """Appel de fenetres"""
 
     def apropos(self):
-       apropos.Apropos()
+        """ Call About window"""
+        apropos.Apropos()
 
     def preferences(self):
+        """ Call preferences window"""
         preferences.Preferences()

@@ -1,6 +1,24 @@
 #!/usr/bin/python
 # *-* coding: utf-8 *-*
 
+"""
+This file is part of DLComix.
+
+    DLComix is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    DLComix is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with DLComix.  If not, see <http://www.gnu.org/licenses/>.
+
+"""
+
 import os,  re
 import sqlite3
 
@@ -11,6 +29,7 @@ class Sqlite(object):
 
 
     def initialise_sqlite(self):
+        """ Initialise database. Create it if not exists"""
         print "Initialisation de la base de données"
         self.connect()
         self.c.execute('''create table if not exists dl_rule(comic text, data text)''')
@@ -34,6 +53,7 @@ class Sqlite(object):
 
 
     def connect(self):
+        """Connect to the database"""
         self.conn = sqlite3.connect(self.sqliteFile)
         self.conn.row_factory = sqlite3.Row
         self.c = self.conn.cursor()

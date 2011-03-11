@@ -1,6 +1,24 @@
 #!/usr/bin/python
 # *-* coding: utf-8 *-*
 
+"""
+This file is part of DLComix.
+
+    DLComix is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    DLComix is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with DLComix.  If not, see <http://www.gnu.org/licenses/>.
+
+"""
+
 import os,  re,  time
 from PIL import Image
 from sqlite import Sqlite
@@ -9,6 +27,7 @@ class Gocomics(object):
 
     def __init__(self, comic=None, path=None, archive=None, full=None, useComix=None,
                  url=None):
+        """ Init variables"""
         self.comic = comic.replace(' ',  '_')
         self.path = path
         self.archive = archive
@@ -17,7 +36,9 @@ class Gocomics(object):
         self.url = url
         self.comic_url = self.url.replace('http://www.gocomics.com/', '')
 
+        """ Look for the comic html page and get informations"""
         self.parse_comic()
+
 
         if self.full == "False":
             self.single_dl()
@@ -31,6 +52,7 @@ class Gocomics(object):
             self.create_archive()
 
     def init_dl_rule(self):
+        """ Look for last comic downloaded"""
         self.sqlite.connect()
         self.sqlite.c.execute("select * from dl_rule where comic='%s'"
                               % self.comic)
@@ -46,6 +68,7 @@ class Gocomics(object):
         self.sqlite.c.close
 
     def control_path(self, path):
+        """ Check if download path exists"""
         if not os.path.exists(path):
             try:
                 os.makedirs(path, mode=0755)
@@ -53,6 +76,7 @@ class Gocomics(object):
                 print e.errno, e.strerror, e.filename
 
     def parse_comic(self):
+        """ Get information from comic html page"""
         os.system("wget -nv -O /tmp/"+self.comic_url+" "+self.url)
         f = open("/tmp/"+self.comic_url, "rb")
         source = f.read()
@@ -66,6 +90,7 @@ class Gocomics(object):
 
 
     def single_dl(self):
+        """ Make a download of last comic"""
         last = self.last[0].replace('/','_')
         year = last[:4]
         self.control_path(self.path+"/download/"+self.comic_url+"/"+year)
@@ -73,6 +98,7 @@ class Gocomics(object):
         os.system("wget  -nv -O "+image+" "+self.lastItem[0])
 
     def full_dl(self):
+        """ Download all images of a comic"""
         self.sqlite.connect()
         self.url = "http://www.gocomics.com/"+self.comic_url+"/"+self.start
         first = self.start.replace('/','')
@@ -97,12 +123,14 @@ class Gocomics(object):
         self.sqlite.c.close()
 
     def crop_image(self, image):
+        """ Make a crop of the downloaded image to remove Gocomics Logo"""
         im = Image.open(image)
         largeur, hauteur = im.size[0], im.size[1]-25
         im = im.crop((0,0,largeur,hauteur))
         im.save(image)
 
     def create_archive(self):
+        """ Create archives files"""
         firstY = self.start[0:4]
         lastY = self.last[0][0:4]
         while firstY <= lastY:
@@ -120,6 +148,7 @@ class Gocomics(object):
             firstY = str(firstY)
 
     def unpack_archive(self, start):
+        """ Uncompress archives before download treatment"""
         start = int(start[:4])
         thisYear = int(time.strftime('%Y', time.localtime()))
         while start <= thisYear:

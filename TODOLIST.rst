@@ -1,7 +1,6 @@
 DLComix Core
 ============
 - Make a --quiet option
-- Rename archives name like 009.5.tar.gz in 009-5.tar.gz
 - make possibility to download chapter of choice
 - Use urllib instead of wget
 - Make a DLComix version verification and purpose to upgrade it
