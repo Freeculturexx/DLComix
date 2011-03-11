@@ -25,6 +25,8 @@ import sqlite3
 class Sqlite(object):
 
     def __init__(self, path=None):
+        if not os.path.isdir(os.path.expanduser ('~')+'/.dlcomix'):
+            os.mkdir(os.path.expanduser ('~')+'/.dlcomix')
         self.sqliteFile = os.path.expanduser ('~')+'/.dlcomix/dlcomix.sqlite'
 
 
