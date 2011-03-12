@@ -146,7 +146,7 @@ class DLComix(QMainWindow, Ui_DLComix):
         row = self.sqlite.c.fetchall()
         lenght = len(row)-1
         while i <= lenght:
-            self.comboBox.addItem(self.trUtf8(row[i][0]))
+            self.comboBox.addItem(row[i][0])
             i += 1
         self.sqlite.c.close()
 
@@ -258,7 +258,7 @@ Cela peut prendre un peu de temps"""))
         for i in range (0, len(test)):
             name[i] = test[i][1].decode('utf-8').capitalize()
             lk = (test[i][0]).replace(' ','')
-            link[i] = ("http://www.gocomics.com/"+lk)
+            link[i] = ("http://www.gocomics.com/"+lk).decode('utf-8')
         os.remove("/tmp/initComic")
         return name, link
 
