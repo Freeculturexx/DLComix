@@ -19,7 +19,7 @@ This file is part of DLComix.
 
 """
 
-import os,  re,  time
+import os,  re,  time,  urllib2
 from PIL import Image
 from sqlite import Sqlite
 
@@ -35,6 +35,8 @@ class Gocomics(object):
         self.useComix = useComix
         self.url = url
         self.comic_url = self.url.replace('http://www.gocomics.com/', '')
+
+        self.headers = { 'User-Agent' : 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)' }
 
         """ Look for the comic html page and get informations"""
         self.parse_comic()
@@ -77,9 +79,9 @@ class Gocomics(object):
 
     def parse_comic(self):
         """ Get information from comic html page"""
-        os.system("wget -nv -O /tmp/"+self.comic_url+" "+self.url)
-        f = open("/tmp/"+self.comic_url, "rb")
-        source = f.read()
+        req = urllib2.Request(self.url,  headers = self.headers)
+        response = urllib2.urlopen(req)
+        source = response.read()
         self.last = re.findall("<h1 class='too_big'><a href="+'"/'+self.comic_url+
                                "/(.*?)/"+'">'"", source)
         if not self.last:
@@ -94,8 +96,9 @@ class Gocomics(object):
         last = self.last[0].replace('/','_')
         year = last[:4]
         self.control_path(self.path+"/download/"+self.comic_url+"/"+year)
-        image = self.path+"/download/"+self.comic_url+"/"+self.comic_url+"_"+last+".gif"
-        os.system("wget  -nv -O "+image+" "+self.lastItem[0])
+        imageFile = self.path+"/download/"+self.comic_url+"/"+year+"/"+self.comic_url+"_"+last+".gif"
+        self.download(imageFile)
+        self.crop_image(imageFile)
 
     def full_dl(self):
         """ Download all images of a comic"""
@@ -108,9 +111,9 @@ class Gocomics(object):
             year = first[:4]
             self.control_path(self.path+"/download/"+self.comic_url+"/"+year)
             lastI = self.last[0].replace('/','_')
-            image = self.path+"/download/"+self.comic_url+"/"+year+"/"+self.comic_url+"_"+lastI+".gif"
-            os.system("wget  -nv -c -t 5 -O "+image+" "+self.lastItem[0])
-            self.crop_image(image)
+            imageFile = self.path+"/download/"+self.comic_url+"/"+year+"/"+self.comic_url+"_"+lastI+".gif"
+            self.download(imageFile)
+            self.crop_image(imageFile)
             self.sqlite.c.execute("update dl_rule set data=(?) where comic=(?)",
                                   (self.last[0], self.comic))
             self.sqlite.conn.commit()
@@ -121,6 +124,15 @@ class Gocomics(object):
                 first = int(first) +1
                 first = str(first)
         self.sqlite.c.close()
+
+    def download(self,  imageFile):
+        """ Download image"""
+        req = urllib2.Request(self.lastItem[0],  headers = self.headers)
+        response = urllib2.urlopen(req)
+        image = response.read()
+        i_file = open(imageFile,  'w')
+        i_file.write(image)
+        i_file.close()
 
     def crop_image(self, image):
         """ Make a crop of the downloaded image to remove Gocomics Logo"""

@@ -129,7 +129,7 @@ class Manga(object):
             pass
         else:
             print ("Téléchargement de "+str(self.manga)+" "+str(self.chapter)).decode('utf-8')
-            req = urllib2.Request(self.urlDl)
+            req = urllib2.Request(self.urlDl, headers = self.headers)
             response = urllib2.urlopen(req)
             images = response.read()
             images = re.findall('<li><a href="(.*?)">',images)
