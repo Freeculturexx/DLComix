@@ -212,9 +212,22 @@ Cela peut prendre un peu de temps"""))
         source = files.read()
         link = re.findall('<li><a href="(.*?)">',source)
         link.remove(link[0])
+        n = len(link)-1
+        print n
+        while i <= n:
+            if link[i].count('.jpg')>0:
+                print link[i]
+                link.remove(link[i])
+                n -= 1
+                i -= 1
+            i += 1
+
         mangaList = re.findall('"> (.*?)/</a></li>',source)
         n = len(mangaList)-1
         self.sqlite.c.execute('delete from mangas')
+        print link
+        print len(link),  len(mangaList)
+        i= 0
         while i <= n:
             if mangaList[i].count('_') > 0:
                 mangaList[i] = mangaList[i].replace('_',' ')

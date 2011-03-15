@@ -226,12 +226,9 @@ class Preferences(QDialog, Ui_Dialog):
         row = self.sqlite.c.fetchall()
         if row:
             path = row[0][0]
-        choix_path = QFileDialog.getExistingDirectory(\
-                                        None,
-                                        QString(),
-                                        path,
-                                        QFileDialog.Options(QFileDialog.ShowDirsOnly))
+        choix_path = QFileDialog.getExistingDirectory(self)
         if row:
+            print str(choix_path)
             self.sqlite.c.execute('''update glob_prefs set value="%s" \
                               where param="path"''' % choix_path)
         self.sqlite.conn.commit()

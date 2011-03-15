@@ -19,8 +19,9 @@ This file is part of DLComix.
 
 """
 
-import os,  re
+import os,  re,  urllib2
 import ConfigParser
+from threading import Thread
 from sqlite import Sqlite
 
 class Manga(object):
@@ -34,6 +35,10 @@ class Manga(object):
         self.useComix = useComix
         self.url = url
         self.limit = limit
+
+
+        self.headers = { 'User-Agent' : 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)' }
+
 
         if self.limit == "":
             self.limit = 10
@@ -123,31 +128,43 @@ class Manga(object):
         if self.start_i >= self.parseManga[0]:
             pass
         else:
-            print "Téléchargement de "+str(self.manga)+" "+str(self.chapter)
-            os.system("wget "+self.urlDl+" -O /tmp/"+self.manga)
-            f = open("/tmp/"+self.manga, "r")
-            images = f.read()
+            print ("Téléchargement de "+str(self.manga)+" "+str(self.chapter)).decode('utf-8')
+            req = urllib2.Request(self.urlDl)
+            response = urllib2.urlopen(req)
+            images = response.read()
             images = re.findall('<li><a href="(.*?)">',images)
             images.remove(images[0])
-            os.remove("/tmp/"+self.manga)
-            dl = open("/tmp/"+self.manga,'w')
+            n = 0
+            dd = ()
+            while n <= len(images)-1:
+                dl_image = str(images[n])
+                locals()[n]= Thread(target=self.multi_download,args=(dl_image,) )
+                locals()[n].start()
+                n += 1
             n = 0
             while n <= len(images)-1:
-                dl.write(self.urlDl+images[n]+"\n")
+                locals()[n].join()
                 n += 1
-            dl.close()
-            os.system("cd "+self.pathDl+" && cat /tmp/"+self.manga+
-                      " | xargs -n 1 -P "+str(self.limit)+" wget -nv -c -t 5")
-            os.system("cd "+self.pathDl+" && rm *.html && rm *.db")
 
+    def multi_download(self,  images):
+        """ Make parallel downloads"""
+        print ("Téléchargement de "+images).decode('utf-8')
+        req = urllib2.Request(self.urlDl+images,  headers = self.headers)
+        response = urllib2.urlopen(req)
+        image = response.read()
+
+        i_file = open(self.pathDl+"/"+images,  'w')
+        i_file.write(image)
+        i_file.close()
 
     def parse_manga(self):
         """ Define number of chapters and chapter list"""
         v = (0, "", 100, 0)
         (i, album, mini, maxi) = v
-        os.system("wget -nv -O /tmp/"+self.manga+" "+self.url)
-        tmpFile = open("/tmp/"+self.manga, "rb")
-        htmlSource = tmpFile.read()
+        print ("Préparation du téléchargement").decode('utf-8')
+        req = urllib2.Request(self.url,  headers = self.headers)
+        response = urllib2.urlopen(req)
+        htmlSource = response.read()
         tmpLink = re.findall('<li><a href="(.*?)">', htmlSource)
         n = len(tmpLink)-1
         while i <= n:
@@ -169,7 +186,6 @@ class Manga(object):
                 tmpLink.remove(tmpLink[i])
         nManga = len(tmpLink)
         tmpLink.sort()
-        os.remove("/tmp/"+self.manga)
         return nManga, tmpLink
 
     def normalize_chapter(self):
