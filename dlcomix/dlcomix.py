@@ -21,6 +21,7 @@ This file is part of DLComix.
 
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
+import urllib2
 
 import apropos
 import preferences
@@ -39,6 +40,8 @@ class DLComix(QMainWindow, Ui_DLComix):
     def __init__(self):
         QMainWindow.__init__(self)
         Ui_DLComix.__init__(self)
+
+        self.headers = { 'User-Agent' : 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)' }
 
         self.sqlite = Sqlite()
         self.setupUi(self)
@@ -165,7 +168,6 @@ class DLComix(QMainWindow, Ui_DLComix):
             self.comboBox.addItem(row[i][0])
             i += 1
         self.sqlite.c.close()
-
     """ Fonctions tierces"""
 
     def check_preferences(self):
@@ -204,29 +206,24 @@ Cela peut prendre un peu de temps"""))
         """ Initialise the manga list in the database"""
         i = 0
         self.sqlite.connect()
-        sys.stdout.write("Initialisation de la liste de manga")
-        print "Cela peu prendre un peu de temps"
-        print "Connection au serveur"
-        os.system("wget -q http://99.198.113.68/manga -O /tmp/manga.html")
-        files = open("/tmp/manga.html","rb")
-        source = files.read()
+        print ("Initialisation de la liste de manga").decode('utf-8')
+        print ("Cela peu prendre un peu de temps").decode('utf-8')
+        print ("Connection au serveur").decode('utf-8')
+        req = urllib2.Request('http://99.198.113.68/manga', headers = self.headers)
+        response = urllib2.urlopen(req)
+        source = response.read()
         link = re.findall('<li><a href="(.*?)">',source)
         link.remove(link[0])
         n = len(link)-1
-        print n
         while i <= n:
             if link[i].count('.jpg')>0:
-                print link[i]
                 link.remove(link[i])
                 n -= 1
                 i -= 1
             i += 1
-
         mangaList = re.findall('"> (.*?)/</a></li>',source)
         n = len(mangaList)-1
         self.sqlite.c.execute('delete from mangas')
-        print link
-        print len(link),  len(mangaList)
         i= 0
         while i <= n:
             if mangaList[i].count('_') > 0:
@@ -239,7 +236,7 @@ Cela peut prendre un peu de temps"""))
         self.sqlite.c.execute('delete from mangas where name like "Chapter-%"')
         self.sqlite.conn.commit()
         self.sqlite.c.close()
-        print "Fin de l'initialisation de la liste de manga"
+        print ("Fin de l'initialisation de la liste de manga").decode('utf-8')
 
     def initialise_comic(self):
         """ Initialise comic list in database"""
@@ -247,24 +244,26 @@ Cela peut prendre un peu de temps"""))
         self.sqlite.connect()
         """ TODO : make an update an not a complete insertion to purpose a new comic window"""
         self.sqlite.c.execute('delete from comics')
-        print "Initialisation de la liste de comic"
-        print "Connection au serveur"
-        os.system("wget -q -O /tmp/initComic http://www.gocomics.com/features")
-        self.comicList = self.parse_comic()
+        print ("Initialisation de la liste de comic").decode('utf-8')
+        print ("Connection au serveur").decode('utf-8')
+        req = urllib2.Request('http://www.gocomics.com/features',  headers = self.headers)
+        response = urllib2.urlopen(req)
+        self.comicList = self.parse_comic(response)
         self.comic_db()
-        os.system("wget -q -O /tmp/initComic http://www.gocomics.com/explore/editorial_lists")
-        self.comicList = self.parse_comic()
+        req = urllib2.Request('http://www.gocomics.com/explore/editorial_lists',  headers = self.headers)
+        response = urllib2.urlopen(req)
+        self.comicList = self.parse_comic(response)
         self.comic_db()
-        os.system("wget -q -O /tmp/initComic http://www.gocomics.com/explore/sherpa_list")
-        self.comicList = self.parse_comic()
+        req = urllib2.Request('http://www.gocomics.com/explore/sherpa_list',  headers = self.headers)
+        response = urllib2.urlopen(req)
+        self.comicList = self.parse_comic(response)
         self.comic_db()
         self.sqlite.c.close()
-        print "Fin de l'initialisation de la liste de comic"
+        print ("Fin de l'initialisation de la liste de comic").decode('utf-8')
 
-    def parse_comic(self):
+    def parse_comic(self,  response):
         """ Parse gocomics html page to get necessary informations"""
-        f = open("/tmp/initComic","rb")
-        source = f.read()
+        source = response.read()
         test = re.findall('<a href="/(.*?)" class="alpha_list updated">(.*?)</a>', source)
         name = ['']*len(test)
         link = ['']*len(test)
@@ -272,7 +271,6 @@ Cela peut prendre un peu de temps"""))
             name[i] = test[i][1].decode('utf-8').capitalize()
             lk = (test[i][0]).replace(' ','')
             link[i] = ("http://www.gocomics.com/"+lk).decode('utf-8')
-        os.remove("/tmp/initComic")
         return name, link
 
     def comic_db(self):
