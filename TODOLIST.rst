@@ -7,13 +7,13 @@ DLComix Core
 - Change use of tar with native python instructions
 - use tempfile instead of record file in /tmp
 - Sort Mangas in categories
-- Récupérer les résumés des comics et mangas ainsi que les vignettes.
-- Récupérer les catégories des comics et mangas.
+- Get summary categories and thumbnails for comics and mangas
 - Make a you are lucky, randomiser option
 - Make an archive class
 - Put control_path() in another file
 - Make a multi threading use
 - let user choose archive format
+- Make a cache system for manga chapters
 
 Websites to integer
 ===================
