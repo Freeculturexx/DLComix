@@ -2,16 +2,13 @@ DLComix Core
 ============
 - Make a --quiet option
 - make possibility to download chapter of choice
-- Use urllib instead of wget
 - Make a DLComix version verification and purpose to upgrade it
 - Change use of tar with native python instructions
-- use tempfile instead of record file in /tmp
 - Sort Mangas in categories
 - Get summary categories and thumbnails for comics and mangas
 - Make a you are lucky, randomiser option
 - Make an archive class
 - Put control_path() in another file
-- Make a multi threading use
 - let user choose archive format
 - Make a cache system for manga chapters
 
