@@ -19,7 +19,8 @@ This file is part of DLComix.
 
 """
 
-import os,  re,  time,  urllib2
+import os,  re,  time,  urllib2,  urllib,  json
+from threading import Thread
 from PIL import Image
 from sqlite import Sqlite
 
@@ -77,8 +78,10 @@ class Gocomics(object):
             except OSError, e:
                 print e.errno, e.strerror, e.filename
 
-    def parse_comic(self):
+    def parse_comic(self,  url=None):
         """ Get information from comic html page"""
+        if url:
+            self.url = url
         req = urllib2.Request(self.url,  headers = self.headers)
         response = urllib2.urlopen(req)
         source = response.read()
@@ -86,6 +89,7 @@ class Gocomics(object):
                                "/(.*?)/"+'">'"", source)
         if not self.last:
             self.last = re.findall('<h1 ><a href="/'+self.comic_url+'/(.*?)/">', source)
+        self.features = re.findall('featureID: (.*?),',  source)
         self.first = re.findall('<li><a href="/'+self.comic_url+'/(.*?)/" class="beginning">', source)
         self.lastItem = re.findall('<link rel="image_src" href="(.*?)" />', source)
         self.nextItem = re.findall('<li><a href="/'+self.comic_url+'/(.*?)/" class="next">',source)
@@ -102,28 +106,61 @@ class Gocomics(object):
 
     def full_dl(self):
         """ Download all images of a comic"""
-        self.sqlite.connect()
+
         self.url = "http://www.gocomics.com/"+self.comic_url+"/"+self.start
         first = self.start.replace('/','')
         last = self.last[0].replace('/','')
-        while first <= last:
-            self.parse_comic()
-            year = first[:4]
-            self.control_path(self.path+"/download/"+self.comic_url+"/"+year)
-            lastI = self.last[0].replace('/','_')
-            imageFile = self.path+"/download/"+self.comic_url+"/"+year+"/"+self.comic_url+"_"+lastI+".gif"
+        fYear = first[:4]
+        fMonth = first[4:6]
+        lYear = last[:4]
+        lMonth = last[4:6]
+        while int(fYear) <= int(lYear):
+            while int(fMonth) <= 12:
+                if int(fMonth) < 10:
+                    fMonth = "0"+fMonth
+                url = "http://www.gocomics.com/features/"+self.features[0]+"/calendar.js"
+                values = {'year':fYear,
+                          'month':fMonth}
+                data = url+"?"+urllib.urlencode(values)
+                req = urllib2.Request(data,  headers=self.headers)
+                response = urllib2.urlopen(req)
+                source= response.read()
+                jr = json.loads(source)
+                i=0
+                while i <= len(jr['calendar']['valid_days'])-1:
+                    dl_image = jr['calendar']['valid_days'][i]['page_url']
+                    locals()[i] = Thread(target=self.multi_download,  args=(dl_image, ))
+                    locals()[i].start()
+                    i += 1
+                i = 0
+                while i <= len(jr['calendar']['valid_days'])-1:
+                    locals()[i].join()
+                    i += 1
+                fMonth = str(int(fMonth)+1)
+                if int(fMonth) < 10:
+                    fMonth = "0"+fMonth
+                self.sqlite.connect()
+                last = jr['calendar']['valid_days'][-1]
+                last =  str(last)[-12:-2]
+                self.sqlite.c.execute("update dl_rule set data=(?) where comic=(?)",
+                                  (str(last), self.comic))
+                self.sqlite.conn.commit()
+                self.sqlite.c.close()
+
+            fMonth = "01"
+            fYear = str(int(fYear)+1)
+            """TODO creation d'archives"""
+
+    def multi_download(self,  images):
+        print ("Telechargement de "+images).decode('utf-8')
+        self.parse_comic("http://www.gocomics.com/"+images)
+        year = self.last[0][:4]
+        self.control_path(self.path+"/download/"+self.comic_url+"/"+year)
+        lastI = self.last[0].replace('/','_')
+        imageFile = self.path+"/download/"+self.comic_url+"/"+year+"/"+self.comic_url+"_"+lastI+".gif"
+        if not os.path.exists(imageFile):
             self.download(imageFile)
             self.crop_image(imageFile)
-            self.sqlite.c.execute("update dl_rule set data=(?) where comic=(?)",
-                                  (self.last[0], self.comic))
-            self.sqlite.conn.commit()
-            if self.nextItem:
-                first = self.nextItem[0].replace('/','')
-                self.url = "http://www.gocomics.com/"+self.comic_url+"/"+self.nextItem[0]
-            else:
-                first = int(first) +1
-                first = str(first)
-        self.sqlite.c.close()
 
     def download(self,  imageFile):
         """ Download image"""
@@ -149,7 +186,7 @@ class Gocomics(object):
             os.system("cd "+self.path+"/download/"+self.comic_url+"/"+firstY+
                       " && find -name '*"+str(firstY)+"*.gif' | xargs tar -cvzf ../"
                       +self.comic+"_"+str(firstY)+".tar.gz")
-            os.system("cd "+self.path+"/download/"+self.comic_url+"/"+firstY+
+            os.system("cd "+self.path+"/download/"+self.comic_url+"/"+
                       " && rm -rf "+str(firstY)+"/")
             if not os.path.exists(self.path+"/archives/"+self.comic_url+"/"+self.comic_url+"_"
                            +str(firstY)+".tar.gz"):
