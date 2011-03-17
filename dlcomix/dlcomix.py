@@ -29,17 +29,17 @@ from sqlite import Sqlite
 from gocomics import Gocomics
 from manga import Manga
 import os, re, sys, sqlite3
+from Gui import  dlcomix_ui
 
-from dlcomix_ui import Ui_DLComix
 
 """
 Main Window of DLComix
 """
-class DLComix(QMainWindow, Ui_DLComix):
+class DLComix(QMainWindow, dlcomix_ui.Ui_DLComix):
 
     def __init__(self):
         QMainWindow.__init__(self)
-        Ui_DLComix.__init__(self)
+        dlcomix_ui.Ui_DLComix.__init__(self)
 
         self.headers = { 'User-Agent' : 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)' }
 

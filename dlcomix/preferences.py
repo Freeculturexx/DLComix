@@ -22,16 +22,16 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from sqlite import Sqlite
 import sqlite3,  sys
-from preferences_ui import Ui_Dialog
+from Gui import preferences_ui
 
 """
 Preferences Window of DLComix
 """
-class Preferences(QDialog, Ui_Dialog):
+class Preferences(QDialog, preferences_ui.Ui_Dialog):
 
     def __init__(self):
         QDialog.__init__(self)
-        Ui_Dialog.__init__(self)
+        preferences_ui.Ui_Dialog.__init__(self)
         Dialog_Preferences = QDialog()
         self.setupUi(Dialog_Preferences)
 
