@@ -1,82 +1,40 @@
 Description of the application
 ##############################
 
-The application DLComix is an application like Dailystrips to download online comics from the web. 
+DLComix is an application to download comics and mangas from the web.
 
-The first step will be to have the last picture of the day.
+Install DLComix
+###############
 
-Then I will start script to download the whole directory of different comics
+On a Debian or derivate OS you will need python-setuptools git-core python-qt4,
+so just run :
 
-But the most important will be to support the largest number of comics !! 
+.. code-block:: shell
 
-Install  DLComix
-################
+    sudo apt-get install git-core python-setuptools python-qt4
 
-You will need git-core package. For a Debian based distribution, make a
-apt-get install git-core
-as root
+Then make a clone of the repository :
 
-Go on the folder you want to put DLComix, and make
-git clone git://github.com/Freeculture/DLComix.git
- 
-To install it, go in DLComix folder and make a 
-python setup.py install 
-as root
+.. code-block:: shell
 
-That's all
+    git clone git://github.com/Freeculture/DLComix.git
 
-Download your first comic
-#########################
+and install DLComix :
 
-With dlcomix, you have five options
--c or --comic 
-	where you put the comic name. All supported comics are in List_of_Comics file
-	Put the name on the second column
--p or --path (optional)
-	Path where you want to download comic. If none, DLComix will create the
-	~/.dlcomix/download folder
--a or --archive (optional)
-	Use if you want DLComix create archives for you
--f or --full (optional)
-	Use if you want to all images of a comic
--u or --usecomix (optional)
-        This option renames archive to have better integration with Comix sofware.
-        By defaut archives names are Chapter-9.tar.gz, Chapter-10.tar.gz, and
-        Comix put the Chapter-10 before Chapter-9. With this option, Chapter-9.tar.gz
-        becomes Chapter-09.tar.gz
+.. code-block:: shell
 
-The exemple
------------
+    ./install sh
 
-Imagine you want to download the last Garfield comic
+Note than you have to be root to do this.
 
-Do a
-dlcomix -c garfield
+Update DLComix
+##############
 
-I hope you will enjoy it
- 
-Use of config file
-###################
+Just go on the DLComix folder and do :
 
-You can use a config file that will be stored in ~/.dlcomix and named config.py
+.. code-block:: shell
 
-For the moment, you can config the path where you want to download files and choose the comics you want to download 
+    git pull
+    sudo ./install.sh
 
-Config.py
----------
-
-PATH = "/home/username/Images/comix"
-
-COMICS = ('garfield',
-		'bloom_county',)
-
-ARCHIVE = True
-FULL = True
-USE_COMIX = True
-
-So by typing only 
-
-dlcomix
-
-you download full garfield and bloom_county and create archives optimized for Comix !!
 
