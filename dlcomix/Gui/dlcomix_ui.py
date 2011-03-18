@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'dlcomix_ui.ui'
 #
-# Created: Thu Mar 17 23:14:46 2011
+# Created: Fri Mar 18 16:39:15 2011
 #      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -19,7 +19,7 @@ class Ui_DLComix(object):
         DLComix.setObjectName(_fromUtf8("DLComix"))
         DLComix.resize(940, 468)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(_fromUtf8("../../Icone/dlcomix.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(_fromUtf8("../../../../../../../usr/share/pixmaps/dlcomix.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         DLComix.setWindowIcon(icon)
         DLComix.setIconSize(QtCore.QSize(48, 48))
         self.centralwidget = QtGui.QWidget(DLComix)

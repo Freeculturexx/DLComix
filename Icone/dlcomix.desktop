@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=DLComix
+Comment=Download comics and mangas
+Comment[fr]=Téléchargez des comics et mangas
+Comment[en]=Download comics and mangas
+Exec=dlcomix
+Icon=dlcomix
+StartupNotify=true
+Terminal=false
+Type=Application
+Categories=Graphics
+
