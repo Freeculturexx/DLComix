@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'preferences_ui.ui'
 #
-# Created: Sat Mar 19 16:52:04 2011
+# Created: Sat Mar 19 22:15:08 2011
 #      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -68,7 +68,7 @@ class Ui_Dialog(object):
         self.groupBox.setGeometry(QtCore.QRect(20, 10, 311, 251))
         self.groupBox.setObjectName(_fromUtf8("groupBox"))
         self.pushButton_5 = QtGui.QPushButton(self.groupBox)
-        self.pushButton_5.setGeometry(QtCore.QRect(70, 220, 92, 27))
+        self.pushButton_5.setGeometry(QtCore.QRect(100, 220, 92, 27))
         self.pushButton_5.setObjectName(_fromUtf8("pushButton_5"))
         self.checkBox = QtGui.QCheckBox(self.groupBox)
         self.checkBox.setGeometry(QtCore.QRect(0, 40, 191, 22))
@@ -81,8 +81,11 @@ class Ui_Dialog(object):
         self.checkBox_3.setGeometry(QtCore.QRect(0, 100, 231, 22))
         self.checkBox_3.setObjectName(_fromUtf8("checkBox_3"))
         self.pushButton = QtGui.QPushButton(self.groupBox)
-        self.pushButton.setGeometry(QtCore.QRect(0, 130, 291, 31))
+        self.pushButton.setGeometry(QtCore.QRect(0, 160, 291, 31))
         self.pushButton.setObjectName(_fromUtf8("pushButton"))
+        self.checkBox_4 = QtGui.QCheckBox(self.groupBox)
+        self.checkBox_4.setGeometry(QtCore.QRect(0, 130, 191, 22))
+        self.checkBox_4.setObjectName(_fromUtf8("checkBox_4"))
         self.pushButton_2 = QtGui.QPushButton(Dialog)
         self.pushButton_2.setGeometry(QtCore.QRect(580, 260, 92, 27))
         self.pushButton_2.setObjectName(_fromUtf8("pushButton_2"))
@@ -107,5 +110,6 @@ class Ui_Dialog(object):
         self.checkBox_2.setText(QtGui.QApplication.translate("Dialog", "Créer des archives", None, QtGui.QApplication.UnicodeUTF8))
         self.checkBox_3.setText(QtGui.QApplication.translate("Dialog", "Optimiser le nom des archives", None, QtGui.QApplication.UnicodeUTF8))
         self.pushButton.setText(QtGui.QApplication.translate("Dialog", "Choisir le répertoire de téléchargement", None, QtGui.QApplication.UnicodeUTF8))
+        self.checkBox_4.setText(QtGui.QApplication.translate("Dialog", "Créer des fichiers pdf", None, QtGui.QApplication.UnicodeUTF8))
         self.pushButton_2.setText(QtGui.QApplication.translate("Dialog", "Ok", None, QtGui.QApplication.UnicodeUTF8))
 

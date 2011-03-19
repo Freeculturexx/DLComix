@@ -43,10 +43,11 @@ class Sqlite(object):
         row = self.c.fetchall()
         if not row:
             path = os.path.expanduser ('~')+'/.dlcomix'
-            self.c.execute('''insert into glob_prefs values (?,?)''', ("full", "false"))
-            self.c.execute('''insert into glob_prefs values (?,?)''', ("archive","false"))
-            self.c.execute('''insert into glob_prefs values (?,?)''', ("optimise", "false"))
+            self.c.execute('''insert into glob_prefs values (?,?)''', ("full", "False"))
+            self.c.execute('''insert into glob_prefs values (?,?)''', ("archive","False"))
+            self.c.execute('''insert into glob_prefs values (?,?)''', ("optimise", "False"))
             self.c.execute('''insert into glob_prefs values (?,?)''', ("path", path))
+            self.c.execute('''insert into glob_prefs values (?,?)''',  ("pdf", "False"))
             self.conn.commit()
         self.c.close()
         print "Tables créées avec succès"

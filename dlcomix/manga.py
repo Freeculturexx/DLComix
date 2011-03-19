@@ -28,7 +28,7 @@ from sqlite import Sqlite
 
 class Manga(object):
 
-    def __init__(self, manga=None, path=None, archive=None, full=None, useComix=None, url=None, limit=None):
+    def __init__(self, manga=None, path=None, archive=None, full=None, useComix=None, url=None, pdf=None):
         """ Init variables"""
         self.manga = manga.replace(' ', '_')
         self.path = path
@@ -36,22 +36,15 @@ class Manga(object):
         self.full = full
         self.useComix = useComix
         self.url = url
-        self.limit = limit
-
+        self.pdf= pdf
+        print self.pdf
 
         self.headers = { 'User-Agent' : 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)' }
 
-
-        if self.limit == "":
-            self.limit = 10
-        else:
-            if int(self.limit) <= 0:
-                self.limit = 1
-            elif int(self.limit) > 10:
-                self.limit = 10
-
         if self.archive == "True":
             self.control_path(self.path+"/archives/"+self.manga)
+        if self.pdf == "True":
+            self.control_path(self.path+"/pdf/"+self.manga)
         self.parseManga = self.parse_manga()
 
         """ Look if manga folder contains Chapters"""
@@ -107,8 +100,13 @@ class Manga(object):
         self.sqlite.c.execute("update dl_rule set data=(?) where comic=(?)", (self.start_i, self.manga))
         self.sqlite.conn.commit()
         self.sqlite.c.close()
+        print self.pdf
+        if self.pdf == "True":
+            print "OK"
+            self.make_pdf()
         if self.archive == "True":
             self.make_archive()
+
 
 
     def full_dl(self):
@@ -153,7 +151,6 @@ class Manga(object):
         req = urllib2.Request(self.urlDl+images,  headers = self.headers)
         response = urllib2.urlopen(req)
         image = response.read()
-
         i_file = open(self.pathDl+"/"+images,  'w')
         i_file.write(image)
         i_file.close()
@@ -204,6 +201,12 @@ class Manga(object):
         else:
             self.archive_chapter = "Chapter-"+str(y)
         self.archive_chapter = self.archive_chapter.replace('.','-')
+
+    def make_pdf(self):
+        """ Create pdf files from Chapters"""
+        print "pdf en cours"
+        os.system("cd "+self.path+"/download/"+self.manga+"/"+self.chapter+" && convert *.{jpg,png,gif} "
+                  +"../../../pdf/"+self.manga+"/"+self.archive_chapter+".pdf")
 
     def make_archive(self):
         """ Create archive files"""

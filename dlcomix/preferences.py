@@ -86,6 +86,15 @@ class Preferences(QDialog, preferences_ui.Ui_Dialog):
                 self.optimise = 1
             else:
                 self.optimise = 0
+        self.sqlite.c.execute('''select value from glob_prefs where \
+                              param="pdf"''')
+        row = self.sqlite.c.fetchall()
+        if row:
+            if row[0][0] == "True":
+                self.checkBox_4.setChecked(True)
+                self.pdf = 1
+            else:
+                self.pdf = 0
         self.sqlite.c.close()
 
     def ajouter_comic(self):
@@ -215,6 +224,16 @@ class Preferences(QDialog, preferences_ui.Ui_Dialog):
                 self.sqlite.c.execute('''update glob_prefs set value="False" where \
                                       param="optimise"''')
                 self.optimise = 0
+        if self.checkBox_4.isChecked():
+            if self.pdf == 0:
+                self.sqlite.c.execute('''update glob_prefs set value="True" where \
+                                      param="pdf"''')
+                self.pdf = 1
+        else:
+            if self.pdf == 1:
+                self.sqlite.c.execute('''update glob_prefs set value="False" where \
+                                      param="pdf"''')
+                self.pdf = 0
         self.sqlite.conn.commit()
         self.sqlite.c.close()
 

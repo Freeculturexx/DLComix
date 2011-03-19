@@ -74,6 +74,8 @@ class DLComix(QMainWindow, dlcomix_ui.Ui_DLComix):
             self.checkBox_2.setChecked(True)
         if self.optimise == "True":
             self.checkBox_3.setChecked(True)
+        if self.pdf == "True":
+            self.checkBox_4.setChecked(True)
 
     def update_database(self):
         """ Update database with available comics and mangas"""
@@ -97,7 +99,9 @@ class DLComix(QMainWindow, dlcomix_ui.Ui_DLComix):
             self.optimise = "True"
         else:
             self.optimise = "False"
-        self.limit = self.spinBox.value()
+        if self.checkBox_4.isChecked():
+            self.pdf = "True"
+
 
         """ Define if target is Manga or Comic and launch appropriate Class"""
         if self.radioButton_2.isChecked():
@@ -105,7 +109,7 @@ class DLComix(QMainWindow, dlcomix_ui.Ui_DLComix):
                                   self.comboBox.currentText())
             for row in self.sqlite.c:
                 manga = Manga(row[0], self.path, self.archive, self.full,
-                              self.optimise, row[1], self.limit)
+                              self.optimise, row[1],  self.pdf)
         elif self.radioButton.isChecked():
             self.sqlite.c.execute("select * from comics where name='%s'" %
                                   self.comboBox.currentText())
@@ -122,7 +126,6 @@ class DLComix(QMainWindow, dlcomix_ui.Ui_DLComix):
         """ Launch download of manga/comic recorded in preferences"""
         i = 0
         self.check_preferences()
-        self.limit = self.spinBox.value()
         self.sqlite.connect()
         self.sqlite.c.execute('''select * from preferences''')
         row = self.sqlite.c.fetchall()
@@ -133,7 +136,7 @@ class DLComix(QMainWindow, dlcomix_ui.Ui_DLComix):
                                       row[i][1])
                 row_2 = self.sqlite.c.fetchall()
                 manga = Manga(row_2[0][0],  self.path,  self.archive,  self.full,
-                              self.optimise, row_2[0][1],  self.limit )
+                              self.optimise, row_2[0][1],  self.pdf )
             if row[i][0] == "comics":
                 self.sqlite.c.execute("select * from comics where name='%s'" %
                                       row[i][1])
@@ -157,9 +160,8 @@ Souhaitez vous le faire maintenant ?"""),
     def combo_comic(self):
         """ Generate the Comic List in the comboBox"""
         i= 0
-        self.spinBox.setEnabled(False)
         self.checkBox_3.setEnabled(False)
-        self.label.setEnabled(False)
+        self.checkBox_4.setEnabled(False)
         self.comboBox.clear()
         self.sqlite.connect()
         self.sqlite.c.execute('''select name from comics order by name''')
@@ -173,9 +175,8 @@ Souhaitez vous le faire maintenant ?"""),
     def combo_manga(self):
         """ Generate the Manga list in ComboBox"""
         i = 0
-        self.spinBox.setEnabled(True)
         self.checkBox_3.setEnabled(True)
-        self.label.setEnabled(True)
+        self.checkBox_3.setEnabled(True)
         self.comboBox.clear()
         self.sqlite.connect()
         self.sqlite.c.execute('''select name from mangas order by name''')
@@ -218,6 +219,13 @@ Cela peut prendre un peu de temps"""))
             self.archive = row[1][1]
             self.optimise = row[2][1]
             self.path = row[3][1]
+            if len(row)<5:
+                self.sqlite.c.execute('''insert into glob_prefs values (?,?)''',
+                                      ("pdf","false"))
+                self.sqlite.conn.commit()
+                self.pdf = "False"
+            else:
+                self.pdf = row[4][1]
 
     def initialise_manga(self):
         """ Initialise the manga list in the database"""
