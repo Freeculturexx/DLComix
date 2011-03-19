@@ -102,7 +102,7 @@ class DLComix(QMainWindow, dlcomix_ui.Ui_DLComix):
         if self.checkBox_4.isChecked():
             self.pdf = "True"
 
-
+        self.sqlite.connect()
         """ Define if target is Manga or Comic and launch appropriate Class"""
         if self.radioButton_2.isChecked():
             self.sqlite.c.execute("select * from mangas where name='%s'" %
@@ -120,6 +120,7 @@ class DLComix(QMainWindow, dlcomix_ui.Ui_DLComix):
             QMessageBox.warning(None,
                 self.trUtf8("Téléchargement"),
                 self.trUtf8("""Veuillez sélectionner un manga ou comic avant de lancer le téléchargement"""))
+        self.sqlite.c.close()
 
 
     def telecharger_prefs(self):
@@ -155,6 +156,7 @@ Souhaitez vous le faire maintenant ?"""),
                     QMessageBox.Yes))
             if (msgPreferences == QMessageBox.Yes):
                 self.preferences()
+        self.sqlite.c.close()
 
 
     def combo_comic(self):
@@ -176,7 +178,7 @@ Souhaitez vous le faire maintenant ?"""),
         """ Generate the Manga list in ComboBox"""
         i = 0
         self.checkBox_3.setEnabled(True)
-        self.checkBox_3.setEnabled(True)
+        self.checkBox_4.setEnabled(True)
         self.comboBox.clear()
         self.sqlite.connect()
         self.sqlite.c.execute('''select name from mangas order by name''')
@@ -226,6 +228,7 @@ Cela peut prendre un peu de temps"""))
                 self.pdf = "False"
             else:
                 self.pdf = row[4][1]
+        self.sqlite.c.close()
 
     def initialise_manga(self):
         """ Initialise the manga list in the database"""
