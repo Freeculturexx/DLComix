@@ -132,7 +132,7 @@ class DLComix(QMainWindow, dlcomix_ui.Ui_DLComix):
                 self.sqlite.c.execute("select * from mangas where name='%s'" %
                                       row[i][1])
                 row_2 = self.sqlite.c.fetchall()
-                self.manga = Manga(row_2[0][0],  self.path,  self.archive,  self.full,
+                manga = Manga(row_2[0][0],  self.path,  self.archive,  self.full,
                               self.optimise, row_2[0][1],  self.limit )
             if row[i][0] == "comics":
                 self.sqlite.c.execute("select * from comics where name='%s'" %
