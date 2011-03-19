@@ -37,7 +37,6 @@ class Manga(object):
         self.useComix = useComix
         self.url = url
         self.pdf= pdf
-        print self.pdf
 
         self.headers = { 'User-Agent' : 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)' }
 
@@ -100,9 +99,7 @@ class Manga(object):
         self.sqlite.c.execute("update dl_rule set data=(?) where comic=(?)", (self.start_i, self.manga))
         self.sqlite.conn.commit()
         self.sqlite.c.close()
-        print self.pdf
         if self.pdf == "True":
-            print "OK"
             self.make_pdf()
         if self.archive == "True":
             self.make_archive()
@@ -204,7 +201,7 @@ class Manga(object):
 
     def make_pdf(self):
         """ Create pdf files from Chapters"""
-        print "pdf en cours"
+        print "Création du pdf en cours"
         os.system("cd "+self.path+"/download/"+self.manga+"/"+self.chapter+" && convert *.{jpg,png,gif} "
                   +"../../../pdf/"+self.manga+"/"+self.archive_chapter+".pdf")
 
