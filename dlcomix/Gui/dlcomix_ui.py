@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'dlcomix_ui.ui'
 #
-# Created: Fri Mar 18 16:39:15 2011
+# Created: Sat Mar 19 16:53:46 2011
 #      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -17,7 +17,7 @@ except AttributeError:
 class Ui_DLComix(object):
     def setupUi(self, DLComix):
         DLComix.setObjectName(_fromUtf8("DLComix"))
-        DLComix.resize(940, 468)
+        DLComix.resize(825, 468)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(_fromUtf8("../../../../../../../usr/share/pixmaps/dlcomix.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         DLComix.setWindowIcon(icon)
@@ -97,7 +97,7 @@ class Ui_DLComix(object):
         self.pushButton_4.setObjectName(_fromUtf8("pushButton_4"))
         DLComix.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(DLComix)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 940, 23))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 825, 23))
         self.menubar.setObjectName(_fromUtf8("menubar"))
         self.menuFichier = QtGui.QMenu(self.menubar)
         self.menuFichier.setObjectName(_fromUtf8("menuFichier"))
