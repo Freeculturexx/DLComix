@@ -112,6 +112,11 @@ class DLComix(QMainWindow, dlcomix_ui.Ui_DLComix):
             for row in self.sqlite.c:
                 comic = Gocomics(row[0], self.path, self.archive, self.full,
                               self.optimise, row[1])
+        elif not self.radioButton.isChecked() and not self.radioButton_2.isChecked():
+            QMessageBox.warning(None,
+                self.trUtf8("Téléchargement"),
+                self.trUtf8("""Veuillez sélectionner un manga ou comic avant de lancer le téléchargement"""))
+
 
     def telecharger_prefs(self):
         """ Launch download of manga/comic recorded in preferences"""
@@ -127,7 +132,7 @@ class DLComix(QMainWindow, dlcomix_ui.Ui_DLComix):
                 self.sqlite.c.execute("select * from mangas where name='%s'" %
                                       row[i][1])
                 row_2 = self.sqlite.c.fetchall()
-                manga = Manga(row_2[0][0],  self.path,  self.archive,  self.full,
+                self.manga = Manga(row_2[0][0],  self.path,  self.archive,  self.full,
                               self.optimise, row_2[0][1],  self.limit )
             if row[i][0] == "comics":
                 self.sqlite.c.execute("select * from comics where name='%s'" %
@@ -136,6 +141,18 @@ class DLComix(QMainWindow, dlcomix_ui.Ui_DLComix):
                 comic = Gocomics(row_2[0][0],  self.path,  self.archive,  self.full,
                                  self.optimise,  row_2[0][1])
             i += 1
+        if not row:
+            msgPreferences = QMessageBox.question(None,
+                self.trUtf8("Téléchargement"),
+                self.trUtf8("""Vous n'avez par encore ajouté de comics ou mangas dans les préférences
+
+Souhaitez vous le faire maintenant ?"""),
+                QMessageBox.StandardButtons(\
+                    QMessageBox.No | \
+                    QMessageBox.Yes))
+            if (msgPreferences == QMessageBox.Yes):
+                self.preferences()
+
 
     def combo_comic(self):
         """ Generate the Comic List in the comboBox"""

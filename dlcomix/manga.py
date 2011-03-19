@@ -24,6 +24,8 @@ import ConfigParser
 from threading import Thread
 from sqlite import Sqlite
 
+
+
 class Manga(object):
 
     def __init__(self, manga=None, path=None, archive=None, full=None, useComix=None, url=None, limit=None):
@@ -148,7 +150,6 @@ class Manga(object):
 
     def multi_download(self,  images):
         """ Make parallel downloads"""
-        print ("Téléchargement de "+images).decode('utf-8')
         req = urllib2.Request(self.urlDl+images,  headers = self.headers)
         response = urllib2.urlopen(req)
         image = response.read()
@@ -210,3 +211,4 @@ class Manga(object):
                   +self.chapter+"/ && rm -rf "+self.chapter+"/")
         os.system("ln -s "+self.path+"/download/"+self.manga+"/"+self.archive_chapter+".tar.gz "+self.path
                   +"/archives/"+self.manga+"/"+self.archive_chapter+".tar.gz")
+
