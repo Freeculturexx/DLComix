@@ -29,10 +29,14 @@ from PyQt4.QtGui import *
 import os, sys
 from Gui import apropos_ui
 
-class Apropos(QWidget, apropos_ui.Ui_Form):
+class Apropos(QDialog, apropos_ui.Ui_Dialog):
      def __init__(self):
-        QWidget.__init__(self)
-        apropos_ui.Ui_Form.__init__(self)
+        QDialog.__init__(self)
+        apropos_ui.Ui_Dialog.__init__(self)
         Dialog_Apropos = QDialog()
         self.setupUi(Dialog_Apropos)
+
+        self.connect(self.pushButton, SIGNAL("clicked()"),
+                     Dialog_Apropos.accept)
+
         Dialog_Apropos.exec_()
